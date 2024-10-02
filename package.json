@@ -1,0 +1,32 @@
+{
+  "name": "haxball_server",
+  "version": "1.0.0",
+  "description": "This is a javascript haxball server. The node is just for testing",
+  "main": "./src/script.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "vitest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/misProyectosPropios/haxball_server.git"
+  },
+  "keywords": [
+    "haxball",
+    "server",
+    "testing",
+    "javascript",
+    "js"
+  ],
+  "author": "Iñaki Frutos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/misProyectosPropios/haxball_server/issues"
+  },
+  "homepage": "https://github.com/misProyectosPropios/haxball_server#readme",
+  "devDependencies": {
+    "vitest": "^2.1.1"
+  }
+}
