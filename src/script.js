@@ -21,57 +21,91 @@ room.onPlayerJoin = function(player) {
     room.sendAnnouncement("Hola player")
   }
 */
+
+//Create the class that models the red, blue and spect for the game
 class GameRoom {
-    constructor() {
-        this.red = new Array();
-        this.blue = new Array();
-        this.spect = new Array();
-    }
+  #red; //array of id's 
+  #blue; //array of id's 
+  #spect; //array of id's 
+  #max_players; //int
 
-    addPlayer(id) {
+  constructor(max_players) {
+      this.#red = new Array();
+      this.#blue = new Array();
+      this.#spect = new Array();
+      this.#max_players = max_players;
+  }
 
-    }
+  addPlayer(id) {
+    this.#red.push();
+    this.#blue.push();
+    this.#spect.push();
+  }
 
-    deletePlayer() {
+  deletePlayer(id) {
 
-    }
+  }
 
-    movePlayer(id, team) {
+  /* */
+  movePlayer(id, team) {
 
-    }
+  }
 }
 
 class Player {
 
-  #id
-  #auth
-  #name
+  #id //int
+  #auth //string
+  #name //string
 
+  /**
+  * Create a player with the given parameters
+  * @param {id} int - The player's ID.
+  * @param {auth} string - The player's auth
+  * @param {name} string - The player's name
+  */
   constructor(id, auth, name) {
       this.#id = id;
       this.#auth = auth;
       this.#name = name;
   }
 
+  /**
+  * Get the Player's id
+  * @returns {this.#id}
+  */
   get id() {
       return this.#id;
   }
 
+  /**
+  * Get the Player's auth
+  * @returns {this.#auth}
+  */
   get auth() {
     return this.#auth;
   }
-    
+
+/**
+  * Get the Player's name
+  * @returns {this.#name}
+  */
   get name() {
     return this.#name;
   }
 }
 
+//Class to have the list of players
 class List_of_players {
-  #list;
+  #list; //array of players
 
+/**
+  * Create a new player's list
+  */
   constructor() {
     this.#list = new Array();
   }
+
 /**
   * Returns the private list with alising.
   * @returns {this.#list}
@@ -79,6 +113,7 @@ class List_of_players {
   get list() {
     return this.#list;
   }
+
 /**
   * Add a player into the list of players to the end
   * @param {player} Player - The player's ID.
