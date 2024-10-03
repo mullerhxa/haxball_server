@@ -1,27 +1,5 @@
 "use strict";
 
-const roomName = "PastiBall";
-const maxPlayers = 15;
-const isPublic = false;
-const noPlayer = true;
-/*
-var room = HBInit({
-    public: isPublic,
-	roomName: roomName,
-	maxPlayers: maxPlayers,
-	noPlayer: noPlayer // Remove host player (recommended!)
-});
-
-room.setDefaultStadium("Big");
-room.setScoreLimit(5);
-room.setTimeLimit(0);
-
-
-room.onPlayerJoin = function(player) {
-    room.sendAnnouncement("Hola player")
-  }
-*/
-
 //Create the class that models the red, blue and spect for the game
 class GameRoom {
   #red; //array of id's 
@@ -46,11 +24,18 @@ class GameRoom {
   * @returns {this.#auth}
   */
   addPlayer(id) {
-    this.#red.push();
-    this.#blue.push();
-    this.#spect.push();
+    if (this.#red.length == this.#max_players && this.#blue.length == this.#max_players) {
+      this.#addPlayerSpect(id);
+    } else if (this.#red.length == this.#blue.length) {
+      this.#addPlayerRed(id);
+    } else if (this.#red.length >= this.#blue.length) {
+      this.#addPlayerBlue(id);
+    } else if (this.#red.length <= this.#blue.length) {
+      this.#addPlayerRed(id);
+    } else {
+      this.#addPlayerSpect(id);
+    }
   }
-
 
   /**
    * Add the player to the red if the length is less than the max players
@@ -59,7 +44,9 @@ class GameRoom {
    */
   #addPlayerRed(id) {
     if (this.#red.length < this.#max_players) {
+      this.deletePlayer(id);
       this.#red.push(id);
+      setTeam(id, 1)
     }
   }
 
@@ -70,7 +57,9 @@ class GameRoom {
    */
   #addPlayerBlue(id) {
     if (this.#red.length < this.#max_players) {
+      this.deletePlayer(id);
       this.#blue.push(id);
+      setTeam(id, 2)
     }
   }
 
@@ -80,7 +69,9 @@ class GameRoom {
    * @returns {void} 
    */
   #addPlayerSpect(id) {
+    this.deletePlayer(id);
     this.#spect.push(id);
+    setTeam(id, 0)
   }
 
   /**
@@ -116,7 +107,7 @@ class GameRoom {
   #searchID_red(id) {
     let index = -1;
     for(let i = 0; i < this.#red.length; i++) {
-      if (this.#red[i].id = id) {
+      if (this.#red[i] == id) {
         index = i;
         break;
       }
@@ -126,7 +117,7 @@ class GameRoom {
   #searchID_blue(id) {
     let index = -1;
     for(let i = 0; i < this.#blue.length; i++) {
-      if (this.#blue[i].id = id) {
+      if (this.#blue[i] == id) {
         index = i;
         break;
       }
@@ -136,7 +127,7 @@ class GameRoom {
   #searchID_spect(id) {
     let index = -1;
     for(let i = 0; i < this.#spect.length; i++) {
-      if (this.#spect[i].id = id) {
+      if (this.#spect[i] == id) {
         index = i;
         break;
       }
@@ -153,18 +144,15 @@ class GameRoom {
     if (team >= 0 && team < 3 && this.#existID(id)) {
       switch(team) {
         case 0: //Spectators
-          this.deletePlayer(id);
           this.#addPlayerSpect(id);
           break;
         case 1: //Red
           if (this.#red.length < this.#max_players) {
-            this.deletePlayer(id);
             this.#addPlayerRed(id);
           }
           break;
         case 2: //Blue
           if (this.#blue.length < this.#max_players) {
-            this.deletePlayer(id);
             this.#addPlayerBlue(id);
           }
           break;
@@ -315,10 +303,44 @@ class List_of_players {
 }
 
 
+const roomName = "PastiBall";
+const maxPlayers = 15;
+const isPublic = false;
+const noPlayer = true;
+
+var room = HBInit({
+    public: isPublic,
+	roomName: roomName,
+	maxPlayers: maxPlayers,
+	noPlayer: noPlayer // Remove host player (recommended!)
+});
+
+room.setDefaultStadium("Big");
+room.setScoreLimit(5);
+room.setTimeLimit(0);
+
+var lista_de_jugadores = new List_of_players();
+var sala = new GameRoom(4);
+
+room.onPlayerJoin = function(player) {
+    lista_de_jugadores.addPlayer(new Player(player.id, player.auth, player.name))
+    sala.addPlayer(player.id)
+    console.log("El jugador " + player.name + " se unió")
+    console.log(player)
+  }
+
+  function setTeam(id, team) {
+    room.setPlayerTeam(id, team);
+    console.log("Se cambió al jugador con el id" + id + " al team " + team)
+  }
+
+
+
 /*<><><><><><><><><><><><><><><><><><> */
 
 // This section is for testing only. When using this script for create a haxball server, it should be commented
 //TODO: pass this to a new test
+/*
 var lista = new List_of_players();
 lista.addPlayer(new Player(1,"1", "hola"));
 
@@ -327,7 +349,7 @@ var lista_de_players = lista.list;
 lista_de_players.push(new Player(2,"2", "Adios"));
 lista.addPlayer(new Player(3,"3", "hola"));
 console.log(lista.list.length)
-
+*/
 
 //Export classes
 //export {Player, List_of_players, GameRoom}
