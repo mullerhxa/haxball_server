@@ -322,12 +322,83 @@ room.setTimeLimit(0);
 var lista_de_jugadores = new List_of_players();
 var sala = new GameRoom(4);
 
+
+//Haxball events
 room.onPlayerJoin = function(player) {
     lista_de_jugadores.addPlayer(new Player(player.id, player.auth, player.name))
     sala.addPlayer(player.id)
     console.log("El jugador " + player.name + " se unió")
     console.log(player)
   }
+
+room.onPlayerLeave = function(player) {
+
+}
+
+room.onTeamVictory = function(scores) {
+
+}
+
+room.onPlayerChat = function(player, message) {
+
+}
+
+room.onPlayerBallKick = function(player) {
+
+}
+
+room.onTeamGoal = function(team) {
+
+}
+
+room.onGameStart = function(byPlayer) {
+
+}
+
+room.onGameStop = function(byPlayer) {
+
+}
+
+room.onPlayerAdminChange = function(changedPlayer, byPlayer) {
+
+}
+
+room.onPlayerTeamChange = function(changedPlayer, byPlayer) {
+
+}
+
+room.onPlayerKicked = function(kickedPlayer, reason, ban, byPlayer) {
+
+}
+
+room.onGamePause = function(byPlayer) {
+
+}
+
+room.onGameUnpause = function(byPlayer) {
+
+}
+
+room.onPlayerReset = function() {
+
+}
+
+room.onPlayerActivity = function(player) {
+
+}
+
+room.onStadiumChange = function(newStadiumName, byPlayer) {
+
+}
+
+room.onGameLink = function(url) {
+
+}
+
+room.onTeamsLockChange = function(locked, byPlayer) {
+
+}
+
 
   function setTeam(id, team) {
     room.setPlayerTeam(id, team);
