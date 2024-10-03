@@ -101,7 +101,7 @@ class List_of_players {
 
   /**
   * If the index is in range, returns the player stored in that position
-  * @param {player} Player - The player's ID. Requires: needs to be in range
+  * @param {index} int - The player's ID. Requires: needs to be in range
   * @returns {this.#list[index]}
   */
   getPlayer(index) {
@@ -110,11 +110,21 @@ class List_of_players {
     }
   }
 
+  /**
+  * If a player has that id, it will return the player object with such id
+  * @param {id} int - The player's ID. Requires: needs to be in range
+  * @returns {EXISTS i: Z : (0 <= i < |this.#list| && this.#list.id == id && res = this.#list[i])}
+  */
   getPlayerByID(id) {
     let index = this.#searchID;
     return this.getPlayer(index);
   }
 
+/**
+  * If a player has that id, it will return the player object with such id
+  * @returns {(EXISTS i: Z)(0 <= i < |this.#list| && this.#list.id = id && res = i) || 
+  *           ((- (EXISTS i: Z)(0 <= i < |this.#list| && this.#list.id = id && res = i)) && res = -1)}
+  */
   #searchID(id) {
     let index = -1;
     for(let i = 0; i < this.#list.length; i++) {
@@ -127,7 +137,7 @@ class List_of_players {
 
   /**
   * Removes the element from the indicated index
-  * @param {player} Player - The player's ID.
+  * @param {id} int - The player's ID.
   * @returns {void}
   */
   removePlayerByID(id) {
