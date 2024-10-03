@@ -41,7 +41,7 @@ class GameRoom {
   }
 
   /**
-  * 
+  * If 
   * @param {id} int - The player's ID.
   * @returns {this.#auth}
   */
@@ -51,13 +51,96 @@ class GameRoom {
     this.#spect.push();
   }
 
+
+  /**
+   * Add the player to the red if the length is less than the max players
+   * @param {id} int - The id to add to red. If the length it's already max, it will not add it
+   * @returns {void} 
+   */
+  #addPlayerRed(id) {
+    if (this.#red.length < this.#max_players) {
+      this.#red.push(id);
+    }
+  }
+
+  /**
+   * Add the player to the blue if the length is less than the max players
+   * @param {id} int - The id to add to blue. If the length it's already max, it will not add it
+   * @returns {void} 
+   */
+  #addPlayerBlue(id) {
+    if (this.#red.length < this.#max_players) {
+      this.#blue.push(id);
+    }
+  }
+
+/**
+   * Add the player to the spect
+   * @param {id} int - The id to add to spect
+   * @returns {void} 
+   */
+  #addPlayerSpect(id) {
+    this.#spect.push(id);
+  }
+
   /**
   * Deletes the id from all the arrays
   * @param {id} int - The player's ID.
   * @returns {this.#auth}
   */
   deletePlayer(id) {
+    //RED
+    let index = this.#searchID_red(id)
+    if (index >= 0 && index < this.#red.length) {
+      this.#red.splice(index, 1);
+    }
 
+    //BLUE
+    index = this.#searchID_blue(id)
+    if (index >= 0 && index < this.#blue.length) {
+      this.#blue.splice(index, 1);
+    }
+
+    //SPECT
+    index = this.#searchID_red(id)
+    if (index >= 0 && index < this.#spect.length) {
+      this.#spect.splice(index, 1);
+    }
+  }
+
+  /**
+  * If a player has that id, it will return the player object with such id
+  * @returns {(EXISTS i: Z)(0 <= i < |this.#list| && this.#list.id = id && res = i) || 
+  *           ((- (EXISTS i: Z)(0 <= i < |this.#list| && this.#list.id = id && res = i)) && res = -1)}
+  */
+  #searchID_red(id) {
+    let index = -1;
+    for(let i = 0; i < this.#red.length; i++) {
+      if (this.#red[i].id = id) {
+        index = i;
+        break;
+      }
+    }
+  }
+
+  #searchID_blue(id) {
+    let index = -1;
+    for(let i = 0; i < this.#blue.length; i++) {
+      if (this.#blue[i].id = id) {
+        index = i;
+        break;
+      }
+    }
+  }
+
+  #searchID_spect(id) {
+    let index = -1;
+    for(let i = 0; i < this.#spect.length; i++) {
+      if (this.#spect[i].id = id) {
+        index = i;
+        break;
+      }
+    }
   }
 
   /**
@@ -67,7 +150,35 @@ class GameRoom {
   * @returns {this.#auth}
   */
   movePlayer(id, team) {
+    if (team >= 0 && team < 3 && this.#existID(id)) {
+      switch(team) {
+        case 0: //Spectators
+          this.deletePlayer(id);
+          this.#addPlayerSpect(id);
+          break;
+        case 1: //Red
+          if (this.#red.length < this.#max_players) {
+            this.deletePlayer(id);
+            this.#addPlayerRed(id);
+          }
+          break;
+        case 2: //Blue
+          if (this.#blue.length < this.#max_players) {
+            this.deletePlayer(id);
+            this.#addPlayerBlue(id);
+          }
+          break;
+      }
+    }
+  }
 
+  /**
+   * Return true iff exists the id already inside some array
+   * @param {id} int - A given id to search
+   * @returns {true <--> exists the id inside some array of the class}
+   */
+  #existID(id) {
+    return this.#searchID_blue(id) != -1 || this.#searchID_red(id) != -1 || this.#searchID_spect(id) != -1;
   }
 }
 
@@ -196,7 +307,7 @@ class List_of_players {
   */
   removePlayerByID(id) {
     //Search where is the ID
-    let index = this.#searchID
+    let index = this.#searchID(id)
     //Remove the index. If there was no matches, it will be -1 and it will not delete nothing
     this.removePlayer(index)
   }
