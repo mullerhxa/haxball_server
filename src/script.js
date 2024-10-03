@@ -29,6 +29,10 @@ class GameRoom {
   #spect; //array of id's 
   #max_players; //int
 
+  /**
+  * Create a gameRoom with the given parameters
+  * @param {max_players} int - The max_players in a game for team
+  */
   constructor(max_players) {
       this.#red = new Array();
       this.#blue = new Array();
@@ -36,17 +40,32 @@ class GameRoom {
       this.#max_players = max_players;
   }
 
+  /**
+  * 
+  * @param {id} int - The player's ID.
+  * @returns {this.#auth}
+  */
   addPlayer(id) {
     this.#red.push();
     this.#blue.push();
     this.#spect.push();
   }
 
+  /**
+  * 
+  * @param {id} int - The player's ID.
+  * @returns {this.#auth}
+  */
   deletePlayer(id) {
 
   }
 
-  /* */
+  /**
+  * Moves the player to a given team
+  * @param {id} int - The player's ID.
+  * @param {team} int - The player's team.
+  * @returns {this.#auth}
+  */
   movePlayer(id, team) {
 
   }
