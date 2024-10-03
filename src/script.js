@@ -52,7 +52,7 @@ class GameRoom {
   }
 
   /**
-  * 
+  * Deletes the id from all the arrays
   * @param {id} int - The player's ID.
   * @returns {this.#auth}
   */
@@ -142,17 +142,6 @@ class List_of_players {
     this.#list.push(player)
   }
 
-/**
-  * Removes the element from the indicated index
-  * @param {player} Player - The player's ID.
-  * @returns {void}
-  */
-  removePlayer(index) {
-    if (index >= 0 && index < this.#list.length) {
-      this.#list.splice(index, 1);
-    }
-  }
-
   /**
   * If the index is in range, returns the player stored in that position
   * @param {index} int - The player's ID. Requires: needs to be in range
@@ -191,6 +180,17 @@ class List_of_players {
 
   /**
   * Removes the element from the indicated index
+  * @param {player} Player - The player's ID.
+  * @returns {void}
+  */
+  removePlayer(index) {
+    if (index >= 0 && index < this.#list.length) {
+      this.#list.splice(index, 1);
+    }
+  }
+
+  /**
+  * Removes the element from the indicated index
   * @param {id} int - The player's ID.
   * @returns {void}
   */
@@ -203,15 +203,6 @@ class List_of_players {
 
 }
 
-
-var lista = new List_of_players();
-lista.addPlayer(new Player(1,"1", "hola"));
-
-var lista_de_players = lista.list;
-
-lista_de_players.push(new Player(2,"2", "Adios"));
-lista.addPlayer(new Player(3,"3", "hola"));
-console.log(lista.list.length)
 
 /*<><><><><><><><><><><><><><><><><><> */
 
