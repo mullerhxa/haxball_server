@@ -110,13 +110,12 @@ class List_of_players {
     }
   }
 
-  /**
-  * Removes the element from the indicated index
-  * @param {player} Player - The player's ID.
-  * @returns {void}
-  */
-  removePlayerByID(id) {
-    //Search where is the ID
+  getPlayerByID(id) {
+    let index = this.#searchID;
+    return this.getPlayer(index);
+  }
+
+  #searchID(id) {
     let index = -1;
     for(let i = 0; i < this.#list.length; i++) {
       if (this.#list[i].id = id) {
@@ -124,6 +123,16 @@ class List_of_players {
         break;
       }
     }
+  }
+
+  /**
+  * Removes the element from the indicated index
+  * @param {player} Player - The player's ID.
+  * @returns {void}
+  */
+  removePlayerByID(id) {
+    //Search where is the ID
+    let index = this.#searchID
     //Remove the index. If there was no matches, it will be -1 and it will not delete nothing
     this.removePlayer(index)
   }
