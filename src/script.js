@@ -64,22 +64,97 @@ class Player {
   get name() {
     return this.#name;
   }
-      
 }
 
 class List_of_players {
+  #list;
+
   constructor() {
-    this._list = new Array();
+    this.#list = new Array();
+  }
+/**
+  * Returns the private list with alising.
+  * @returns {this.#list}
+  */
+  get list() {
+    return this.#list;
+  }
+/**
+  * Add a player into the list of players to the end
+  * @param {player} Player - The player's ID.
+  * @returns {void}
+  */
+  addPlayer(player) {
+    this.#list.push(player)
   }
 
-  this
+/**
+  * Removes the element from the indicated index
+  * @param {player} Player - The player's ID.
+  * @returns {void}
+  */
+  removePlayer(index) {
+    if (index >= 0 && index < this.#list.length) {
+      this.#list.splice(index, 1);
+    }
+  }
+
+  /**
+  * If the index is in range, returns the player stored in that position
+  * @param {player} Player - The player's ID. Requires: needs to be in range
+  * @returns {this.#list[index]}
+  */
+  getPlayer(index) {
+    if (index >= 0 && index < this.#list.length) {
+      return this.#list[index]
+    }
+  }
+
+  /**
+  * Removes the element from the indicated index
+  * @param {player} Player - The player's ID.
+  * @returns {void}
+  */
+  removePlayerByID(id) {
+    //Search where is the ID
+    let index = -1;
+    for(let i = 0; i < this.#list.length; i++) {
+      if (this.#list[i].id = id) {
+        index = i;
+        break;
+      }
+    }
+    //Remove the index. If there was no matches, it will be -1 and it will not delete nothing
+    this.removePlayer(index)
+  }
 
 }
 
+
+var lista = new List_of_players();
+lista.addPlayer(new Player(1,"1", "hola"));
+
+var lista_de_players = lista.list;
+
+lista_de_players.push(new Player(2,"2", "Adios"));
+lista.addPlayer(new Player(3,"3", "hola"));
+console.log(lista.list.length)
+
 /*<><><><><><><><><><><><><><><><><><> */
+
 // This section is for testing only. When using this script for create a haxball server, it should be commented
+//TODO: pass this to a new test
+var lista = new List_of_players();
+lista.addPlayer(new Player(1,"1", "hola"));
+
+var lista_de_players = lista.list;
+
+lista_de_players.push(new Player(2,"2", "Adios"));
+lista.addPlayer(new Player(3,"3", "hola"));
+console.log(lista.list.length)
+
 
 //Export classes
-export {Player, List_of_players, GameRoom}
+//export {Player, List_of_players, GameRoom}
 
 //Export functions
