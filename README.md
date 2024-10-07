@@ -18,3 +18,7 @@ Para poder usar este projecto, necesita seguir los siguientes pasos:
 * Haga click derecho
 * Complete el captcha
 * Ya tiene su haxball server x4 Gana sigue andando
+
+## Features
+
+* Movimiento automático de jugadores al equipo correspondiente
