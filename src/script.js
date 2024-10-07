@@ -302,7 +302,7 @@ class List_of_players {
 
 }
 
-
+//Create variables for the room variable
 const roomName = "PastiBall";
 const maxPlayers = 15;
 const isPublic = false;
@@ -315,12 +315,15 @@ var room = HBInit({
 	noPlayer: noPlayer // Remove host player (recommended!)
 });
 
+//Set the room
 room.setDefaultStadium("Big");
 room.setScoreLimit(5);
 room.setTimeLimit(0);
 
+//Create variables for the game
+var max_player_in_teams = 4;
 var lista_de_jugadores = new List_of_players();
-var sala = new GameRoom(4);
+var sala = new GameRoom(max_player_in_teams);
 
 
 //Haxball events
@@ -332,7 +335,7 @@ room.onPlayerJoin = function(player) {
   }
 
 room.onPlayerLeave = function(player) {
-
+  console.log("The player " + player.name + " left the room")
 }
 
 room.onTeamVictory = function(scores) {
@@ -405,8 +408,9 @@ room.onTeamsLockChange = function(locked, byPlayer) {
     console.log("Se cambió al jugador con el id" + id + " al team " + team)
   }
 
-
-
+  const mockPlayer = { id: 1, name: "TestPlayer", team: 1 };
+  room.onPlayerJoin(mockPlayer);
+  room.onPlayerLeave(mockPlayer);
 /*<><><><><><><><><><><><><><><><><><> */
 
 // This section is for testing only. When using this script for create a haxball server, it should be commented
