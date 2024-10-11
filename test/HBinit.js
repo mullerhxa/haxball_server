@@ -72,7 +72,6 @@ class HBInit {
      * @param {void}
      * @returns {this.#playerAdmin}
      */
-        @
     get playerAdmin() {
         return this.#playerAdmin;
     }
@@ -85,6 +84,9 @@ class HBInit {
         return this.#stadium;
     }
 
+
+    sendChat(message, targetID) {}
+
     /**
      * Function called for setting a player as an admin
      *  @param {Player} Player
@@ -92,4 +94,78 @@ class HBInit {
     setPlayerAdmin(player) {
         
     }
+
+    setPlayerTeam(playerID, team) {}
+
+    kickPlayer(playerID, reason, ban) {}
+    
+    clearBan(playerID) {}
+
+    clearBans() {}
+
+    setScoreLimit(limit) {}
+
+    setTimeLimit(limitInMinutes) {}
+
+    setCustomStadium(stadiumFileContents) {}
+
+    setDefaultStadium(stadiumName) {}
+
+    setTeamsLock(locked) {}
+
+    setTeamColors(team, angle, textColor, colors) {}
+
+    startGame() {}
+
+    stopGame() {}
+
+    pauseGame() {}
+
+    getPlayer(playerID) {}
+
+    getScores() {}
+
+    setPassword(pass) {}
+
+    reorderPlayers(playerIdList, moveToTop) {}
+
+    sendAnnouncement(msg, targetID, color, style, sound) {}
+
+    setPlayerAvatar(playerId, avatar) {}
+
+    onPlayerJoin(player) {}
+
+    onPlayerLeave(player) {}
+
+    onTeamVictory(scores) {}
+
+    onPlayerChat(player, message) {}
+
+    onPlayerBallKick(player) {}
+
+    onTeamGoal(team) {}
+
+    onGameStart(byPlayer) {}
+
+    onGameStop(byPlayer) {}
+
+    onPlayerAdminChange(changedPlayer, byPlayer) {}
+
+    onPlayerTeamChange(changedPlayer, byPlayer) {}
+
+    onPlayerKicked(kickedPlayer, reason, ban, byPlayer) {}
+    
+    onGamePause(byPlayer) {}
+
+    onGameUnpause(byPlayer) {}
+
+    onPositionsReset() {}
+
+    onPlayerActivity(player) {}
+
+    onStadiumChange() {}
+
+    onRoomLink(url) {}
+
+    onTeamsLockChange(locked, byPlayer) {}
 }
