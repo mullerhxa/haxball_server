@@ -175,17 +175,19 @@ class Player {
   #id //int
   #auth //string
   #name //string
-
+  #authorization
   /**
   * Create a player with the given parameters
-  * @param {id} int - The player's ID.
-  * @param {auth} string - The player's auth
-  * @param {name} string - The player's name
+  * @param {int} id - The player's ID.
+  * @param {string} auth - The player's auth
+  * @param {string} name - The player's name
+  * @param {int} authorization - The level of authorization to make some commands
   */
-  constructor(id, auth, name) {
+  constructor(id, auth, name, authorization) {
       this.#id = id;
       this.#auth = auth;
       this.#name = name;
+      this.#authorization = authorization;
   }
 
   /**
@@ -210,6 +212,16 @@ class Player {
   */
   get name() {
     return this.#name;
+  }
+
+  get authorization() {
+    return this.#authorization
+  } 
+
+  set authorization(authorization) {
+    if (authorization > 0 && authorization <= 3)  { //Authorization must be between 1 (player), 2 (mods), 3 (admims)
+      this.#authorization = authorization;
+    }
   }
 }
 
@@ -246,7 +258,7 @@ class List_of_players {
   * @param {index} int - The player's ID. Requires: needs to be in range
   * @returns {this.#list[index]}
   */
-  getPlayer(index) {
+  #getPlayer(index) {
     if (index >= 0 && index < this.#list.length) {
       return this.#list[index]
     }
@@ -259,7 +271,7 @@ class List_of_players {
   */
   getPlayerByID(id) {
     let index = this.#searchID;
-    return this.getPlayer(index);
+    return this.#getPlayer(index);
   }
 
 /**
@@ -282,7 +294,7 @@ class List_of_players {
   * @param {player} Player - The player's ID.
   * @returns {void}
   */
-  removePlayer(index) {
+  #removePlayer(index) {
     if (index >= 0 && index < this.#list.length) {
       this.#list.splice(index, 1);
     }
@@ -297,11 +309,34 @@ class List_of_players {
     //Search where is the ID
     let index = this.#searchID(id)
     //Remove the index. If there was no matches, it will be -1 and it will not delete nothing
-    this.removePlayer(index)
+    this.#removePlayer(index)
   }
 
 }
 
+
+//TODO: test the class
+class LocalStorage {
+  storeData(auth, playerStats) {
+    localStorage.setItem(auth, JSON.stringify(playerStats))
+  }
+
+  getData(auth) {
+    return JSON.parse(localStorage.getItem(auth))
+  }
+
+  getAllLocalStorage() {
+    return JSON.stringify(localStorage);
+  }
+
+  
+  importLocalStorage(playerStatsToWrite) {
+    var data = JSON.parse(playerStatsToWrite);
+    Object.keys(data).forEach(function (k) {
+      localStorage.setItem(k, data[k]);
+    });
+  }
+}
 //Create variables for the room variable
 const roomName = "PastiBall";
 const maxPlayers = 15;
