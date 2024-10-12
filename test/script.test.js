@@ -1,4 +1,6 @@
-import {Player} from "../src/script.js"
+import {HBinit} from "./HBinit.js";
+import {Player, isCommand} from "../src/script.js";
+
 import { describe, it, expect } from "vitest";
 
 describe('Player Class', () => {
@@ -14,3 +16,14 @@ describe('Player Class', () => {
     expect(player.name).toBe(name);
   });
 });
+
+describe('isCommand', () => {
+  it('should return true iff the first letter in this string is !', () => {
+    expect(isCommand(new Player(1, "hola", "player1", 1), "mensaje que no es comando")).toBe(false)
+    expect(isCommand(new Player(1, "hola", "player1", 1), "!mensaje que sí es comando")).toBe(true)
+    expect(isCommand(new Player(1, "hola", "player1", 1), "!")).toBe(true)
+    expect(isCommand(new Player(1, "hola", "player1", 1), "")).toBe(false)
+    expect(isCommand(new Player(1, "hola", "player1", 1), "hola")).toBe(false)
+  });
+})
+
