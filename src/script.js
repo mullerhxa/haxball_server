@@ -1,5 +1,7 @@
 "use strict";
 
+//import {HBInit} from "../test/HBinit.js";
+
 //Create the class that models the red, blue and spect for the game
 class GameRoom {
   #red; //array of id's 
@@ -392,7 +394,6 @@ class PlayerStats {
     }
 }
 
-
 //TODO: test the class
 class LocalStorage {
 
@@ -424,7 +425,7 @@ class LocalStorage {
   }
 }
 //Create variables for the room variable
-const roomName = "PastiBall";
+const roomName = "💊  gana sigue x4 - PastiBall 💊";
 const maxPlayers = 15;
 const isPublic = false;
 const noPlayer = true;
@@ -541,7 +542,7 @@ room.onTeamsLockChange = function(locked, byPlayer) {
    * @param {string} message 
    */
   function isCommand(player, message) {
-
+    return message.charAt(0) === '!';
   } 
 
   /**
@@ -577,10 +578,18 @@ var lista_de_players = lista.list;
 
 lista_de_players.push(new Player(2,"2", "Adios"));
 lista.addPlayer(new Player(3,"3", "hola"));
-console.log(lista.list.length)
+console.log(lista.list.length)  
 */
 
 //Export classes
-//export {Player, List_of_players, GameRoom}
+/*
+export {
+  Player, 
+  List_of_players, 
+  GameRoom,
+  room,
+  LocalStorage,
 
+}
+*/
 //Export functions
