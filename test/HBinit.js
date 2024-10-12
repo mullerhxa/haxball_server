@@ -1,4 +1,4 @@
-class HBInit {
+class HBInit_class {
     #public; //bool
     #roomName; //String
 	#maxPlayers; //bool
@@ -84,7 +84,6 @@ class HBInit {
         return this.#stadium;
     }
 
-
     sendChat(message, targetID) {}
 
     /**
@@ -169,3 +168,8 @@ class HBInit {
 
     onTeamsLockChange(locked, byPlayer) {}
 }
+
+function HBInit(object) {
+    return new HBInit_class(object)
+}
+export {HBInit_class, HBInit}
