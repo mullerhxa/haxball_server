@@ -314,18 +314,104 @@ class List_of_players {
 
 }
 
+class PlayerStats {
+    auth
+    matches_played;  //int
+    won_matches;     //int
+    lost_matches;    //int
+    goals;           //int
+    assists;         //int
+    against_goals;   //int
+    mvp;             //int
+
+    /**
+     * 
+     * @param {string} auth 
+     */
+    constructor(auth) {
+      this.auth = auth;
+      if (existsData) {
+        let valores = LocalStorage.getData(id);
+        this.matches_played = valores.matches_played;
+        this.won_matches = valores.won_matches;
+        this.lost_matches = valores.lost_matches;
+        this.goals  = valores.goals;
+        this.assists = valores.assists;
+        this.against_goals = valores.against_goals;
+        this.mvp = valores.mvp;
+      } else {
+        this.matches_played = 0;
+        this.won_matches = 0;
+        this.lost_matches = 0;
+        this.goals  = 0;
+        this.assists = 0;
+        this.against_goals = 0;
+        this.mvp = 0;
+      }
+    }
+
+    storePlayer() {
+      let object = {
+        matches_played: this.matches_played,
+        won_matches: this.won_matches,
+        lost_matches: this.lost_matches,
+        goals: this.goals,
+        assists: this.assists,
+        against_goals: this.against_goals,
+        mvp: this.mvp
+      }
+      LocalStorage.storeData(this.auth, JSON.stringify(object))
+    }
+    
+    incrementGoal() {
+      this.goals++;
+    }
+
+    incrementGames() {
+      this.matches_played++;
+    }
+
+    incrementLoses() {
+      this.lost_matches++;
+    }
+
+    incrementWonMatches() {
+      this.won_matches++;
+    }
+
+    incrementAssists() {
+      this.assists++;
+    }
+
+    incrementAgainstGoals() {
+      this.against_goals++;
+    }
+
+    incrementMVP() {
+      this.mvp++;
+    }
+}
+
 
 //TODO: test the class
 class LocalStorage {
-  storeData(auth, playerStats) {
+
+  static existsData(auth) {
+    return !localStorage.getItem(auth) === null
+  }
+
+  static storeData(auth, playerStats) {
     localStorage.setItem(auth, JSON.stringify(playerStats))
   }
 
-  getData(auth) {
-    return JSON.parse(localStorage.getItem(auth))
+  static getData(auth) {
+    if (this.existsData(auth)) {
+      return localStorage.getItem(auth)
+    }
+    
   }
 
-  getAllLocalStorage() {
+  static getAllLocalStorage() {
     return JSON.stringify(localStorage);
   }
 
@@ -378,7 +464,12 @@ room.onTeamVictory = function(scores) {
 }
 
 room.onPlayerChat = function(player, message) {
-
+  if (isCommand(player, message)) {
+    makeCommand(player, message);
+  } else {
+    showMessage(player, message);
+  }
+  return false;
 }
 
 room.onPlayerBallKick = function(player) {
@@ -437,11 +528,39 @@ room.onTeamsLockChange = function(locked, byPlayer) {
 
 }
 
-
+//<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+// Functions
   function setTeam(id, team) {
     room.setPlayerTeam(id, team);
     console.log("Se cambió al jugador con el id" + id + " al team " + team)
   }
+
+  /**
+   * Returns true iff message has the format of a command
+   * @param {Player} player 
+   * @param {string} message 
+   */
+  function isCommand(player, message) {
+
+  } 
+
+  /**
+   * Makes the command that is in the message. If it's not an existing command, it will make nothing
+   * @param {Player} player 
+   * @param {string} message 
+   */
+  function makeCommand(player, message) {
+
+  }
+
+  /**
+   * Shows the message with a format previously arranged
+   * @param {Player} player 
+   * @param {string} message 
+   */
+  function showMessage(player, message) {}
+
+
 
   const mockPlayer = { id: 1, name: "TestPlayer", team: 1 };
   room.onPlayerJoin(mockPlayer);
