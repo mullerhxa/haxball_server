@@ -626,7 +626,7 @@ var playerStats = new statsTeams(room, lista_de_jugadores); //stats
 
 room.onPlayerLeave = function(player) {
   sala.deletePlayer(player.id);
-  if (sala.movePlayerIfNeeded() == 1 && sala.spect.length > 0) {
+  if (sala.movePlayerIfNeeded() != 0 && sala.spect.length > 0) {
     movePlayer()
   }
   console.log("The player " + player.name + " left the room")
