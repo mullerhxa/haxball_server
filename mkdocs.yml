@@ -1,12 +1,16 @@
 site_name: Haxball server documentation
+repo_url: https://github.com/misProyectosPropios/haxball_server
 
 plugins:
     - search
     - macros
-
+    - include-markdown
+theme: readthedocs
 nav:
   - Home: index.md
   - About: about.md
   - Documentation: documentation.md
   - TestDocumentation: testDocumentation.md
-theme: readthedocs
+
+extra:
+    unit_price: 10
