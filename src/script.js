@@ -1,6 +1,6 @@
 "use strict";
 
-//import {HBInit} from "../test/HBinit.js";
+import {HBInit} from "../test/HBinit.js";
 
 //Create the class that models the red, blue and spect for the game
 class GameRoom {
@@ -20,13 +20,25 @@ class GameRoom {
       this.#max_players = max_players;
   }
 
+  get red() { return this.#red; }
+
+  get blue() { return this.#blue; }
+
+  get spect() { return this.#spect; }
+
+  get max_players() { return this.#max_players; }
+
+  isGameMax() {
+    return this.#red.length == this.#max_players && this.#blue.length == this.#max_players;
+  }
+
   /**
   * If 
   * @param {id} int - The player's ID.
   * @returns {this.#auth}
   */
   addPlayer(id) {
-    if (this.#red.length == this.#max_players && this.#blue.length == this.#max_players) {
+    if (this.isGameMax()) {
       this.#addPlayerSpect(id);
     } else if (this.#red.length == this.#blue.length) {
       this.#addPlayerRed(id);
@@ -140,7 +152,6 @@ class GameRoom {
   * Moves the player to a given team
   * @param {id} int - The player's ID.
   * @param {team} int - The player's team.
-  * @returns {this.#auth}
   */
   movePlayer(id, team) {
     if (team >= 0 && team < 3 && this.#existID(id)) {
@@ -163,6 +174,24 @@ class GameRoom {
   }
 
   /**
+   * 
+   * @returns the team that needs a player (between red (1), blue (2) or if no team needs a player spect (0))
+   */
+  movePlayerIfNeeded() {
+    let res = 0;
+    if (!this.isGameMax()) {
+      if (this.#red.length == this.#blue.length) {
+        res = 1;
+      } else if (this.#red.length >= this.#blue.length) {
+        res = 2;
+      } else if (this.#red.length <= this.#blue.length) {
+        res = 1;
+      }
+    }
+    return res;
+  }
+
+  /**
    * Return true iff exists the id already inside some array
    * @param {id} int - A given id to search
    * @returns {true <--> exists the id inside some array of the class}
@@ -178,6 +207,7 @@ class Player {
   #auth //string
   #name //string
   #authorization
+  #afk; //boolean
   /**
   * Create a player with the given parameters
   * @param {int} id - The player's ID.
@@ -190,6 +220,9 @@ class Player {
       this.#auth = auth;
       this.#name = name;
       this.#authorization = authorization;
+      
+      //default
+      this.#afk = false;
   }
 
   /**
@@ -220,10 +253,22 @@ class Player {
     return this.#authorization
   } 
 
+  get afk() {
+    return this.#afk;
+  }
+
   set authorization(authorization) {
     if (authorization > 0 && authorization <= 3)  { //Authorization must be between 1 (player), 2 (mods), 3 (admims)
       this.#authorization = authorization;
     }
+  }
+
+  invertAFK() {
+    this.#afk = !this.#afk;
+  }
+
+  set afk(afk) {
+    this.#afk = afk;
   }
 }
 
@@ -317,7 +362,7 @@ class List_of_players {
 }
 
 class PlayerStats {
-    auth
+    auth;            //string
     matches_played;  //int
     won_matches;     //int
     lost_matches;    //int
@@ -394,6 +439,100 @@ class PlayerStats {
     }
 }
 
+class statsTeams {
+  #list_of_teams;
+  #isGameMax;
+
+  /**
+   * Create a stats follow for all the people currently playing
+   * @param {GameRoom} room - The room
+   */
+  constructor(room, players) {
+    this.#list_of_teams = new Array(2);
+    this.#list_of_teams[0] = new Array();
+    this.#list_of_teams[1] = new Array();
+
+    //add the stats to the red players
+    for(let i = 0; i < room.red.length; i++) {
+      let auth = players.getPlayerByID(room.red[i]);
+      this.#list_of_teams[0].push(new PlayerStats(auth));
+    }
+
+    //Aadd the stats to the blue players
+    for(let i = 0; i < room.blue.length; i++) {
+      let auth = players.getPlayerByID(blue.red[i]);
+      this.#list_of_teams[1].push(new PlayerStats(auth));
+    }
+
+    //Check if this game should be counted as a valid game to add stats
+    this.#isGameMax = (room.isGameMax == room.red.length && room.isGameMax == room.blue.length);
+  }
+
+  setFalseIsGameMax() {
+    this.#isGameMax = false;
+  }
+
+  storeData() {
+    if (this.#isGameMax) {
+      for(let i = 0; i < 2; i++) {
+        for(let j = 0; j < this.#list_of_teams[i]; j++) {
+          this.#list_of_teams[team].storePlayer();
+        } 
+      }
+    }
+  }
+
+  addMatch(victoryTeam) {
+    if (victoryTeam == 0) {
+      this.addVictoryTo(0)
+      this.addDefeatTo(1)
+    } else if (victoryTeam == 1) {
+      this.addVictoryTo(1)
+      this.addDefeatTo(0)
+    }
+
+    for(let i = 0; i < 2; i++) {
+      for(let j = 0; j < this.#list_of_teams[i]; j++) {
+        this.#list_of_teams[team].incrementGames();
+      } 
+    }
+  }
+ /**
+  * Add a victory to all the victory's team players
+  * @param {int} team - The team id
+  */
+  addVictoryTo(team) {
+    if (team >= 0 && team <= 1) {
+      for(let i = 0; i < this.#list_of_teams[team]; i++) {
+        this.#list_of_teams[team].incrementWonMatches();
+      }
+    }
+    
+  }
+
+ /**
+  * Add a defeat to all the defeated's team players
+  * @param {int} team - The team id
+  */
+ addDefeatTo(team) {
+  if (team >= 0 && team <= 1) {
+    for(let i = 0; i < this.#list_of_teams[team]; i++) {
+      this.#list_of_teams[team].incrementLoses();
+    }
+  }
+ }
+
+  addGoalTo(team, playerID) {
+
+  }
+
+  addAsisTo() {
+
+  }
+
+
+}
+
 //TODO: test the class
 class LocalStorage {
 
@@ -424,6 +563,33 @@ class LocalStorage {
     });
   }
 }
+
+class colaConLimit {
+  #cola; //Cola
+  #limit; //int
+
+  constructor(limit) {
+      this.#cola = new Array();
+      this.#limit = limit;
+  }
+
+  length() {
+      return this.#cola.length;
+  }
+
+  isEmpty() {
+      return this.length() === 0;
+  }
+
+  addElement(element) {
+      if (this.#cola.length >= limit) {
+          this.removeLastElement();
+      }
+      this.#cola.unshift(element);
+  }
+}
+
+
 //Create variables for the room variable
 const roomName = "💊  gana sigue x4 - PastiBall 💊";
 const maxPlayers = 15;
@@ -431,7 +597,7 @@ const isPublic = false;
 const noPlayer = true;
 
 var room = HBInit({
-    public: isPublic,
+  public: isPublic,
 	roomName: roomName,
 	maxPlayers: maxPlayers,
 	noPlayer: noPlayer // Remove host player (recommended!)
@@ -446,17 +612,23 @@ room.setTimeLimit(0);
 var max_player_in_teams = 4;
 var lista_de_jugadores = new List_of_players();
 var sala = new GameRoom(max_player_in_teams);
+var ballTouched = new colaConLimit(2);
+var playerStats = new statsTeams(room, lista_de_jugadores); //stats
 
 
-//Haxball events
-room.onPlayerJoin = function(player) {
-    lista_de_jugadores.addPlayer(new Player(player.id, player.auth, player.name))
-    sala.addPlayer(player.id)
-    console.log("El jugador " + player.name + " se unió")
-    console.log(player)
-  }
+  //Haxball events
+  room.onPlayerJoin = function(player) {
+      lista_de_jugadores.addPlayer(new Player(player.id, player.auth, player.name))
+      sala.addPlayer(player.id)
+      console.log("El jugador " + player.name + " se unió")
+      console.log(player)
+    }
 
 room.onPlayerLeave = function(player) {
+  sala.deletePlayer(player.id);
+  if (sala.movePlayerIfNeeded() == 1 && sala.spect.length > 0) {
+    movePlayer()
+  }
   console.log("The player " + player.name + " left the room")
 }
 
@@ -474,18 +646,21 @@ room.onPlayerChat = function(player, message) {
 }
 
 room.onPlayerBallKick = function(player) {
-
+  ballTouched.addElement(player.id);
 }
 
 room.onTeamGoal = function(team) {
 
+
+  ballTouched = new colaConLimit(2);
 }
 
 room.onGameStart = function(byPlayer) {
-
+  playerStats = new statsTeams(room, lista_de_jugadores);
 }
 
 room.onGameStop = function(byPlayer) {
+
 
 }
 
@@ -494,7 +669,6 @@ room.onPlayerAdminChange = function(changedPlayer, byPlayer) {
 }
 
 room.onPlayerTeamChange = function(changedPlayer, byPlayer) {
-
 }
 
 room.onPlayerKicked = function(kickedPlayer, reason, ban, byPlayer) {
@@ -582,14 +756,17 @@ console.log(lista.list.length)
 */
 
 //Export classes
-/*
+
 export {
   Player, 
   List_of_players, 
   GameRoom,
   room,
   LocalStorage,
+  isCommand,
+  makeCommand,
+  showMessage
 
 }
-*/
+
 //Export functions
