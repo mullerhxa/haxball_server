@@ -9,6 +9,10 @@ class HBInit_class {
     #playerAdmin; //Set
     #timeLimit; //int
     #stadium; //String
+    #chat; //A message's FIFO that contains at the maximium 50 elements
+    #password; //Password to enter the game
+    #players; //set of players
+    #playersBanned; //Set of players banned
     /**
     * Create a gameRoom with the given parameters
     * @param {Object} settings - The max_players in a game for team
@@ -40,11 +44,18 @@ class HBInit_class {
     } else {
         this.#noPlayer = false;
     }
+
+    if (Object.hasOwn(settings, 'password')) {
+        this.#password = settings.password;
+    } else {
+        this.#password = null;    
+    }
     
     //All of this are default values
     this.#playerAdmin = new Set(); //Set
     this.#timeLimit = 3; //int
     this.#stadium = "Classic"; //String
+    this.#chat = new colaConLimit(50); //colaConLimit
 }
 
     get public() {
@@ -84,7 +95,9 @@ class HBInit_class {
         return this.#stadium;
     }
 
-    sendChat(message, targetID) {}
+    sendChat(message, targetID) {
+        this.#chat.addElement(new Message(message, targetID, 0xFFFFFF, "normal", 1))
+    }
 
     /**
      * Function called for setting a player as an admin
@@ -96,19 +109,50 @@ class HBInit_class {
 
     setPlayerTeam(playerID, team) {}
 
-    kickPlayer(playerID, reason, ban) {}
+
+    //
+    kickPlayer(playerID, reason, ban) {
+        if (ban) {
+            this.#playersBanned.add(playerID);
+        }
+        this.onPlayerKicked()
+    }
     
     clearBan(playerID) {}
 
     clearBans() {}
 
-    setScoreLimit(limit) {}
+    /**
+     * Sets the scoreLimit to the limit if limit's positive and non zero 
+     * @param {int} limit 
+     */
+    setScoreLimit(limit) {
+        if (limit > 0) {
+            this.#scoreLimit = limit;
+        }
+    }
 
-    setTimeLimit(limitInMinutes) {}
+    /**
+     * Sets the timeLimit to the limitInMinutes if it's positive and non zero
+     * @param {int} limitInMinutes 
+     */
+    setTimeLimit(limitInMinutes) {
+        if (limitInMinutes > 0) {
+            this.#timeLimit = limitInMinutes;
+        }
+    }
 
-    setCustomStadium(stadiumFileContents) {}
+    /**
+     * Sets the stadium to the stadiumFileContents
+     * @param {string} stadiumFileContents 
+     */
+    setCustomStadium(stadiumFileContents) {
+        this.#stadium = stadiumFileContents;
+    }
 
-    setDefaultStadium(stadiumName) {}
+    setDefaultStadium(stadiumName) {
+        this.#stadium = stadiumName;
+    }
 
     setTeamsLock(locked) {}
 
@@ -124,11 +168,19 @@ class HBInit_class {
 
     getScores() {}
 
-    setPassword(pass) {}
+    setPassword(pass) { 
+        if (pass == undefined) {
+            this.#password = null;
+        } else {
+            this.#password = pass; 
+        }   
+    }
 
     reorderPlayers(playerIdList, moveToTop) {}
 
-    sendAnnouncement(msg, targetID, color, style, sound) {}
+    sendAnnouncement(msg, targetID, color, style, sound) {
+        this.#chat.addElement(new Message(msg, targetID, color, style, sound));
+    }
 
     setPlayerAvatar(playerId, avatar) {}
 
@@ -152,7 +204,7 @@ class HBInit_class {
 
     onPlayerTeamChange(changedPlayer, byPlayer) {}
 
-    onPlayerKicked(kickedPlayer, reason, ban, byPlayer) {}
+    onPlayerKicked(kickedPlayer, reason, ban, byPlayer) {  }
     
     onGamePause(byPlayer) {}
 
@@ -169,6 +221,71 @@ class HBInit_class {
     onTeamsLockChange(locked, byPlayer) {}
 }
 
+class Message {
+    #msg; //string
+    #targetId; //int
+    #color; //int
+    #style; //string. Must be betwenn this: "normal","bold","italic", "small", "small-bold", "small-italic"
+    #sound; //int. Must be: 0 (no sound), 1 (normal sound), 2 (notification sound)
+
+
+    /**
+     * 
+     * @param {string} msg 
+     * @param {int} targetId 
+     * @param {int} color 
+     * @param {string} style 
+     * @param {int} sound 
+     */
+    constructor(msg, targetId, color, style, sound) {
+        this.#msg = msg;
+        this.#targetId = targetId;
+        this.#color = color;
+        this.#style = style;
+        this.#sound = sound;
+    }
+
+    get msg() { return this.#msg; }
+
+    get targetID() {return this.#targetId; }
+
+    get color() { return this.#color; }
+
+    get style() { return this.#style;}
+
+    get sound() { return this.#sound; }
+}
+
+class colaConLimit {
+    #cola; //Cola
+    #limit; //int
+
+    constructor(limit) {
+        this.#cola = new Array();
+        this.#limit = limit;
+    }
+
+    length() {
+        return this.#cola.length;
+    }
+
+    isEmpty() {
+        return this.length() === 0;
+    }
+
+    addElement(element) {
+        if (this.#cola.length >= limit) {
+            this.removeLastElement();
+        }
+        this.#cola.unshift(element);
+    }
+
+    removeLastElement() {
+        element = this.#cola[this.#cola.length - 1];
+        this.#cola = this.#cola.slice(0, this.#cola.length - 1);
+        return element;
+    }
+}
 function HBInit(object) {
     return new HBInit_class(object)
 }
