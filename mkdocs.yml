@@ -1,0 +1,12 @@
+site_name: Haxball server documentation
+
+plugins:
+    - search
+    - macros
+
+nav:
+  - Home: index.md
+  - About: about.md
+  - Documentation: documentation.md
+  - TestDocumentation: testDocumentation.md
+theme: readthedocs
