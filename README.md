@@ -3,6 +3,7 @@ Este projecto está escrito en javascript. Sirve para poder hacer un server de h
 
 ## Usage
 Para poder usar este projecto, necesita seguir los siguientes pasos:
+
 * Correr el siguiente código en el cmd: ```git clone https://github.com/misProyectosPropios/haxball_server.git```
 * Abrir un navegador web (recomiendo google chrome)
 * Copiar el código que se encuentra en el ./script.js 
@@ -10,6 +11,7 @@ Para poder usar este projecto, necesita seguir los siguientes pasos:
 * Presionar F12
 * Ir a la pestaña consola
 * Al lado de un ojo, se encuentra en que sección se encuentra, ahí debe indicar top. Si no lo hace, haz click izquierdo y selecciona 'top'
+
 
 ![image](https://github.com/user-attachments/assets/b454d848-71f3-4594-bf71-ceb816949440)
 
