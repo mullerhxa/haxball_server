@@ -22,3 +22,18 @@ def define_env(env):
         res:str = f.read()
         f.close()
         return res
+
+    @env.macro
+    def createDocumentationToFunction(name:str, use: str, params:tuple(str, str, str), pre: list(str), post: list(str)):
+        pass
+
+    @env.macro
+    def createDocumentationToClass(className: str, use: str, params: tuple(str, str, str)):
+        pass
+
+    @env.macro
+    def createDocumentationToMethod(className: str, name:str, use: str, params:tuple(str, str, str), pre: list(str), post: list(str)):
+        pass
+
+    
+
