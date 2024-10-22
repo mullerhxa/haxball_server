@@ -3,9 +3,13 @@ repo_url: https://github.com/misProyectosPropios/haxball_server
 
 plugins:
     - search
-    - macros
+    - macros:
+        module_name: main
     - include-markdown
+
+
 theme: readthedocs
+
 nav:
   - Home: index.md
   - About: about.md
