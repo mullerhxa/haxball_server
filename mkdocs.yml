@@ -16,5 +16,11 @@ nav:
   - Documentation: documentation.md
   - TestDocumentation: testDocumentation.md
 
+extra_javascript: 
+    - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+
+markdown_extensions:
+    - mdx_math
+
 extra:
     unit_price: 10

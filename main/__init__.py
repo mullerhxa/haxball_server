@@ -39,7 +39,6 @@ def define_env(env):
         res += "\n\n### Post-conditions\n"
         for i in post:
             res += "    * {post}".format(post=i)
-        print(res)
         return res
 
     @env.macro
@@ -72,7 +71,6 @@ def define_env(env):
         res += "\n\n##### Post-conditions\n"
         for i in post:
             res += "    * {post} \n".format(post=i) 
-        print(res)
         return res
 
     
