@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Documentation - Haxball server documentation</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Documentation";
+        var mkdocs_page_input_path = "documentation.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Haxball server documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../about/">About</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Documentation</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#function-myfunction">Function MyFunction</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#uses">Uses:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#params">Params</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pre-conditions">Pre-conditions:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#post-conditions">Post-conditions</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#class-gameroom">Class GameRoom</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#uses_1">Uses:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#params_1">Params</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#methods">Methods</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#constructor">Constructor</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#class-player">Class Player</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#uses_3">Uses:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#params_3">Params</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#methods_1">Methods</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#class-list_of_players">Class List_of_players</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#uses_4">Uses:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#params_4">Params</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#methods_2">Methods</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#class-playerstats">Class PlayerStats</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#uses_5">Uses:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#params_5">Params</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#methods_3">Methods</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#class-statsteams">Class statsTeams</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#uses_6">Uses:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#params_6">Params</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#methods_4">Methods</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#class-localstorage">Class LocalStorage</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#uses_7">Uses:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#params_7">Params</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#methods_5">Methods</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#class-gameroom_1">Class GameRoom</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#uses_8">Uses:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#params_8">Params</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#methods_6">Methods</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#class-gameroom_2">class GameRoom</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#params_9">Params</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#methods_7">Methods</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#constructor_1">constructor</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#getters">getters</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#isgamemax">isGameMax</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#addplayer">addPlayer</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#addplayerred">addPlayerRed</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#addplayerblue">addPlayerBlue</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#addplayerspect">addPlayerSpect</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#deleteplayer">deletePlayer</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#searchid_red">searchID_red</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#searchid_blue">searchID_blue</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#searchid_spect">searchID_spect</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#moveplayer">movePlayer</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#moveplayerifneeded">movePlayerIfNeeded</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#existid">existID</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../testDocumentation/">TestDocumentation</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Haxball server documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Documentation</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/misProyectosPropios/haxball_server/edit/master/docs/documentation.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="documentation">DOCUMENTATION</h1>
+<h2 id="function-myfunction">Function MyFunction</h2>
+<h3 id="uses">Uses:</h3>
+<p>This function does something important. </p>
+<h3 id="params">Params</h3>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>arg1</td>
+<td>int</td>
+<td>The first argument</td>
+</tr>
+<tr>
+<td>arg2</td>
+<td>str</td>
+<td>The second argument</td>
+</tr>
+</tbody>
+</table>
+<h3 id="pre-conditions">Pre-conditions:</h3>
+<pre><code>* True
+</code></pre>
+<h3 id="post-conditions">Post-conditions</h3>
+<pre><code>* True
+</code></pre>
+<!--- CLASS gameRoom--->
+<h2 id="class-gameroom">Class GameRoom</h2>
+<h3 id="uses_1">Uses:</h3>
+<p>To create and keep track of all the players on the room </p>
+<h3 id="params_1">Params</h3>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>res</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>blue</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>spect</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>max_players</td>
+<td>list[int]</td>
+<td>the max players in red or blue</td>
+</tr>
+</tbody>
+</table>
+<h3 id="methods">Methods</h3>
+<h4 id="constructor">Constructor</h4>
+<h5 id="uses_2">Uses:</h5>
+<p>To create new objects of this type </p>
+<h5 id="params_2"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>max_players</td>
+<td>int</td>
+<td>The number of players for the teams (red and blue)</td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_1">Pre-conditions:</h5>
+<pre><code>* True
+</code></pre>
+<h5 id="post-conditions_1">Post-conditions</h5>
+<pre><code>* |res.red| = 0 
+* |res.blue| = 0 
+* |res.spect| = 0 
+* res.max_players = max_players
+</code></pre>
+<!--- class Player--->
+
+<h2 id="class-player">Class Player</h2>
+<h3 id="uses_3">Uses:</h3>
+<p>To create and keep track of all the players on the room </p>
+<h3 id="params_3">Params</h3>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>res</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>blue</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>spect</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>max_players</td>
+<td>list[int]</td>
+<td>the max players in red or blue</td>
+</tr>
+</tbody>
+</table>
+<h3 id="methods_1">Methods</h3>
+<!--- class List_of_players--->
+
+<h2 id="class-list_of_players">Class List_of_players</h2>
+<h3 id="uses_4">Uses:</h3>
+<p>To create and keep track of all the players on the room </p>
+<h3 id="params_4">Params</h3>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>res</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>blue</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>spect</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>max_players</td>
+<td>list[int]</td>
+<td>the max players in red or blue</td>
+</tr>
+</tbody>
+</table>
+<h3 id="methods_2">Methods</h3>
+<!--- class PlayerStats--->
+
+<h2 id="class-playerstats">Class PlayerStats</h2>
+<h3 id="uses_5">Uses:</h3>
+<p>To create and keep track of all the players on the room </p>
+<h3 id="params_5">Params</h3>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>res</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>blue</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>spect</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>max_players</td>
+<td>list[int]</td>
+<td>the max players in red or blue</td>
+</tr>
+</tbody>
+</table>
+<h3 id="methods_3">Methods</h3>
+<!--- class statsTeams--->
+
+<h2 id="class-statsteams">Class statsTeams</h2>
+<h3 id="uses_6">Uses:</h3>
+<p>To create and keep track of all the players on the room </p>
+<h3 id="params_6">Params</h3>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>res</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>blue</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>spect</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>max_players</td>
+<td>list[int]</td>
+<td>the max players in red or blue</td>
+</tr>
+</tbody>
+</table>
+<h3 id="methods_4">Methods</h3>
+<!--- class LocalStorage--->
+
+<h2 id="class-localstorage">Class LocalStorage</h2>
+<h3 id="uses_7">Uses:</h3>
+<p>To create and keep track of all the players on the room </p>
+<h3 id="params_7">Params</h3>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>res</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>blue</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>spect</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>max_players</td>
+<td>list[int]</td>
+<td>the max players in red or blue</td>
+</tr>
+</tbody>
+</table>
+<h3 id="methods_5">Methods</h3>
+<!--- class colaConLimit--->
+
+<h2 id="class-gameroom_1">Class GameRoom</h2>
+<h3 id="uses_8">Uses:</h3>
+<p>To create and keep track of all the players on the room </p>
+<h3 id="params_8">Params</h3>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>res</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>blue</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>spect</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>max_players</td>
+<td>list[int]</td>
+<td>the max players in red or blue</td>
+</tr>
+</tbody>
+</table>
+<h3 id="methods_6">Methods</h3>
+<h2 id="class-gameroom_2">class GameRoom</h2>
+<h3 id="params_9">Params</h3>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>red</td>
+<td>int</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>blue</td>
+<td>int</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>spect</td>
+<td>int</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>max_players</td>
+<td>int</td>
+<td>the max players in red or blue</td>
+</tr>
+</tbody>
+</table>
+<h3 id="methods_7">Methods</h3>
+<p><span style="background-color:#111;">Uses</span>
+This object is for keep a track of the players in all the room and to move them from one team to another</p>
+<ul>
+<li>
+<h4 id="constructor_1"><span style="background-color:#111;">constructor</span></h4>
+<ul>
+<li>params: <ul>
+<li><span style="background-color:#111120">max_players : int</span>
+The number of players for the teams (red and blue)</li>
+</ul>
+</li>
+<li>pre-condition: <ul>
+<li>True</li>
+</ul>
+</li>
+<li>post-condition: <ul>
+<li>|res.red| = 0</li>
+<li>|res.blue| = 0</li>
+<li>|res.spect| = 0</li>
+<li>res.max_players = max_players</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h4 id="getters"><span style="background-color:#111;">getters</span></h4>
+</li>
+<li>
+<h4 id="isgamemax"><span style="background-color:#111;">isGameMax</span></h4>
+</li>
+<li>
+<h4 id="addplayer"><span style="background-color:#111;">addPlayer</span></h4>
+</li>
+<li>
+<h4 id="addplayerred"><span style="background-color:#111;">addPlayerRed</span></h4>
+</li>
+<li>
+<h4 id="addplayerblue"><span style="background-color:#111;">addPlayerBlue</span></h4>
+</li>
+<li>
+<h4 id="addplayerspect"><span style="background-color:#111;">addPlayerSpect</span></h4>
+</li>
+<li>
+<h4 id="deleteplayer"><span style="background-color:#111;">deletePlayer</span></h4>
+</li>
+<li>
+<h4 id="searchid_red"><span style="background-color:#111;">searchID_red</span></h4>
+</li>
+<li>
+<h4 id="searchid_blue"><span style="background-color:#111;">searchID_blue</span></h4>
+</li>
+<li>
+<h4 id="searchid_spect"><span style="background-color:#111;">searchID_spect</span></h4>
+</li>
+<li>
+<h4 id="moveplayer"><span style="background-color:#111;">movePlayer</span></h4>
+</li>
+<li>
+<h4 id="moveplayerifneeded"><span style="background-color:#111;">movePlayerIfNeeded</span></h4>
+</li>
+<li>
+<h4 id="existid"><span style="background-color:#111;">existID</span></h4>
+</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../about/" class="btn btn-neutral float-left" title="About"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../testDocumentation/" class="btn btn-neutral float-right" title="TestDocumentation">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/misProyectosPropios/haxball_server" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../about/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../testDocumentation/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
