@@ -33,12 +33,12 @@ def define_env(env):
         #Write the precondition
         res += "\n\n### Pre-conditions:\n\n"
         for i in pre:
-            res += "    * {pre}".format(pre=i)
+            res += "* \( {pre} \)".format(pre=i)
 
         #Write the post-condition
         res += "\n\n### Post-conditions\n"
         for i in post:
-            res += "    * {post}".format(post=i)
+            res += "*  \( {post} \)".format(post=i)
         return res
 
     @env.macro
@@ -65,12 +65,12 @@ def define_env(env):
         #Write the precondition
         res += "\n\n##### Pre-conditions:\n\n"
         for i in pre:
-            res += "    * {pre} \n".format(pre=i)
+            res += "* \( {pre}  \) \n".format(pre=i)
 
         #Write the post-condition
         res += "\n\n##### Post-conditions\n"
         for i in post:
-            res += "    * {post} \n".format(post=i) 
+            res += "* \( {post} \) \n".format(post=i) 
         return res
 
     
