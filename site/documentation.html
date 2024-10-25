@@ -1,0 +1,2262 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>Documentation - Haxball server documentation</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Documentation";
+        var mkdocs_page_input_path = "documentation.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="index.html" class="icon icon-home"> Haxball server documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="about.html">About</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Documentation</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#class-gameroom">Class GameRoom</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#uses">Uses:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#params">Params</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#methods">Methods</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#constructor">constructor</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#isgamemax">isGameMax</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#addplayer">addPlayer</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#addplayerredbluespect">#addPlayerRed/Blue/Spect</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#deleteplayer">deletePlayer</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#searchid_redbluespect">#searchID_red/blue/spect</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#moveplayer">movePlayer</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#moveplayerifneeded">movePlayerIfNeeded</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#existid">#existID</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#class-player">Class Player</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#uses_10">Uses:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#params_10">Params</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#methods_1">Methods</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#constructor_1">constructor</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#invertafk">invertAFK</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#class-list_of_players">Class List_of_players</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#uses_13">Uses:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#params_13">Params</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#methods_2">Methods</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#constructor_2">constructor</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#addplayer_1">addPlayer</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#getplayer">#getPlayer</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#getplayerbyid">getPlayerByID</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#searchid">#searchID</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#removeplayer">#removePlayer</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#removeplayerbyid">#removePlayerByID</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#class-playerstats">Class PlayerStats</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#uses_21">Uses:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#params_21">Params</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#methods_3">Methods</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#constructor_3">constructor</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#storeplayer">storePlayer</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#incrementgoal">incrementGoal</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#incrementgames">incrementGames</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#incrementloses">incrementLoses</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#incrementwonmatches">incrementWonMatches</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#incrementassists">incrementAssists</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#incrementagainstgoals">incrementAgainstGoals</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#incrementmvp">incrementMVP</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#class-statsteams">Class statsTeams</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#uses_31">Uses:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#params_31">Params</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#methods_4">Methods</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#constructor_4">constructor</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#setfalseisgamemax">setFalseIsGameMax</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#storedata">storeData</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#addmatch">addMatch</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#addvictoryto">addVictoryTo</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#adddefeatto">addDefeatTo</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#addgoalto">addGoalTo</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#addasisto">addAsisTo</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#class-localstorage">Class LocalStorage</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#uses_40">Uses:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#params_40">Params</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#methods_5">Methods</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#existsdata">existsData</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#storedata_1">storeData</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#getdata">getData</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#getalllocalstorage">getAllLocalStorage</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#importlocalstorage">importLocalStorage</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#class-colaconlimit">Class colaConLimit</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#uses_46">Uses:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#params_46">Params</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#methods_6">Methods</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#constructor_5">constructor</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#length">length</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#isempty">isEmpty</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#addelement">addElement</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#functions">Functions</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#function-setteam">Function setTeam</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#uses_51">Uses:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#params_51">Params</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pre-conditions_44">Pre-conditions:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#post-conditions_44">Post-conditions</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#function-iscommand">Function isCommand</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#uses_52">Uses:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#params_52">Params</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pre-conditions_45">Pre-conditions:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#post-conditions_45">Post-conditions</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#function-makecommand">Function makeCommand</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#uses_53">Uses:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#params_53">Params</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pre-conditions_46">Pre-conditions:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#post-conditions_46">Post-conditions</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#function-showmessage">Function showMessage</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#uses_54">Uses:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#params_54">Params</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pre-conditions_47">Pre-conditions:</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#post-conditions_47">Post-conditions</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#class-gameroom_1">class GameRoom</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#params_55">Params</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#methods_7">Methods</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#constructor_6">constructor</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#getters">getters</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#isgamemax_1">isGameMax</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#addplayer_2">addPlayer</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#addplayerred">addPlayerRed</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#addplayerblue">addPlayerBlue</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#addplayerspect">addPlayerSpect</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#deleteplayer_1">deletePlayer</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#searchid_red">searchID_red</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#searchid_blue">searchID_blue</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#searchid_spect">searchID_spect</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#moveplayer_1">movePlayer</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#moveplayerifneeded_1">movePlayerIfNeeded</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#existid_1">existID</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="testDocumentation.html">TestDocumentation</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Haxball server documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html" class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Documentation</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/misProyectosPropios/haxball_server/edit/master/docs/documentation.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="documentation">DOCUMENTATION</h1>
+<!--- Class gameRoom --->
+
+<h2 id="class-gameroom">Class GameRoom</h2>
+<h3 id="uses">Uses:</h3>
+<p>To create and keep track of all the players on the room </p>
+<h3 id="params">Params</h3>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>res</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>blue</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>spect</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>max_players</td>
+<td>list[int]</td>
+<td>the max players in red or blue</td>
+</tr>
+</tbody>
+</table>
+<h3 id="methods">Methods</h3>
+<h4 id="constructor">constructor</h4>
+<h5 id="uses_1">Uses:</h5>
+<p>To create new objects of this type </p>
+<h5 id="params_1"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>max_players</td>
+<td>int</td>
+<td>The number of players for the teams (red and blue)</td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex"> True  </script>
+</li>
+</ul>
+<h5 id="post-conditions">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex"> |res.red| = 0 </script>
+</li>
+<li>
+<script type="math/tex"> |res.blue| = 0 </script>
+</li>
+<li>
+<script type="math/tex"> |res.spect| = 0 </script>
+</li>
+<li>
+<script type="math/tex"> res.max\_players = max_players </script>
+</li>
+</ul>
+<h4 id="isgamemax">isGameMax</h4>
+<h5 id="uses_2">Uses:</h5>
+<h5 id="params_2"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_1">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_1">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="addplayer">addPlayer</h4>
+<h5 id="uses_3">Uses:</h5>
+<h5 id="params_3"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_2">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_2">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="addplayerredbluespect">#addPlayerRed/Blue/Spect</h4>
+<h5 id="uses_4">Uses:</h5>
+<h5 id="params_4"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_3">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_3">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="deleteplayer">deletePlayer</h4>
+<h5 id="uses_5">Uses:</h5>
+<h5 id="params_5"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_4">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_4">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="searchid_redbluespect">#searchID_red/blue/spect</h4>
+<h5 id="uses_6">Uses:</h5>
+<h5 id="params_6"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_5">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_5">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="moveplayer">movePlayer</h4>
+<h5 id="uses_7">Uses:</h5>
+<h5 id="params_7"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_6">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_6">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="moveplayerifneeded">movePlayerIfNeeded</h4>
+<h5 id="uses_8">Uses:</h5>
+<h5 id="params_8"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_7">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_7">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="existid">#existID</h4>
+<h5 id="uses_9">Uses:</h5>
+<h5 id="params_9"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_8">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_8">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<!--- Class Player --->
+
+<h2 id="class-player">Class Player</h2>
+<h3 id="uses_10">Uses:</h3>
+<p>To create and keep track of all the players on the room </p>
+<h3 id="params_10">Params</h3>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>res</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>blue</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>spect</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>max_players</td>
+<td>list[int]</td>
+<td>the max players in red or blue</td>
+</tr>
+</tbody>
+</table>
+<h3 id="methods_1">Methods</h3>
+<h4 id="constructor_1">constructor</h4>
+<h5 id="uses_11">Uses:</h5>
+<h5 id="params_11"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_9">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_9">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="invertafk">invertAFK</h4>
+<h5 id="uses_12">Uses:</h5>
+<h5 id="params_12"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_10">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_10">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<!--- Class List_of_players --->
+
+<h2 id="class-list_of_players">Class List_of_players</h2>
+<h3 id="uses_13">Uses:</h3>
+<p>To create and keep track of all the players on the room </p>
+<h3 id="params_13">Params</h3>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>res</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>blue</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>spect</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>max_players</td>
+<td>list[int]</td>
+<td>the max players in red or blue</td>
+</tr>
+</tbody>
+</table>
+<h3 id="methods_2">Methods</h3>
+<h4 id="constructor_2">constructor</h4>
+<h5 id="uses_14">Uses:</h5>
+<h5 id="params_14"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_11">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_11">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="addplayer_1">addPlayer</h4>
+<h5 id="uses_15">Uses:</h5>
+<h5 id="params_15"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_12">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_12">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="getplayer">#getPlayer</h4>
+<h5 id="uses_16">Uses:</h5>
+<h5 id="params_16"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_13">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_13">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="getplayerbyid">getPlayerByID</h4>
+<h5 id="uses_17">Uses:</h5>
+<h5 id="params_17"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_14">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_14">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="searchid">#searchID</h4>
+<h5 id="uses_18">Uses:</h5>
+<h5 id="params_18"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_15">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_15">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="removeplayer">#removePlayer</h4>
+<h5 id="uses_19">Uses:</h5>
+<h5 id="params_19"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_16">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_16">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="removeplayerbyid">#removePlayerByID</h4>
+<h5 id="uses_20">Uses:</h5>
+<h5 id="params_20"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_17">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_17">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<!--- Class PlayerStats --->
+
+<h2 id="class-playerstats">Class PlayerStats</h2>
+<h3 id="uses_21">Uses:</h3>
+<p>To create and keep track of all the players on the room </p>
+<h3 id="params_21">Params</h3>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>res</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>blue</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>spect</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>max_players</td>
+<td>list[int]</td>
+<td>the max players in red or blue</td>
+</tr>
+</tbody>
+</table>
+<h3 id="methods_3">Methods</h3>
+<h4 id="constructor_3">constructor</h4>
+<h5 id="uses_22">Uses:</h5>
+<h5 id="params_22"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_18">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_18">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="storeplayer">storePlayer</h4>
+<h5 id="uses_23">Uses:</h5>
+<h5 id="params_23"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_19">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_19">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="incrementgoal">incrementGoal</h4>
+<h5 id="uses_24">Uses:</h5>
+<h5 id="params_24"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_20">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_20">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="incrementgames">incrementGames</h4>
+<h5 id="uses_25">Uses:</h5>
+<h5 id="params_25"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_21">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_21">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="incrementloses">incrementLoses</h4>
+<h5 id="uses_26">Uses:</h5>
+<h5 id="params_26"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_22">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_22">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="incrementwonmatches">incrementWonMatches</h4>
+<h5 id="uses_27">Uses:</h5>
+<h5 id="params_27"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_23">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_23">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="incrementassists">incrementAssists</h4>
+<h5 id="uses_28">Uses:</h5>
+<h5 id="params_28"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_24">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_24">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="incrementagainstgoals">incrementAgainstGoals</h4>
+<h5 id="uses_29">Uses:</h5>
+<h5 id="params_29"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_25">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_25">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="incrementmvp">incrementMVP</h4>
+<h5 id="uses_30">Uses:</h5>
+<h5 id="params_30"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_26">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_26">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<!--- Class statsTeams --->
+
+<h2 id="class-statsteams">Class statsTeams</h2>
+<h3 id="uses_31">Uses:</h3>
+<p>To create and keep track of all the players on the room </p>
+<h3 id="params_31">Params</h3>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>res</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>blue</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>spect</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>max_players</td>
+<td>list[int]</td>
+<td>the max players in red or blue</td>
+</tr>
+</tbody>
+</table>
+<h3 id="methods_4">Methods</h3>
+<h4 id="constructor_4">constructor</h4>
+<h5 id="uses_32">Uses:</h5>
+<h5 id="params_32"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_27">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_27">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="setfalseisgamemax">setFalseIsGameMax</h4>
+<h5 id="uses_33">Uses:</h5>
+<h5 id="params_33"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_28">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_28">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="storedata">storeData</h4>
+<h5 id="uses_34">Uses:</h5>
+<h5 id="params_34"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_29">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_29">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="addmatch">addMatch</h4>
+<h5 id="uses_35">Uses:</h5>
+<h5 id="params_35"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_30">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_30">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="addvictoryto">addVictoryTo</h4>
+<h5 id="uses_36">Uses:</h5>
+<h5 id="params_36"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_31">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_31">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="adddefeatto">addDefeatTo</h4>
+<h5 id="uses_37">Uses:</h5>
+<h5 id="params_37"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_32">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_32">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="addgoalto">addGoalTo</h4>
+<h5 id="uses_38">Uses:</h5>
+<h5 id="params_38"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_33">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_33">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="addasisto">addAsisTo</h4>
+<h5 id="uses_39">Uses:</h5>
+<h5 id="params_39"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_34">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_34">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<!--- Class LocalStorage --->
+
+<h2 id="class-localstorage">Class LocalStorage</h2>
+<h3 id="uses_40">Uses:</h3>
+<p>To create and keep track of all the players on the room </p>
+<h3 id="params_40">Params</h3>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>res</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>blue</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>spect</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>max_players</td>
+<td>list[int]</td>
+<td>the max players in red or blue</td>
+</tr>
+</tbody>
+</table>
+<h3 id="methods_5">Methods</h3>
+<h4 id="existsdata">existsData</h4>
+<h5 id="uses_41">Uses:</h5>
+<h5 id="params_41"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_35">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_35">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="storedata_1">storeData</h4>
+<h5 id="uses_42">Uses:</h5>
+<h5 id="params_42"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_36">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_36">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="getdata">getData</h4>
+<h5 id="uses_43">Uses:</h5>
+<h5 id="params_43"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_37">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_37">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="getalllocalstorage">getAllLocalStorage</h4>
+<h5 id="uses_44">Uses:</h5>
+<h5 id="params_44"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_38">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_38">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="importlocalstorage">importLocalStorage</h4>
+<h5 id="uses_45">Uses:</h5>
+<h5 id="params_45"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_39">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_39">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<!--- Class colaConLimit --->
+
+<h2 id="class-colaconlimit">Class colaConLimit</h2>
+<h3 id="uses_46">Uses:</h3>
+<p>To create and keep track of all the players on the room </p>
+<h3 id="params_46">Params</h3>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>res</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>blue</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>spect</td>
+<td>list[int]</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>max_players</td>
+<td>list[int]</td>
+<td>the max players in red or blue</td>
+</tr>
+</tbody>
+</table>
+<h3 id="methods_6">Methods</h3>
+<h4 id="constructor_5">constructor</h4>
+<h5 id="uses_47">Uses:</h5>
+<h5 id="params_47"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_40">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_40">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="length">length</h4>
+<h5 id="uses_48">Uses:</h5>
+<h5 id="params_48"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_41">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_41">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="isempty">isEmpty</h4>
+<h5 id="uses_49">Uses:</h5>
+<h5 id="params_49"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_42">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_42">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h4 id="addelement">addElement</h4>
+<h5 id="uses_50">Uses:</h5>
+<h5 id="params_50"><span background-color="#111" color="FFF" >Params </span></h5>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="pre-conditions_43">Pre-conditions:</h5>
+<ul>
+<li>
+<script type="math/tex">   </script>
+</li>
+</ul>
+<h5 id="post-conditions_43">Post-conditions</h5>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<!--- Functions --->
+
+<h2 id="functions">Functions</h2>
+<h2 id="function-setteam">Function setTeam</h2>
+<h3 id="uses_51">Uses:</h3>
+<h3 id="params_51">Params</h3>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="pre-conditions_44">Pre-conditions:</h3>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h3 id="post-conditions_44">Post-conditions</h3>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h2 id="function-iscommand">Function isCommand</h2>
+<h3 id="uses_52">Uses:</h3>
+<h3 id="params_52">Params</h3>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="pre-conditions_45">Pre-conditions:</h3>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h3 id="post-conditions_45">Post-conditions</h3>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h2 id="function-makecommand">Function makeCommand</h2>
+<h3 id="uses_53">Uses:</h3>
+<h3 id="params_53">Params</h3>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="pre-conditions_46">Pre-conditions:</h3>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h3 id="post-conditions_46">Post-conditions</h3>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h2 id="function-showmessage">Function showMessage</h2>
+<h3 id="uses_54">Uses:</h3>
+<h3 id="params_54">Params</h3>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="pre-conditions_47">Pre-conditions:</h3>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h3 id="post-conditions_47">Post-conditions</h3>
+<ul>
+<li>
+<script type="math/tex">  </script>
+</li>
+</ul>
+<h2 id="class-gameroom_1">class GameRoom</h2>
+<h3 id="params_55">Params</h3>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>red</td>
+<td>int</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>blue</td>
+<td>int</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>spect</td>
+<td>int</td>
+<td>array of ID's</td>
+</tr>
+<tr>
+<td>max_players</td>
+<td>int</td>
+<td>the max players in red or blue</td>
+</tr>
+</tbody>
+</table>
+<h3 id="methods_7">Methods</h3>
+<p><span style="background-color:#111;">Uses</span>
+This object is for keep a track of the players in all the room and to move them from one team to another</p>
+<ul>
+<li>
+<h4 id="constructor_6"><span style="background-color:#111;">constructor</span></h4>
+<ul>
+<li>params: <ul>
+<li><span style="background-color:#111120">max_players : int</span>
+The number of players for the teams (red and blue)</li>
+</ul>
+</li>
+<li>pre-condition: <ul>
+<li>True</li>
+</ul>
+</li>
+<li>post-condition: <ul>
+<li>|res.red| = 0</li>
+<li>|res.blue| = 0</li>
+<li>|res.spect| = 0</li>
+<li>res.max_players = max_players</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h4 id="getters"><span style="background-color:#111;">getters</span></h4>
+</li>
+<li>
+<h4 id="isgamemax_1"><span style="background-color:#111;">isGameMax</span></h4>
+</li>
+<li>
+<h4 id="addplayer_2"><span style="background-color:#111;">addPlayer</span></h4>
+</li>
+<li>
+<h4 id="addplayerred"><span style="background-color:#111;">addPlayerRed</span></h4>
+</li>
+<li>
+<h4 id="addplayerblue"><span style="background-color:#111;">addPlayerBlue</span></h4>
+</li>
+<li>
+<h4 id="addplayerspect"><span style="background-color:#111;">addPlayerSpect</span></h4>
+</li>
+<li>
+<h4 id="deleteplayer_1"><span style="background-color:#111;">deletePlayer</span></h4>
+</li>
+<li>
+<h4 id="searchid_red"><span style="background-color:#111;">searchID_red</span></h4>
+</li>
+<li>
+<h4 id="searchid_blue"><span style="background-color:#111;">searchID_blue</span></h4>
+</li>
+<li>
+<h4 id="searchid_spect"><span style="background-color:#111;">searchID_spect</span></h4>
+</li>
+<li>
+<h4 id="moveplayer_1"><span style="background-color:#111;">movePlayer</span></h4>
+</li>
+<li>
+<h4 id="moveplayerifneeded_1"><span style="background-color:#111;">movePlayerIfNeeded</span></h4>
+</li>
+<li>
+<h4 id="existid_1"><span style="background-color:#111;">existID</span></h4>
+</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="about.html" class="btn btn-neutral float-left" title="About"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="testDocumentation.html" class="btn btn-neutral float-right" title="TestDocumentation">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/misProyectosPropios/haxball_server" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="about.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="testDocumentation.html" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
