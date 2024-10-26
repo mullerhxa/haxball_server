@@ -223,52 +223,54 @@
         </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#functions">Functions</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#function-setteam">Function setTeam</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#uses_51">Uses:</a>
+    <li class="toctree-l3"><a class="reference internal" href="#function-setteam">Function setTeam</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#uses_51">Uses:</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#params_51">Params</a>
+    <li class="toctree-l4"><a class="reference internal" href="#params_51">Params</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#pre-conditions_44">Pre-conditions:</a>
+    <li class="toctree-l4"><a class="reference internal" href="#pre-conditions_44">Pre-conditions:</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#post-conditions_44">Post-conditions</a>
+    <li class="toctree-l4"><a class="reference internal" href="#post-conditions_44">Post-conditions</a>
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#function-iscommand">Function isCommand</a>
+    <li class="toctree-l3"><a class="reference internal" href="#function-iscommand">Function isCommand</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#uses_52">Uses:</a>
+    <li class="toctree-l4"><a class="reference internal" href="#uses_52">Uses:</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#params_52">Params</a>
+    <li class="toctree-l4"><a class="reference internal" href="#params_52">Params</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#pre-conditions_45">Pre-conditions:</a>
+    <li class="toctree-l4"><a class="reference internal" href="#pre-conditions_45">Pre-conditions:</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#post-conditions_45">Post-conditions</a>
+    <li class="toctree-l4"><a class="reference internal" href="#post-conditions_45">Post-conditions</a>
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#function-makecommand">Function makeCommand</a>
+    <li class="toctree-l3"><a class="reference internal" href="#function-makecommand">Function makeCommand</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#uses_53">Uses:</a>
+    <li class="toctree-l4"><a class="reference internal" href="#uses_53">Uses:</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#params_53">Params</a>
+    <li class="toctree-l4"><a class="reference internal" href="#params_53">Params</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#pre-conditions_46">Pre-conditions:</a>
+    <li class="toctree-l4"><a class="reference internal" href="#pre-conditions_46">Pre-conditions:</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#post-conditions_46">Post-conditions</a>
+    <li class="toctree-l4"><a class="reference internal" href="#post-conditions_46">Post-conditions</a>
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#function-showmessage">Function showMessage</a>
+    <li class="toctree-l3"><a class="reference internal" href="#function-showmessage">Function showMessage</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#uses_54">Uses:</a>
+    <li class="toctree-l4"><a class="reference internal" href="#uses_54">Uses:</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#params_54">Params</a>
+    <li class="toctree-l4"><a class="reference internal" href="#params_54">Params</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#pre-conditions_47">Pre-conditions:</a>
+    <li class="toctree-l4"><a class="reference internal" href="#pre-conditions_47">Pre-conditions:</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#post-conditions_47">Post-conditions</a>
+    <li class="toctree-l4"><a class="reference internal" href="#post-conditions_47">Post-conditions</a>
+    </li>
+        </ul>
     </li>
         </ul>
     </li>
@@ -358,7 +360,7 @@
 </thead>
 <tbody>
 <tr>
-<td>res</td>
+<td>red</td>
 <td>list[int]</td>
 <td>array of ID's</td>
 </tr>
@@ -425,22 +427,7 @@
 <h5 id="uses_2">Uses:</h5>
 <p>Returns if both teams are full </p>
 <h5 id="params_2"><span background-color="#111" color="FFF" >Params </span></h5>
-<table>
-<thead>
-<tr>
-<th>name</th>
-<th>type</th>
-<th>description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<p>It doesn't take any parameter</p>
 <h5 id="pre-conditions_1">Pre-conditions:</h5>
 <ul>
 <li>
@@ -450,11 +437,13 @@
 <h5 id="post-conditions_1">Post-conditions</h5>
 <ul>
 <li>
-<script type="math/tex"> res=True \iff (|res.red|=res.max\_player \land |res.blue|=res.max\_player) </script>
+<script type="math/tex"> res=True \iff (|this.red|=this.max\_player \land |this.blue|=this.max\_player) </script>
 </li>
 </ul>
 <h4 id="addplayer">addPlayer</h4>
 <h5 id="uses_3">Uses:</h5>
+<p>Adds a player to the teams that needs a player. If both teams have the exact same number of 
+        players and they are less than the max_players, the player is added to red. If both the teams are full, the player is set to the spect's teams </p>
 <h5 id="params_3"><span background-color="#111" color="FFF" >Params </span></h5>
 <table>
 <thead>
@@ -466,22 +455,38 @@
 </thead>
 <tbody>
 <tr>
-<td></td>
-<td></td>
-<td></td>
+<td>id</td>
+<td>int</td>
+<td>The player's ID.</td>
 </tr>
 </tbody>
 </table>
 <h5 id="pre-conditions_2">Pre-conditions:</h5>
 <ul>
 <li>
-<script type="math/tex">   </script>
+<script type="math/tex">  ( \forall x: \mathbb{Z}) (0 \leq x < |c.red| \to_{L} c.red[x] \neq id)   </script>
+</li>
+<li>
+<script type="math/tex">  c = C_{0} (this)  </script>
 </li>
 </ul>
 <h5 id="post-conditions_2">Post-conditions</h5>
 <ul>
 <li>
-<script type="math/tex">  </script>
+<script type="math/tex">  ( |c.red| = c.max\_players \land |c.blue| = this.max\_players ) \to \\
+        (c.red = C_{0}.red \land c.blue = C_{0}.blue \land c.spect = concat(C_{0}.spect, (id))  ) </script>
+</li>
+<li>
+<script type="math/tex">  (|c.red| == |c.blue| \land |c.red| < c.max\_players) \to  \\
+        ( c.red = concat(C_{0}.red, (this.id)) \land c.blue = C_{0}.blue \land c.spect = C_{0}.spect ) </script>
+</li>
+<li>
+<script type="math/tex">  (|c.red| > |c.blue| \land |c.red| \leq  c.max\_players) \to \\
+        (c.red = C_{0}.red \land c.blue = concat(C_{0}.blue, (id)) \land c.spect = C_{0}.spect) </script>
+</li>
+<li>
+<script type="math/tex">  (|c.red| < |c.blue| \land |c.blue| \leq  c.max\_players) \to \\
+        (c.red = concat(C_{0}.red, (id)))  \land c.blue = C_{0}.blue \land c.spect = C_{0}.spect </script>
 </li>
 </ul>
 <h4 id="addplayerredbluespect">#addPlayerRed/Blue/Spect</h4>
@@ -1986,9 +1991,9 @@
 <!--- Functions --->
 
 <h2 id="functions">Functions</h2>
-<h2 id="function-setteam">Function setTeam</h2>
-<h3 id="uses_51">Uses:</h3>
-<h3 id="params_51">Params</h3>
+<h3 id="function-setteam">Function setTeam</h3>
+<h4 id="uses_51">Uses:</h4>
+<h4 id="params_51">Params</h4>
 <table>
 <thead>
 <tr>
@@ -2005,21 +2010,21 @@
 </tr>
 </tbody>
 </table>
-<h3 id="pre-conditions_44">Pre-conditions:</h3>
+<h4 id="pre-conditions_44">Pre-conditions:</h4>
 <ul>
 <li>
 <script type="math/tex">  </script>
 </li>
 </ul>
-<h3 id="post-conditions_44">Post-conditions</h3>
+<h4 id="post-conditions_44">Post-conditions</h4>
 <ul>
 <li>
 <script type="math/tex">  </script>
 </li>
 </ul>
-<h2 id="function-iscommand">Function isCommand</h2>
-<h3 id="uses_52">Uses:</h3>
-<h3 id="params_52">Params</h3>
+<h3 id="function-iscommand">Function isCommand</h3>
+<h4 id="uses_52">Uses:</h4>
+<h4 id="params_52">Params</h4>
 <table>
 <thead>
 <tr>
@@ -2036,21 +2041,21 @@
 </tr>
 </tbody>
 </table>
-<h3 id="pre-conditions_45">Pre-conditions:</h3>
+<h4 id="pre-conditions_45">Pre-conditions:</h4>
 <ul>
 <li>
 <script type="math/tex">  </script>
 </li>
 </ul>
-<h3 id="post-conditions_45">Post-conditions</h3>
+<h4 id="post-conditions_45">Post-conditions</h4>
 <ul>
 <li>
 <script type="math/tex">  </script>
 </li>
 </ul>
-<h2 id="function-makecommand">Function makeCommand</h2>
-<h3 id="uses_53">Uses:</h3>
-<h3 id="params_53">Params</h3>
+<h3 id="function-makecommand">Function makeCommand</h3>
+<h4 id="uses_53">Uses:</h4>
+<h4 id="params_53">Params</h4>
 <table>
 <thead>
 <tr>
@@ -2067,21 +2072,21 @@
 </tr>
 </tbody>
 </table>
-<h3 id="pre-conditions_46">Pre-conditions:</h3>
+<h4 id="pre-conditions_46">Pre-conditions:</h4>
 <ul>
 <li>
 <script type="math/tex">  </script>
 </li>
 </ul>
-<h3 id="post-conditions_46">Post-conditions</h3>
+<h4 id="post-conditions_46">Post-conditions</h4>
 <ul>
 <li>
 <script type="math/tex">  </script>
 </li>
 </ul>
-<h2 id="function-showmessage">Function showMessage</h2>
-<h3 id="uses_54">Uses:</h3>
-<h3 id="params_54">Params</h3>
+<h3 id="function-showmessage">Function showMessage</h3>
+<h4 id="uses_54">Uses:</h4>
+<h4 id="params_54">Params</h4>
 <table>
 <thead>
 <tr>
@@ -2098,13 +2103,13 @@
 </tr>
 </tbody>
 </table>
-<h3 id="pre-conditions_47">Pre-conditions:</h3>
+<h4 id="pre-conditions_47">Pre-conditions:</h4>
 <ul>
 <li>
 <script type="math/tex">  </script>
 </li>
 </ul>
-<h3 id="post-conditions_47">Post-conditions</h3>
+<h4 id="post-conditions_47">Post-conditions</h4>
 <ul>
 <li>
 <script type="math/tex">  </script>
