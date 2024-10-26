@@ -556,7 +556,7 @@ class LocalStorage {
   }
 
   
-  importLocalStorage(playerStatsToWrite) {
+  static importLocalStorage(playerStatsToWrite) {
     var data = JSON.parse(playerStatsToWrite);
     Object.keys(data).forEach(function (k) {
       localStorage.setItem(k, data[k]);
