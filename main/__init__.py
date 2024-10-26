@@ -22,21 +22,23 @@ def define_env(env):
 
     @env.macro
     def createDocumentationToFunction(name:str, use: str, params: list[tuple[str, str, str]], pre: list[str], post: list[str]) -> str:
-        res: str = "## Function {name} \n\n### Uses: \n".format(name=name)
-        res += "{use} \n\n### Params\n\n".format(use=use)
+        res: str = "### Function {name} \n\n#### Uses: \n".format(name=name)
+        res += "{use} \n\n#### Params\n\n".format(use=use)
+        if (len(params) > 0):
 
-        res += "|name  |type|description| \n"
-        res += "|----- |----|-------|\n"
-        for i in params:
-            res += "| {name} | {type} | {description} |\n".format(name=i[0], type=i[1], description=i[2]) 
-
+            res += "|name  |type|description| \n"
+            res += "|----- |----|-------|\n"
+            for i in params:
+                res += "| {name} | {type} | {description} |\n".format(name=i[0], type=i[1], description=i[2]) 
+        else:
+            res += "It doesn't take any parameter"
         #Write the precondition
-        res += "\n\n### Pre-conditions:\n\n"
+        res += "\n\n#### Pre-conditions:\n\n"
         for i in pre:
             res += "* \( {pre} \)".format(pre=i)
 
         #Write the post-condition
-        res += "\n\n### Post-conditions\n"
+        res += "\n\n#### Post-conditions\n"
         for i in post:
             res += "*  \( {post} \)".format(post=i)
         return res
@@ -45,11 +47,13 @@ def define_env(env):
     def createDocumentationToClass(className: str, use: str, params: list[tuple[str, str, str]]) -> str:
         res: str = "## Class {name} \n\n### Uses: \n".format(name=className)
         res += "{use} \n\n### Params\n\n".format(use=use)
-        res += "|name  |type|description| \n"
-        res += "|----- |----|-------|\n"
-        for i in params:
-            res += "| {name} | {type} | {description} |\n".format(name=i[0], type=i[1], description=i[2]) 
-        
+        if (len(params) > 0):
+            res += "|name  |type|description| \n"
+            res += "|----- |----|-------|\n"
+            for i in params:
+                res += "| {name} | {type} | {description} |\n".format(name=i[0], type=i[1], description=i[2]) 
+        else: 
+            res += "It doesn't take any parameter"
         res += "\n\n### Methods"
         return res
 
@@ -57,11 +61,14 @@ def define_env(env):
     def createDocumentationToMethod(name:str, use: str, params: list[tuple[str, str, str]], pre: list[str], post: list[str]) -> str:
         res: str = "#### {name} \n\n##### Uses: \n".format(name=name)
         res += "{use} \n\n##### <span background-color=\"{back_color}\" color=\"{color}\" >Params </span>\n\n".format(use=use, back_color=background_color, color=color)
-        res += "|name  |type|description| \n"
-        res += "|----- |----|-------|\n"
-        for i in params:
-            res += "| {name} | {type} | {description} |\n".format(name=i[0], type=i[1], description=i[2])
-
+        
+        if (len(params) > 0):
+            res += "|name  |type|description| \n"
+            res += "|----- |----|-------|\n"
+            for i in params:
+                res += "| {name} | {type} | {description} |\n".format(name=i[0], type=i[1], description=i[2])
+        else:
+            res += "It doesn't take any parameter"
         #Write the precondition
         res += "\n\n##### Pre-conditions:\n\n"
         for i in pre:
