@@ -63,10 +63,12 @@
 {{
     createDocumentationToMethod(
         "#addPlayerRed/Blue/Spect",
-        "",
-        [("", "", "")],
-        [""],
-        [""]
+        "Deletes the player from all the teams and set it to the selected (red, blue or spect)",
+        [("id", "int", "The player's id to set to the given team")],
+        ["c = C_{0}"],
+        ["c.red = concat(C_{0}.red, (id)) \\text{Red/blue/spect. Depends on the method that was called}",
+        "c.blue = C_{0}.blue",
+        "c.spect = C_{0}.spect"]
     ) 
     | safe
 }}
@@ -74,10 +76,22 @@
 {{
     createDocumentationToMethod(
         "deletePlayer",
-        "",
-        [("", "", "")],
-        [""],
-        [""]
+        "Deletes the player from all the teams. It don't affect the orders in the arrays. All the elements after this are set with an index befero they were originally placed",
+        [("id", "int", "The player's ID")],
+        ["c = C_{0}"],
+        ["(\\exists! x: \\mathbb{Z}) (0 \\leq x < |C_{0}.red| \\land_{L} C_{0}[x] = id \\land \\\\
+         c.red = concat(subseq(C_{0}.red, 0, x), subseq(C_{0}.red, x + 1, |C_{0}.red|))) \\\\
+         \\lor c.red = C_{0}.red \\\\
+         \\text{I asume that it will not be undefined the x + 1}",
+         "(\\exists! x: \\mathbb{Z}) (0 \\leq x < |C_{0}.blue| \\land_{L} C_{0}[x] = id \\land \\\\
+         c.blue = concat(subseq(C_{0}.blue, 0, x), subseq(C_{0}.blue, x + 1, |C_{0}.blue|))) \\\\
+         \\lor c.blue = C_{0}.blue \\\\
+         \\text{I asume that it will not be undefined the x + 1}",
+         "(\\exists! x: \\mathbb{Z}) (0 \\leq x < |C_{0}.spect| \\land_{L} C_{0}[x] = id \\land \\\\
+         c.spect = concat(subseq(C_{0}.spect, 0, x), subseq(C_{0}.spect, x + 1, |C_{0}.spect|))) \\\\
+         \\lor c.spect = C_{0}.spect \\\\
+         \\text{I asume that it will not be undefined the x + 1}"
+         ]
     ) 
     | safe
 }}
