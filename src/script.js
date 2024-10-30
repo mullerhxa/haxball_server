@@ -651,10 +651,20 @@
     }
 
     addElement(element) {
-        if (this.#cola.length >= limit) {
+        if (this.#cola.length >= this.#limit) {
             this.removeLastElement();
         }
         this.#cola.unshift(element);
+    }
+
+    removeLastElement() {
+        this.#cola.pop();
+    }
+
+    showCola() {
+      console.log("colaConLimit")
+      console.log(this.#cola)
+      console.log(this.#limit);
     }
   }
 
@@ -685,26 +695,23 @@
   var playerStats = new statsTeams(sala, lista_de_jugadores); //stats
 
   
-  sala.showGameRoom();
 
     //Haxball events
     room.onPlayerJoin = function(player) {
       updateAdmins()
-        console.log("El jugador " + player.name + " se unió")
-        console.log(player)
-        sala.showGameRoom();
-        lista_de_jugadores.addPlayer(new Player(player.id, player.auth, player.name))
-        sala.addPlayer(player.id)
-        console.log("Al finalizar el player Join")
-        sala.showGameRoom();
-        
+      console.log("El jugador " + player.name + " se unió")
+      console.log(player)
+      lista_de_jugadores.addPlayer(new Player(player.id, player.auth, player.name))
+      sala.addPlayer(player.id)
+      console.log("Al finalizar el player Join")        
       }
 
   room.onPlayerLeave = function(player) {
+    console.log("The player " + player.name + " left the room")
     lista_de_jugadores.removePlayerByID(player.id);
     sala.deletePlayer(player.id);
     sala.balanceTeams();
-    console.log("The player " + player.name + " left the room")
+    
   }
 
   room.onTeamVictory = function(scores) {
@@ -732,6 +739,7 @@
 
   room.onPlayerBallKick = function(player) {
     ballTouched.addElement(player.id);
+    ballTouched.showCola();
   }
 
   room.onTeamGoal = function(team) {
