@@ -191,6 +191,32 @@ class GameRoom {
     return res;
   }
 
+  balanceTeams() {
+    if (this.isGameMax()) {
+      return;
+    } 
+    if (this.#red.length > this.#max_players) {
+      //Move some red player to the spects
+    }
+    if (this.#blue.length > this.#max_players) {
+      //Move some red player to the spects
+    }
+    if (this.#red.length - this.#blue.length > 1) { //red has 2 or more players than blue
+      //Move enough players from red to blue to make a difference less or equal than 1
+    } else if (this.#blue.length - this.#red.length > 1) { //blue has 2 or more players than red
+      //Move enough players from blue to red to make a difference less or equal than 1
+    }
+    
+  }
+/**
+ * 
+ * @param {int} team - The team id. Must be between 1 and 2 
+ * @returns {nothing} - Moves all the team selected to the spects
+ */
+  moveTeamToSpect(team) {
+
+  }
+
   /**
    * Return true iff exists the id already inside some array
    * @param {id} int - A given id to search
@@ -263,13 +289,15 @@ class Player {
     }
   }
 
+  set afk(afk) {
+    this.#afk = afk;
+  }
+
   invertAFK() {
     this.#afk = !this.#afk;
   }
 
-  set afk(afk) {
-    this.#afk = afk;
-  }
+  
 }
 
 //Class to have the list of players
@@ -627,13 +655,16 @@ var playerStats = new statsTeams(room, lista_de_jugadores); //stats
 room.onPlayerLeave = function(player) {
   sala.deletePlayer(player.id);
   if (sala.movePlayerIfNeeded() != 0 && sala.spect.length > 0) {
-    movePlayer()
   }
   console.log("The player " + player.name + " left the room")
 }
 
 room.onTeamVictory = function(scores) {
-
+  if (scores.red > scores.blue) {
+    room.moveTeamToSpect(2)
+  } else {
+    room.moveTeamToSpect(1)
+  }
 }
 
 room.onPlayerChat = function(player, message) {
@@ -669,6 +700,8 @@ room.onPlayerAdminChange = function(changedPlayer, byPlayer) {
 }
 
 room.onPlayerTeamChange = function(changedPlayer, byPlayer) {
+
+
 }
 
 room.onPlayerKicked = function(kickedPlayer, reason, ban, byPlayer) {
