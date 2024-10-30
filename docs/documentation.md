@@ -182,11 +182,30 @@
 {{
     createDocumentationToMethod(
         "invertAFK",
-        "",
-        [("", "", "")],
-        [""],
-        [""]
-    ) 
+        "Set the afk state to the negative of the afk parameter",
+        [("Pla", "Player", "The player object")],
+        ["True"],
+        ["Pla.id = Pla_{0}.id",
+         "Pla.auth = Pla_{0}.auth",
+         "Pla.name = Pla_{0}.name",
+         "Pla.authorization = Pla_{0}.authorization",
+         "Pla.afk = \\neg Pla_{0}.afk"]
+    )    
+    | safe
+}}
+
+{{
+    createDocumentationToMethod(
+        "set authorization",
+        "Sets the authorization of the player to a given authorization",
+        [("Pla", "Player", "The player object"),
+         ("authorization", "int", "The player's authorization")],
+        ["0 \\leq authorization \\leq 3"],
+        ["Pla.id = Pla_{0}.id",
+         "Pla.auth = Pla_{0}.auth",
+         "Pla.name = Pla_{0}.name",
+         "Pla.authorization = authorization"]
+    )    
     | safe
 }}
 
@@ -197,20 +216,17 @@
     createDocumentationToClass(
         "List_of_players",
         "To create and keep track of all the players on the room",
-        [("res", "list[int]", "array of ID's"),
-        ("blue", "list[int]", "array of ID's"),
-        ("spect", "list[int]", "array of ID's"),
-        ("max_players", "list[int]", "the max players in red or blue")])
+        [("list", "array()", "A list of the players")])
         | safe
 }}
 
 {{
     createDocumentationToMethod(
         "constructor",
-        "",
-        [("", "", "")],
-        [""],
-        [""]
+        "Creates the object List_of_players",
+        [],
+        ["True"],
+        ["res.list = \\{\\}"]
     ) 
     | safe
 }}
@@ -218,8 +234,9 @@
 {{
     createDocumentationToMethod(
         "addPlayer",
-        "",
-        [("", "", "")],
+        "Adds a player to the list",
+        [("list", "List_of_players", "The list of players' object"),
+         ("player", "Player", "Player to add to the list")],
         [""],
         [""]
     ) 
