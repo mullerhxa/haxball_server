@@ -113,11 +113,14 @@
 {{
     createDocumentationToMethod(
         "movePlayer",
-        "",
+        "Moves the player to the team passed",
         [("c", "gameRoom", "the Game Room"),
-        ("", "", "")],
-        [""],
-        [""]
+        ("id", "int", "The player's ID"),
+        ("team", "id", "The player's team")],
+        ["0 \\leq team \\leq 2"],
+        ["team = 0 \\to c.red = C_{0}.red \\land c.blue = C_{0}.blue \\land c.spect = concat(C_{0}.spect, (id))",
+        "team = 1 \\to c.red = concat(C_{0}.red, (id)) \\land c.blue = C_{0}.blue \\land c.spect = C_{0}.spect",
+        "team = 2 \\to c.red = C_{0}.red \\land c.blue = concat(C_{0}.blue, (id)) \\land c.spect = C_{0}.spect"]
     ) 
     | safe
 }}
@@ -139,9 +142,12 @@
         "#existID",
         "",
         [("c", "gameRoom", "the Game Room"),
-        ("", "", "")],
-        [""],
-        [""]
+        ("id", "int", "The player's id")],
+        ["True"],
+        ["res = True \\iff \\\\ 
+         (\\exists i : \\mathbb{Z}) (0 \\leq i < |c.red| \\land_{L} c.red[i] = id) \\\\
+        (\\exists i : \\mathbb{Z}) (0 \\leq i < |c.blue| \\land_{L} c.blue[i] = id) \\\\
+        (\\exists i : \\mathbb{Z}) (0 \\leq i < |c.spect| \\land_{L} c.spect[i] = id)"]
     ) 
     | safe
 }}
@@ -162,10 +168,13 @@
 {{
     createDocumentationToMethod(
         "constructor",
-        "",
-        [("", "", "")],
-        [""],
-        [""]
+        "Creates the player object with the given parameters and afk set to false",
+        [("id", "int", "The player's ID"), 
+         ("auth", "string", "The player's auth"), 
+         ("name", "string", " The player's name"), 
+         ("authorization", "int", "The level of authorization to make some commands")],
+        ["True"],
+        ["res.id  = id \\land \\\\res.auth = auth \\land \\\\ res.name = name  \\land \\\\res.authorization = authorization  \\land \\\\res.afk = false"]
     ) 
     | safe
 }}
