@@ -1,6 +1,6 @@
   "use strict";
 
-  import {HBInit} from "../test/HBinit.js";
+  //import {HBInit} from "../test/HBinit.js";
 
   //Create the class that models the red, blue and spect for the game
   class GameRoom {
@@ -44,6 +44,8 @@
     * @returns {this.#auth}
     */
     addPlayer(id) {
+      console.log("LLamado al addPlayer");
+      this.showGameRoom();
       if (this.isGameMax()) {
         this.#addPlayerSpect(id);
       } else if (this.#red.length == this.#blue.length) {
@@ -63,6 +65,7 @@
      * @returns {void} 
      */
     #addPlayerRed(id) {
+      console.log("Se llamo para agregar al red");
       if (this.#red.length < this.#max_players) {
         this.deletePlayer(id);
         this.#red.push(id);
@@ -76,6 +79,7 @@
      * @returns {void} 
      */
     #addPlayerBlue(id) {
+      console.log("Se llamo para agregar al blue");
       if (this.#red.length < this.#max_players) {
         this.deletePlayer(id);
         this.#blue.push(id);
@@ -89,6 +93,7 @@
      * @returns {void} 
      */
     #addPlayerSpect(id) {
+      console.log("Se llamo para agregar al spect");
       this.deletePlayer(id);
       this.#spect.push(id);
       setTeam(id, 0)
@@ -253,6 +258,13 @@
     #existID(id) {
       return this.#searchID_blue(id) != -1 || this.#searchID_red(id) != -1 || this.#searchID_spect(id) != -1;
     }
+
+    showGameRoom() {
+      console.log("GameRoom")
+      console.log(this.#spect)
+      console.log(this.#red)
+      console.log(this.#blue)
+    }
   }
 
   class Player {
@@ -385,7 +397,7 @@
     #searchID(id) {
       let index = -1;
       for(let i = 0; i < this.#list.length; i++) {
-        if (this.#list[i].id = id) {
+        if (this.#list[i].id == id) {
           index = i;
           break;
         }
@@ -671,17 +683,23 @@
   var ballTouched = new colaConLimit(2);
   var playerStats = new statsTeams(sala, lista_de_jugadores); //stats
 
+  
+  sala.showGameRoom();
 
     //Haxball events
     room.onPlayerJoin = function(player) {
-        lista_de_jugadores.addPlayer(new Player(player.id, player.auth, player.name))
-        sala.addPlayer(player.id)
         console.log("El jugador " + player.name + " se unió")
         console.log(player)
+        sala.showGameRoom();
+        lista_de_jugadores.addPlayer(new Player(player.id, player.auth, player.name))
+        sala.addPlayer(player.id)
+        console.log("Al finalizar el player Join")
+        sala.showGameRoom();
+        
       }
 
   room.onPlayerLeave = function(player) {
-    sala.deletePlayer(player.id);
+    lista_de_jugadores.removePlayerByID(player.id);
     sala.deletePlayer(player.id);
     sala.balanceTeams();
     console.log("The player " + player.name + " left the room")
@@ -802,28 +820,12 @@
      */
     function showMessage(player, message) {}
 
-
-
-    const mockPlayer = { id: 1, name: "TestPlayer", team: 1 };
-    room.onPlayerJoin(mockPlayer);
-    room.onPlayerLeave(mockPlayer);
   /*<><><><><><><><><><><><><><><><><><> */
 
   // This section is for testing only. When using this script for create a haxball server, it should be commented
-  //TODO: pass this to a new test
-  /*
-  var lista = new List_of_players();
-  lista.addPlayer(new Player(1,"1", "hola"));
-
-  var lista_de_players = lista.list;
-
-  lista_de_players.push(new Player(2,"2", "Adios"));
-  lista.addPlayer(new Player(3,"3", "hola"));
-  console.log(lista.list.length)  
-  */
 
   //Export classes
-
+/*
   export {
     Player, 
     List_of_players, 
@@ -835,5 +837,5 @@
     showMessage
 
   }
-
+*/   
   //Export functions
