@@ -445,7 +445,7 @@
        */
       constructor(auth) {
         this.auth = auth;
-        if (existsData) {
+        if (LocalStorage.existsData(auth)) {
           let valores = LocalStorage.getData(id);
           this.matches_played = valores.matches_played;
           this.won_matches = valores.won_matches;
@@ -528,11 +528,12 @@
 
       //Aadd the stats to the blue players
       for(let i = 0; i < room.blueLength; i++) {
-        let auth = players.getPlayerByID(blue.red[i]);
+        let auth = players.getPlayerByID(room.blue[i]);
         this.#list_of_teams[1].push(new PlayerStats(auth));
       }
 
       //Check if this game should be counted as a valid game to add stats
+      console.log(room)
       this.#isGameFull = room.isGameMax();
     }
 
@@ -688,6 +689,7 @@
 
     //Haxball events
     room.onPlayerJoin = function(player) {
+      updateAdmins()
         console.log("El jugador " + player.name + " se unió")
         console.log(player)
         sala.showGameRoom();
@@ -739,7 +741,7 @@
   }
 
   room.onGameStart = function(byPlayer) {
-    playerStats = new statsTeams(room, lista_de_jugadores);
+    playerStats = new statsTeams(sala, lista_de_jugadores);
   }
 
   room.onGameStop = function(byPlayer) {
@@ -820,6 +822,14 @@
      */
     function showMessage(player, message) {}
 
+
+    function updateAdmins() { 
+      // Get all players
+      var players = room.getPlayerList();
+      if ( players.length == 0 ) return; // No players left, do nothing.
+      if ( players.find((player) => player.admin) != null ) return; // There's an admin left so do nothing.
+      room.setPlayerAdmin(players[0].id, true); // Give admin to the first non admin player in the list
+    }
   /*<><><><><><><><><><><><><><><><><><> */
 
   // This section is for testing only. When using this script for create a haxball server, it should be commented
