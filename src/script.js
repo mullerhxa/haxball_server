@@ -47,14 +47,19 @@
       console.log("LLamado al addPlayer");
       this.showGameRoom();
       if (this.isGameMax()) {
+        console.log("EL primer caso")
         this.#addPlayerSpect(id);
       } else if (this.#red.length == this.#blue.length) {
+        console.log("EL segundo caso")
         this.#addPlayerRed(id);
       } else if (this.#red.length >= this.#blue.length) {
+        console.log("EL tercero caso")
         this.#addPlayerBlue(id);
       } else if (this.#red.length <= this.#blue.length) {
+        console.log("EL cuarto caso")
         this.#addPlayerRed(id);
       } else {
+        console.log("EL ultimo caso")
         this.#addPlayerSpect(id);
       }
     }
@@ -80,7 +85,7 @@
      */
     #addPlayerBlue(id) {
       console.log("Se llamo para agregar al blue");
-      if (this.#red.length < this.#max_players) {
+      if (this.#blue.length < this.#max_players) {
         this.deletePlayer(id);
         this.#blue.push(id);
         setTeam(id, 2)
@@ -206,18 +211,36 @@
       if (this.isGameMax()) {
         return;
       } 
-      if (this.#red.length > this.#max_players) {
-        //Move some red player to the spects
+      while (this.#red.length > this.#max_players) {
+        this.movePlayer(this.#red[this.#red.length - 1], 0);
       }
-      if (this.#blue.length > this.#max_players) {
-        //Move some red player to the spects
-      }
-      if (this.#red.length - this.#blue.length > 1) { //red has 2 or more players than blue
-        //Move enough players from red to blue to make a difference less or equal than 1
-      } else if (this.#blue.length - this.#red.length > 1) { //blue has 2 or more players than red
-        //Move enough players from blue to red to make a difference less or equal than 1
+      //Move some red player to the spects that are excedding to spects
+      while (this.#blue.length > this.#max_players) {
+        this.movePlayer(this.#blue[this.#blue.length - 1], 0);
       }
 
+        if (this.#spect.length > 0) {
+           while (!this.isGameMax() && this.#spect.length > 0) {
+              if (this.#red.length - this.#blue.length > 0){ //Hay mas jugadores en red
+                this.movePlayer(this.#spect[0], 2)
+              } else if (this.#blue.length - this.#red.length > 0) {  //Hay mas jugadores en blue
+                this.movePlayer(this.#spect[0], 1)
+              } else { //Hay la misma cantidad 
+                this.movePlayer(this.#spect[0], 1)  
+              }
+           }
+        } 
+
+        //Ya esta lleno o no hay mas jugadores especteando
+        if (this.#red.length - this.#blue.length > 1) { //Hay mas jugadores de un lado que del otro
+          while (this.#red.length - this.#blue.length > 1) {
+            this.movePlayer(this.#red[this.#red.length - 1], 2);
+          } 
+        } else if (this.#blue.length - this.#red.length > 1) {
+          while (this.#blue.length - this.#red.length > 1) {
+            this.movePlayer(this.#blue[this.#blue.length - 1], 1);
+          } 
+        }
     }
   /**
    * 
@@ -688,7 +711,7 @@
   room.setTimeLimit(0);
 
   //Create variables for the game
-  var max_player_in_teams = 4;
+  var max_player_in_teams = 1;
   var lista_de_jugadores = new List_of_players();
   var sala = new GameRoom(max_player_in_teams);
   var ballTouched = new colaConLimit(2);
@@ -698,19 +721,22 @@
 
     //Haxball events
     room.onPlayerJoin = function(player) {
-      updateAdmins()
-      console.log("El jugador " + player.name + " se unió")
-      console.log(player)
-      lista_de_jugadores.addPlayer(new Player(player.id, player.auth, player.name))
-      sala.addPlayer(player.id)
-      console.log("Al finalizar el player Join")        
-      }
+    updateAdmins()
+    
+    console.log("El jugador " + player.name + " se unió")
+    console.log(player)
+    lista_de_jugadores.addPlayer(new Player(player.id, player.auth, player.name))
+    sala.addPlayer(player.id)
+
+    console.log("Al finalizar el player Join")        
+    sala.showGameRoom();
+    }
 
   room.onPlayerLeave = function(player) {
     console.log("The player " + player.name + " left the room")
     lista_de_jugadores.removePlayerByID(player.id);
     sala.deletePlayer(player.id);
-    sala.balanceTeams();
+   // sala.balanceTeams();
     
   }
 
