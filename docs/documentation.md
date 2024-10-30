@@ -32,7 +32,7 @@
     createDocumentationToMethod(
         "isGameMax",
         "Returns if both teams are full",
-        [],
+        [("c", "gameRoom", "the Game Room")],
         ["True"],
         ["res=True \iff (|this.red|=this.max\_player \land |this.blue|=this.max\_player)"]
     ) 
@@ -64,7 +64,8 @@
     createDocumentationToMethod(
         "#addPlayerRed/Blue/Spect",
         "Deletes the player from all the teams and set it to the selected (red, blue or spect)",
-        [("id", "int", "The player's id to set to the given team")],
+        [("c", "gameRoom", "the Game Room"),
+        ("id", "int", "The player's id to set to the given team")],
         ["c = C_{0}"],
         ["c.red = concat(C_{0}.red, (id)) \\text{Red/blue/spect. Depends on the method that was called}",
         "c.blue = C_{0}.blue",
@@ -99,10 +100,12 @@
 {{
     createDocumentationToMethod(
         "#searchID_red/blue/spect",
-        "",
-        [("", "", "")],
-        [""],
-        [""]
+        "Gets the index in the given team. If no player has this id, it returns -1",
+        [("c", "gameRoom", "the Game Room"),
+        ("id", "int", "The player's id")],
+        ["True"],
+        ["(\\exists i : \\mathbb{Z}) (0 \\leq i < |c.red| \\land_{L} c.red[i] = id\\land red = i) \\lor \\\\
+        \\neg (\\exists i : \\mathbb{Z})(0 \\leq i < |c.red| \\land_{L} c.red) = id \\land res = -1"]
     ) 
     | safe
 }}
@@ -111,7 +114,8 @@
     createDocumentationToMethod(
         "movePlayer",
         "",
-        [("", "", "")],
+        [("c", "gameRoom", "the Game Room"),
+        ("", "", "")],
         [""],
         [""]
     ) 
@@ -122,7 +126,8 @@
     createDocumentationToMethod(
         "movePlayerIfNeeded",
         "",
-        [("", "", "")],
+        [("c", "gameRoom", "the Game Room"),
+        ("", "", "")],
         [""],
         [""]
     ) 
@@ -133,7 +138,8 @@
     createDocumentationToMethod(
         "#existID",
         "",
-        [("", "", "")],
+        [("c", "gameRoom", "the Game Room"),
+        ("", "", "")],
         [""],
         [""]
     ) 
