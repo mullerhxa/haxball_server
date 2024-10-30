@@ -206,7 +206,7 @@ class GameRoom {
     } else if (this.#blue.length - this.#red.length > 1) { //blue has 2 or more players than red
       //Move enough players from blue to red to make a difference less or equal than 1
     }
-    
+
   }
 /**
  * 
@@ -214,7 +214,16 @@ class GameRoom {
  * @returns {nothing} - Moves all the team selected to the spects
  */
   moveTeamToSpect(team) {
-
+    if (team == 1) {
+      for(let i = 0; i < this.#red.length; i++) {
+        this.#addPlayerSpect(this.#red[0]);
+      }
+    } else if (team == 2) {
+      for(let i = 0; i < this.#blue.length; i++) {
+        this.#addPlayerSpect(this.#blue[0]);
+      }
+    }
+    
   }
 
   /**
