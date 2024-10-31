@@ -720,7 +720,7 @@
   room.setTimeLimit(0);
 
   //Create variables for the game
-  var max_player_in_teams = 1;
+  var max_player_in_teams = 4;
   var lista_de_jugadores = new List_of_players();
   var sala = new GameRoom(max_player_in_teams);
   var ballTouched = new colaConLimit(2);
