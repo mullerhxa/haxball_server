@@ -237,8 +237,8 @@
         "Adds a player to the list",
         [("list", "List_of_players", "The list of players' object"),
          ("player", "Player", "Player to add to the list")],
-        [""],
-        [""]
+        ["(\\forall x: \\mathbb{Z}) (0 \\leq x < |list.list| \\to_{L} list.list[x].auth \\neq player.auth)"],
+        ["list.list = concat(list_{0}.list, (player))"]
     ) 
     | safe
 }}
