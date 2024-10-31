@@ -715,9 +715,9 @@
   });
 
   //Set the room
-  room.setDefaultStadium("Big");
-  room.setScoreLimit(5);
-  room.setTimeLimit(0);
+  room.setDefaultStadium("Small");
+  room.setScoreLimit(2);
+  room.setTimeLimit(1);
 
   //Create variables for the game
   var max_player_in_teams = 4;
