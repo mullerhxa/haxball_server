@@ -634,6 +634,50 @@
 
   }
 
+  class statsPlayers {
+    #dicc; //diccionary (auth - String : stats - PlayerStats)
+
+    constructor() {
+      this.#dicc = new Map();
+    }
+
+    /**
+     * Add the new player to the diccionary
+     * @param {string} auth - The player's auth
+     */
+    addPlayer(auth) {
+      this.#dicc.set(auth, new PlayerStats(auth));
+    }
+
+    /**
+     * Gets the stats for a given auth. If no auth is store, it returns undefined
+     * @param {string} auth - The player's auth
+     */
+    getPlayer(auth) {
+      if (this.#dicc.has(auth)) {
+        return this.#dicc.get(auth);
+      } 
+      return undefined; 
+    }
+
+    /**
+     * Sets the stats fro a given auth to the passed statsObhect
+     * @param {string} auth - The player's auth
+     * @param {PlayerStats} playerStats - The player's stats
+     */
+    setStats(auth, playerStats) {
+      this.#dicc.set(auth, playerStats);
+    }
+
+    /**
+     * Deletes from the diccionary the given auth
+     * @param {string} auth - The player's auth
+     */
+    deletePlayer(auth) {
+      this.#dicc.delete(auth);
+    }
+  }
+
   //TODO: test the class
   class LocalStorage {
 
