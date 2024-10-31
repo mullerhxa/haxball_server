@@ -111,20 +111,27 @@
     */
     deletePlayer(id) {
       //RED
+      console.log("Borrando el id: " + id)
       let index = this.#searchID_red(id)
+      console.log("Index red is " + index )
       if (index >= 0 && index < this.#red.length) {
+        console.log("Se borro en el red");
         this.#red.splice(index, 1);
       }
 
       //BLUE
       index = this.#searchID_blue(id)
+      console.log("Index blue is " + index )
       if (index >= 0 && index < this.#blue.length) {
+        console.log("Se borro en el blue");
         this.#blue.splice(index, 1);
       }
 
       //SPECT
-      index = this.#searchID_red(id)
+      index = this.#searchID_spect(id)
+      console.log("Index spect is " + index )
       if (index >= 0 && index < this.#spect.length) {
+        console.log("Se borro en el spect");
         this.#spect.splice(index, 1);
       }
     }
@@ -142,6 +149,7 @@
           break;
         }
       }
+      return index;
     }
 
     #searchID_blue(id) {
@@ -152,6 +160,7 @@
           break;
         }
       }
+      return index;
     }
 
     #searchID_spect(id) {
@@ -162,6 +171,7 @@
           break;
         }
       }
+      return index;
     }
 
     /**
@@ -208,39 +218,38 @@
     }
 
     balanceTeams() {
+      console.log("LLamado al balanceTeams")
       if (this.isGameMax()) {
+        console.log("No hace falta balancear")
         return;
       } 
+      console.log("Sacando gente que esta demás en el red...")
       while (this.#red.length > this.#max_players) {
         this.movePlayer(this.#red[this.#red.length - 1], 0);
       }
+      console.log("Sacando gente que esta demás en el blue...")
       //Move some red player to the spects that are excedding to spects
       while (this.#blue.length > this.#max_players) {
         this.movePlayer(this.#blue[this.#blue.length - 1], 0);
       }
 
-        if (this.#spect.length > 0) {
-           while (!this.isGameMax() && this.#spect.length > 0) {
-              if (this.#red.length - this.#blue.length > 0){ //Hay mas jugadores en red
-                this.movePlayer(this.#spect[0], 2)
-              } else if (this.#blue.length - this.#red.length > 0) {  //Hay mas jugadores en blue
-                this.movePlayer(this.#spect[0], 1)
-              } else { //Hay la misma cantidad 
-                this.movePlayer(this.#spect[0], 1)  
-              }
-           }
-        } 
+      if (this.#spect.length > 0) {
+         while (!this.isGameMax() && this.#spect.length > 0) {
+            this.addPlayer(this.#spect[0]); //Agarro el primero y lo agrego, asi hasta completar todos los teams o quedarme sin jugadores
+         }
+      } 
 
-        //Ya esta lleno o no hay mas jugadores especteando
-        if (this.#red.length - this.#blue.length > 1) { //Hay mas jugadores de un lado que del otro
-          while (this.#red.length - this.#blue.length > 1) {
-            this.movePlayer(this.#red[this.#red.length - 1], 2);
-          } 
-        } else if (this.#blue.length - this.#red.length > 1) {
-          while (this.#blue.length - this.#red.length > 1) {
-            this.movePlayer(this.#blue[this.#blue.length - 1], 1);
-          } 
-        }
+      console.log("Moviendo gente que haga que este mal el balanceo entre un club y el otro")
+      //Ya esta lleno o no hay mas jugadores especteando
+      if (this.#red.length - this.#blue.length > 1) { //Hay mas jugadores de un lado que del otro
+        while (this.#red.length - this.#blue.length > 1) {
+          this.movePlayer(this.#red[this.#red.length - 1], 2);
+        } 
+      } else if (this.#blue.length - this.#red.length > 1) {
+        while (this.#blue.length - this.#red.length > 1) {
+          this.movePlayer(this.#blue[this.#blue.length - 1], 1);
+        } 
+      }
     }
   /**
    * 
@@ -736,8 +745,8 @@
     console.log("The player " + player.name + " left the room")
     lista_de_jugadores.removePlayerByID(player.id);
     sala.deletePlayer(player.id);
-   // sala.balanceTeams();
-    
+    sala.showGameRoom();
+    sala.balanceTeams();
   }
 
   room.onTeamVictory = function(scores) {
@@ -789,6 +798,7 @@
 
   room.onPlayerTeamChange = function(changedPlayer, byPlayer) {
     sala.movePlayer(changedPlayer.id)
+    sala.balanceTeams();
 
   }
 
