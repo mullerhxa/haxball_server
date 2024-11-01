@@ -474,6 +474,7 @@
   }
 
   class PlayerStats {
+      id;              //int
       auth;            //string
       matches_played;  //int
       won_matches;     //int
@@ -487,7 +488,8 @@
        * 
        * @param {string} auth 
        */
-      constructor(auth) {
+      constructor(auth, id) {
+        this.id = id;
         this.auth = auth;
         if (LocalStorage.existsData(auth)) {
           let valores = LocalStorage.getData(id);
@@ -567,13 +569,13 @@
       //add the stats to the red players
       for(let i = 0; i < room.redLength; i++) {
         let auth = players.getPlayerByID(room.red[i]);
-        this.#list_of_teams[0].push(new PlayerStats(auth));
+        this.#list_of_teams[0].push(new PlayerStats(auth, room.red[i]));
       }
 
       //Aadd the stats to the blue players
       for(let i = 0; i < room.blueLength; i++) {
         let auth = players.getPlayerByID(room.blue[i]);
-        this.#list_of_teams[1].push(new PlayerStats(auth));
+        this.#list_of_teams[1].push(new PlayerStats(auth, room.blue[i]));
       }
 
       //Check if this game should be counted as a valid game to add stats
@@ -635,16 +637,52 @@
     }
   }
 
+  /**
+   * 
+   * @param {int} team - ;ust be betwenn 0 and 1 (0 - red and 1 - blue)
+   * @param {*} playerID - True
+   */
     addGoalTo(team, playerID) {
-
+      for(let i = 0; i < this.#list_of_teams[team].length; i++) {
+        if (playerID == this.#list_of_teams[team][i].id) {
+          this.#list_of_teams[team][i].incrementGoal();
+        }
+        break;
+      }
     }
-
+  /**
+   * 
+   * @param {int} team - ;ust be betwenn 0 and 1 (0 - red and 1 - blue)
+   * @param {*} playerID - True
+   */
     addAgainstGoal(team, playerID) {
-      
+      for(let i = 0; i < this.#list_of_teams[team].length; i++) {
+        if (playerID == this.#list_of_teams[team][i].id) {
+          this.#list_of_teams[team][i].incrementAgainstGoals();
+        }
+        break;
+      }
     }
 
-    addAsisTo() {
+    /**
+   * 
+   * @param {int} team - ;ust be betwenn 0 and 1 (0 - red and 1 - blue)
+   * @param {*} playerID - True
+   */
+    addAssisTo(team, playerID) {
+      for(let i = 0; i < this.#list_of_teams[team].length; i++) {
+        if (playerID == this.#list_of_teams[team][i].id) {
+          this.#list_of_teams[team][i].incrementAssists();
+        }
+        break;
+      }
+    }
 
+    showStatsTeams() {
+      console.log("Showing statsTeams");
+      for(let i = 0; i < this.#list_of_teams; i++) {
+        console.log(this.#list_of_teams[i]);
+      }
     }
 
 
@@ -661,8 +699,8 @@
      * Add the new player to the diccionary
      * @param {string} auth - The player's auth
      */
-    addPlayer(auth) {
-      this.#dicc.set(auth, new PlayerStats(auth));
+    addPlayer(auth, id) {
+      this.#dicc.set(auth, new PlayerStats(auth, id));
     }
 
     /**
@@ -1084,17 +1122,17 @@
   
 
     //Haxball events
-    room.onPlayerJoin = function(player) {
+  room.onPlayerJoin = function(player) {
     updateAdmins()
     
     console.log("El jugador " + player.name + " se unió")
     console.log(player);
     lista_de_jugadores.addPlayer(new Player(player.id, player.auth, player.name));
     sala.addPlayer(player.id);
-    stats.addPlayer(player.auth);
+    stats.addPlayer(player.auth, player.id);
     console.log("Al finalizar el player Join");
     sala.showGameRoom();
-    }
+  }
 
   room.onPlayerLeave = function(player) {
     sala.balanceTeams();
@@ -1115,8 +1153,8 @@
       defeatTeam = 1
     }
     playerStats.addMatch(victoryTeam - 1);
-
-    playerStats.storeData();
+    playerStats.showStatsTeams();
+//    playerStats.storeData();
     sala.moveTeamToSpect(defeatTeam);
     sala.moveSpectsToTeam(defeatTeam);
   }
@@ -1153,11 +1191,11 @@
     if (lista_de_jugadores.getPlayerByID(id)) {
       teamPlayer = room.getPlayer(id).team;
       if (team == teamPlayer && teamPlayer == teamPlayerGoal && id != idPlayerGoal) {
-        playerStats.addAsisTo(team, id)
+        playerStats.addAssisTo(team, id)
       }
     }
 
-    
+    playerStats.showStatsTeams();
     ballTouched = new colaConLimit(2);
   }
 
