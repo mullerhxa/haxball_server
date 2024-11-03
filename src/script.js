@@ -434,6 +434,7 @@
           break;
         }
       }
+      return index;
     }
 
     /**
@@ -464,8 +465,10 @@
      * @returns {string} The player's auth store in
      */
     getPlayerAuthByID(id) {
-      index = this.#searchID(id)
-      if (index != -1) {
+      console.log("Estamos ddentor del getPlayerAuth")
+      let index = this.#searchID(id)
+      console.log(index);
+      if (index != undefined && index != -1) {
         return this.#list[index].auth;
       } 
       return undefined;
@@ -680,7 +683,7 @@
 
     showStatsTeams() {
       console.log("Showing statsTeams");
-      for(let i = 0; i < this.#list_of_teams; i++) {
+      for(let i = 0; i < this.#list_of_teams.length; i++) {
         console.log(this.#list_of_teams[i]);
       }
     }
@@ -806,7 +809,7 @@
     }
   }
 
-  const multiLineString = `{"name" : "PastiBall Map",
+  const map = `{"name" : "PastiBall Map",
 
 	"canBeStored" : false,
 
@@ -1137,7 +1140,7 @@
   room.onPlayerLeave = function(player) {
     sala.balanceTeams();
     console.log("The player " + player.name + " left the room")
-    stats.deletePlayer(lista_de_jugadores.getPlayerAuthByID(id));
+    stats.deletePlayer(lista_de_jugadores.getPlayerAuthByID(player.id));
     lista_de_jugadores.removePlayerByID(player.id);
     sala.deletePlayer(player.id);
     sala.showGameRoom();
@@ -1176,9 +1179,16 @@
   room.onTeamGoal = function(team) {
     //ADD to sum the goals
     //Add a veriication to avoid any kind of execption
+    console.log("Estando en room.onTeamGoal")
     let id = ballTouched.popFirstElement();
+    let teamPlayer = undefined;
+    console.log("El id es " + id)
     if (lista_de_jugadores.getPlayerByID(id)) {
-      let teamPlayer = room.getPlayer(id).team;
+      console.log("Entramos en el primer id")
+      let cache = room.getPlayer(id)
+      console.log(cache);
+      teamPlayer = room.getPlayer(id).team;
+      console.log("teamPlayer: " + teamPlayer)
       if (team == teamPlayer) {
         playerStats.addGoalTo(team, id)
       } else {
@@ -1194,7 +1204,7 @@
         playerStats.addAssisTo(team, id)
       }
     }
-
+    ballTouched.showCola();
     playerStats.showStatsTeams();
     ballTouched = new colaConLimit(2);
   }
