@@ -687,8 +687,6 @@
         console.log(this.#list_of_teams[i]);
       }
     }
-
-
   }
 
   class statsPlayers {
