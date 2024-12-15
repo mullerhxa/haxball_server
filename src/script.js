@@ -465,9 +465,9 @@
      * @returns {string} The player's auth store in
      */
     getPlayerAuthByID(id) {
-      console.log("Estamos ddentor del getPlayerAuth")
+      //console.log("Estamos dentro del getPlayerAuth")
       let index = this.#searchID(id)
-      console.log(index);
+      //console.log(index);
       if (index != undefined && index != -1) {
         return this.#list[index].auth;
       } 
@@ -563,6 +563,7 @@
     /**
      * Create a stats follow for all the people currently playing
      * @param {GameRoom} room - The room
+     * @param {List_of_players} players - The list of all the players
      */
     constructor(room, players) {
       this.#list_of_teams = new Array(2);
@@ -571,13 +572,13 @@
 
       //add the stats to the red players
       for(let i = 0; i < room.redLength; i++) {
-        let auth = players.getPlayerByID(room.red[i]);
+        let auth = players.getPlayerAuthByID(room.red[i]);
         this.#list_of_teams[0].push(new PlayerStats(auth, room.red[i]));
       }
 
       //Aadd the stats to the blue players
       for(let i = 0; i < room.blueLength; i++) {
-        let auth = players.getPlayerByID(room.blue[i]);
+        let auth = players.getPlayerAuthByID(room.blue[i]);
         this.#list_of_teams[1].push(new PlayerStats(auth, room.blue[i]));
       }
 
@@ -601,28 +602,41 @@
     }
 
     addMatch(victoryTeam) {
+      console.log("Se llamo al addMatch");
+      //Si no era partido completo, entonces no sumo las stats
+      if (!this.#isGameFull) { return; }
+
+      console.log("El partido era completo");
       if (victoryTeam == 0) {
-        this.addVictoryTo(0)
-        this.addDefeatTo(1)
+        console.log("La victoria era del red");
+        this.addVictoryTo(0);
+        this.addDefeatTo(1);
       } else if (victoryTeam == 1) {
-        this.addVictoryTo(1)
-        this.addDefeatTo(0)
+        console.log("La victoria era del blue");
+        this.addVictoryTo(1);
+        this.addDefeatTo(0);
       }
 
+      //Se agrega partidos a todos los jugadores que estaban
       for(let i = 0; i < 2; i++) {
         for(let j = 0; j < this.#list_of_teams[i]; j++) {
           this.#list_of_teams[team].incrementGames();
         } 
       }
+      console.log("Se termino el addMatch");
     }
   /**
     * Add a victory to all the victory's team players
     * @param {int} team - The team id
     */
     addVictoryTo(team) {
+      console.log("La lista de jugadores del partido es: ")
+      console.log(this.#list_of_teams);
+      console.log("Agregando victoria a: " + team)
+      
       if (team >= 0 && team <= 1) {
-        for(let i = 0; i < this.#list_of_teams[team]; i++) {
-          this.#list_of_teams[team].incrementWonMatches();
+        for(let i = 0; i < this.#list_of_teams[team].length; i++) {
+          this.#list_of_teams[team][i].incrementWonMatches();
         }
       }
       
@@ -634,15 +648,15 @@
     */
   addDefeatTo(team) {
     if (team >= 0 && team <= 1) {
-      for(let i = 0; i < this.#list_of_teams[team]; i++) {
-        this.#list_of_teams[team].incrementLoses();
+      for(let i = 0; i < this.#list_of_teams[team].length; i++) {
+        this.#list_of_teams[team][i].incrementLoses();
       }
     }
   }
 
   /**
    * 
-   * @param {int} team - ;ust be betwenn 0 and 1 (0 - red and 1 - blue)
+   * @param {int} team - Must be betwenn 0 and 1 (0 - red and 1 - blue)
    * @param {*} playerID - True
    */
     addGoalTo(team, playerID) {
@@ -1113,7 +1127,7 @@
   room.setTimeLimit(1);
 
   //Create variables for the game
-  var max_player_in_teams = 4;
+  var max_player_in_teams = 2;
   var lista_de_jugadores = new List_of_players();
   var sala = new GameRoom(max_player_in_teams);
   var ballTouched = new colaConLimit(2);
@@ -1131,20 +1145,27 @@
     lista_de_jugadores.addPlayer(new Player(player.id, player.auth, player.name));
     sala.addPlayer(player.id);
     stats.addPlayer(player.auth, player.id);
+    console.log("Las stats del nuevo player es: ")
+    console.log(stats.getPlayer(player.auth));
+
     console.log("Al finalizar el player Join");
+    
     sala.showGameRoom();
   }
 
-  room.onPlayerLeave = function(player) {
-    sala.balanceTeams();
+  room.onPlayerLeave =  function(player) {
+    if (room.getPlayerList().length < max_player_in_teams * 2) {
+      playerStats.setFalseIsGameMax();
+    }
     console.log("The player " + player.name + " left the room")
     stats.deletePlayer(lista_de_jugadores.getPlayerAuthByID(player.id));
     lista_de_jugadores.removePlayerByID(player.id);
     sala.deletePlayer(player.id);
+    sala.balanceTeams();
     sala.showGameRoom();
   }
 
-  room.onTeamVictory = function(scores) {
+  room.onTeamVictory = async function(scores) {
     let victoryTeam, defeatTeam;
     if (scores.red > scores.blue) {
       victoryTeam = 1
@@ -1153,10 +1174,15 @@
       victoryTeam = 2
       defeatTeam = 1
     }
+
+
     playerStats.addMatch(victoryTeam - 1);
     playerStats.showStatsTeams();
-//    playerStats.storeData();
+    // playerStats.storeData();
+
+
     sala.moveTeamToSpect(defeatTeam);
+    await sleep(2000); //Esperamos 2 segundos para seguir
     sala.moveSpectsToTeam(defeatTeam);
   }
 
@@ -1171,13 +1197,14 @@
 
   room.onPlayerBallKick = function(player) {
     ballTouched.addElement(player.id);
-    ballTouched.showCola();
+    //ballTouched.showCola();
   }
 
   room.onTeamGoal = function(team) {
     //ADD to sum the goals
     //Add a veriication to avoid any kind of execption
     console.log("Estando en room.onTeamGoal")
+    ballTouched.showCola();
     let id = ballTouched.popFirstElement();
     let teamPlayer = undefined;
     console.log("El id es " + id)
@@ -1202,13 +1229,15 @@
         playerStats.addAssisTo(team, id)
       }
     }
-    ballTouched.showCola();
+    
     playerStats.showStatsTeams();
     ballTouched = new colaConLimit(2);
+    console.log("Termino el onTeamGoal");
   }
 
   room.onGameStart = function(byPlayer) {
     playerStats = new statsTeams(sala, lista_de_jugadores);
+    ballTouched = new colaConLimit(2);
   }
 
   room.onGameStop = function(byPlayer) {
@@ -1298,6 +1327,11 @@
       if ( players.find((player) => player.admin) != null ) return; // There's an admin left so do nothing.
       room.setPlayerAdmin(players[0].id, true); // Give admin to the first non admin player in the list
     }
+
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   /*<><><><><><><><><><><><><><><><><><> */
 
   // This section is for testing only. When using this script for create a haxball server, it should be commented
