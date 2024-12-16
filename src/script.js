@@ -4,6 +4,17 @@
 
     // Enums
 
+    const Log = {
+      "CALL_FUNCTION" : 0,
+      "PARAM_VALUE"   : 1,
+      "IF_LOG"        : 2,
+      "EVENT"         : 3,
+      "CALL_METHOD"   : 4,
+      "CHAT_MESSAGE"  : 5
+    }
+
+    
+
     const Roles = {
       JUGADOR: 0,
       ADMIN: 1
@@ -1355,6 +1366,9 @@
     room.setTimeLimit(1);
 
     //Create variables for the game
+
+    var set_console_log = new Set([Log.CALL_FUNCTION, Log.PARAM_VALUE, Log.IF_LOG, Log.EVENT, Log.CALL_METHOD, Log.CHAT_MESSAGE]);
+
     var max_player_in_teams = 2;
     var sala = new GameRoom(max_player_in_teams);
     var ballTouched = new colaConLimit(2);
@@ -1707,6 +1721,12 @@
       function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
+
+      function write(message, value) {
+        if (set_console_log.has(value)) {
+          console.log(message);
+        }
+      } 
 
     /*<><><><><><><><><><><><><><><><><><> */
 
