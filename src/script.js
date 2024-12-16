@@ -687,6 +687,62 @@
 
     */
 
+    class equiposPorPartido {
+      #redTeam;       // set of id
+      #blueTeam;      // set of id
+      #isGameFull;    // boolean
+      /**
+       * Initializes the values with the same id's as in the gameRoom
+       * @param {GameRoom} sala
+       * @param {boolean} isGameFull
+       */
+      constructor(sala, isGameFull) {
+        this.#isGameFull = isGameFull;
+
+        this.#redTeam = new Set();
+        this.#blueTeam = new Set();
+
+        sala.red.forEach((idRed) => {
+          this.#redTeam.add(idRed);
+        })
+
+        sala.blue.forEach((idBlue) => {
+          this.#blueTeam.add(idBlue);
+        })
+      }
+
+      setGameFalse() {
+        this.#isGameFull = false;
+      }
+
+      /**
+       * Deletes the value id from both the red and blue (although it doesn't make sense to be in both at the same time)
+       * @param {int} id 
+       */
+      deletePlayer(id) {
+        this.#redTeam.delete(id);
+        this.#blueTeam.delete(id);
+      }
+
+      /** 
+       * Returns a set
+       */
+      get redTeam() {
+        return this.#redTeam;
+      }
+
+      /** 
+       * Returns a set
+       */
+      get blueTeam() {
+        return this.#blueTeam;
+      }
+
+      get isGameFull() {
+        return this.#isGameFull;
+      }
+    }
+
     class statsTeams {
       #list_of_teams;
       #isGameFull;
