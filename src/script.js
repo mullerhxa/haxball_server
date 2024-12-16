@@ -565,6 +565,7 @@
      * @param {GameRoom} room - The room
      * @param {List_of_players} players - The list of all the players
      */
+    /*
     constructor(room, players) {
       this.#list_of_teams = new Array(2);
       this.#list_of_teams[0] = new Array();
@@ -584,6 +585,29 @@
 
       //Check if this game should be counted as a valid game to add stats
       console.log(room)
+      this.#isGameFull = room.isGameMax();
+    }
+*/
+    /**
+     * Create a stats follow for all the people currently playing with their current  stats with aliasing
+     * @param {GameRoom} room - The room
+     * @param {List_of_players} players - The list of all the players
+     */
+    constructor (room, players, stats) {
+      this.#list_of_teams = new Array(2);
+      this.#list_of_teams[0] = new Array();
+      this.#list_of_teams[1] = new Array();
+
+      for(let i = 0; i < room.redLength; i++) {
+        let auth = players.getPlayerAuthByID(room.red[i]);
+        this.#list_of_teams[0].push(stats.getPlayer(auth))
+      }
+
+      for(let i = 0; i < room.blueLength; i++) {
+        let auth = players.getPlayerAuthByID(room.blue[i]);
+        this.#list_of_teams[1].push(stats.getPlayer(auth));
+      }
+
       this.#isGameFull = room.isGameMax();
     }
 
@@ -700,6 +724,8 @@
       for(let i = 0; i < this.#list_of_teams.length; i++) {
         console.log(this.#list_of_teams[i]);
       }
+
+      console.log(stats)
     }
   }
 
@@ -715,7 +741,8 @@
      * @param {string} auth - The player's auth
      */
     addPlayer(auth, id) {
-      this.#dicc.set(auth, new PlayerStats(auth, id));
+      if (!this.#dicc.has(auth)) this.#dicc.set(auth, new PlayerStats(auth, id));
+      
     }
 
     /**
@@ -818,6 +845,49 @@
 
     popFirstElement() {
       return this.#cola.shift();
+    }
+  }
+
+  class matchStats {
+    #goles // array de auth
+    #asistencias //array de auth
+    #golesEnContra //array de auth
+
+    constructor() {
+      this.#goles = new Array();
+      this.#asistencias = new Array();
+      this.#golesEnContra = new Array();
+    }
+
+    addGoal(authGol, authAsistencia=null) {
+      if (authAsistencia != null) this.#asistencias.push(authAsistencia);
+      this.#goles.push(authGol);
+    }
+
+    addAgainstGoal(authGolEnContra) {
+      this.#golesEnContra.push(authGolEnContra);
+    }
+
+    getGoles() {
+      return this.#goles;
+    }
+
+    getAsistencias() {
+      return this.#asistencias;
+    }
+
+    getGolesEnContra() {
+      return this.#golesEnContra;
+    }
+
+    showEstadisticas() {
+      console.log("Showing estadisticas del partido")
+      console.log("Goles: ")
+      console.log(this.#goles);
+      console.log("Asistencias: ")
+      console.log(this.#asistencias);
+      console.log("Goles en contra: ")
+      console.log(this.#golesEnContra);
     }
   }
 
@@ -1133,6 +1203,7 @@
   var ballTouched = new colaConLimit(2);
   var playerStats = new statsTeams(sala, lista_de_jugadores); //stats
   var stats = new statsPlayers();
+  var estadisticasDelPartido = new matchStats();
 
   
 
@@ -1175,7 +1246,6 @@
       defeatTeam = 1
     }
 
-
     playerStats.addMatch(victoryTeam - 1);
     playerStats.showStatsTeams();
     // playerStats.storeData();
@@ -1202,7 +1272,38 @@
 
   room.onTeamGoal = function(team) {
     //ADD to sum the goals
-    //Add a veriication to avoid any kind of execption
+    //Add a veriication to avoid any kind of execption 
+    console.log("Estando en room.onTeamGoal")
+    if (ballTouched.isEmpty()) {
+      console.log("Saliendo del room.onTeamGoal");
+      return; 
+    }
+
+    let idGol = ballTouched.popFirstElement();
+    let idAsistencia = ballTouched.popFirstElement() ?? null;
+    
+    let teamPlayerGoal = room.getPlayer(idGol).team ?? null;
+    let teamPlayerAsistencia = idAsistencia != null ? room.getPlayer(idAsistencia).team : null;
+    
+    //Obtengamos cual es su auth
+    let authGol = lista_de_jugadores.getPlayerAuthByID(idGol);
+    let authAsistencia = idAsistencia != null ? lista_de_jugadores.getPlayerAuthByID(idAsistencia) : null;
+    
+    if (teamPlayerGoal == team && teamPlayerGoal == teamPlayerAsistencia) {
+      if (authGol == authAsistencia) {
+        estadisticasDelPartido.addGoal(authGol);
+      } else {
+        estadisticasDelPartido.addGoal(authGol, authAsistencia);
+      }
+    } else if (teamPlayerGoal == team) {
+      estadisticasDelPartido.addGoal(authGol);
+    } else if (teamPlayerGoal != team) {
+      estadisticasDelPartido.addAgainstGoal(authGol);
+    }
+
+    estadisticasDelPartido.showEstadisticas();
+    console.log("Saliendo del room.onTeamGoal");
+    /*
     console.log("Estando en room.onTeamGoal")
     ballTouched.showCola();
     let id = ballTouched.popFirstElement();
@@ -1233,10 +1334,12 @@
     playerStats.showStatsTeams();
     ballTouched = new colaConLimit(2);
     console.log("Termino el onTeamGoal");
+    */
   }
 
   room.onGameStart = function(byPlayer) {
-    playerStats = new statsTeams(sala, lista_de_jugadores);
+    estadisticasDelPartido = new matchStats();
+    playerStats = new statsTeams(sala, lista_de_jugadores, stats);
     ballTouched = new colaConLimit(2);
   }
 
