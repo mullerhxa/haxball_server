@@ -598,6 +598,95 @@
         }
     }
 
+    class estadisticasPorPartido {
+      #goles // array de id
+      #asistencias //array de id
+      #golesEnContra //array de id
+
+      constructor() {
+        this.#goles = new Array();
+        this.#asistencias = new Array();
+        this.#golesEnContra = new Array();
+      }
+
+      addGoal(idGol, idAsis=null) {
+        if (idAsis != null) this.#asistencias.push(idAsis);
+        this.#goles.push(idGol);
+      }
+
+      addAgainstGoal(idGolEnContra) {
+        this.#golesEnContra.push(idGolEnContra);
+      }
+
+      getGoles() {
+        return this.#goles;
+      }
+
+      getAsistencias() {
+        return this.#asistencias;
+      }
+
+      getGolesEnContra() {
+        return this.#golesEnContra;
+      }
+
+      showEstadisticas() {
+        console.log("Showing estadisticas del partido")
+        console.log("Goles: ")
+        console.log(this.#goles);
+        console.log("Asistencias: ")
+        console.log(this.#asistencias);
+        console.log("Goles en contra: ")
+        console.log(this.#golesEnContra);
+      }
+    }
+
+    /*
+    class matchStats {
+      #goles // array de auth
+      #asistencias //array de auth
+      #golesEnContra //array de auth
+
+      constructor() {
+        this.#goles = new Array();
+        this.#asistencias = new Array();
+        this.#golesEnContra = new Array();
+      }
+
+      addGoal(authGol, authAsistencia=null) {
+        if (authAsistencia != null) this.#asistencias.push(authAsistencia);
+        this.#goles.push(authGol);
+      }
+
+      addAgainstGoal(authGolEnContra) {
+        this.#golesEnContra.push(authGolEnContra);
+      }
+
+      getGoles() {
+        return this.#goles;
+      }
+
+      getAsistencias() {
+        return this.#asistencias;
+      }
+
+      getGolesEnContra() {
+        return this.#golesEnContra;
+      }
+
+      showEstadisticas() {
+        console.log("Showing estadisticas del partido")
+        console.log("Goles: ")
+        console.log(this.#goles);
+        console.log("Asistencias: ")
+        console.log(this.#asistencias);
+        console.log("Goles en contra: ")
+        console.log(this.#golesEnContra);
+      }
+    }
+
+    */
+
     class statsTeams {
       #list_of_teams;
       #isGameFull;
@@ -903,49 +992,7 @@
       }
     }
 
-    class matchStats {
-      #goles // array de auth
-      #asistencias //array de auth
-      #golesEnContra //array de auth
-
-      constructor() {
-        this.#goles = new Array();
-        this.#asistencias = new Array();
-        this.#golesEnContra = new Array();
-      }
-
-      addGoal(authGol, authAsistencia=null) {
-        if (authAsistencia != null) this.#asistencias.push(authAsistencia);
-        this.#goles.push(authGol);
-      }
-
-      addAgainstGoal(authGolEnContra) {
-        this.#golesEnContra.push(authGolEnContra);
-      }
-
-      getGoles() {
-        return this.#goles;
-      }
-
-      getAsistencias() {
-        return this.#asistencias;
-      }
-
-      getGolesEnContra() {
-        return this.#golesEnContra;
-      }
-
-      showEstadisticas() {
-        console.log("Showing estadisticas del partido")
-        console.log("Goles: ")
-        console.log(this.#goles);
-        console.log("Asistencias: ")
-        console.log(this.#asistencias);
-        console.log("Goles en contra: ")
-        console.log(this.#golesEnContra);
-      }
-    }
-
+    
     const map = `{"name" : "PastiBall Map",
 
     "canBeStored" : false,
