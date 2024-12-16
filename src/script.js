@@ -2,6 +2,13 @@
 
     //import {HBInit} from "../test/HBinit.js";
 
+    // Enums
+
+    const Roles = {
+      JUGADOR: 0,
+      ADMIN: 1
+  };
+
     //Create the class that models the red, blue and spect for the game
     class GameRoom {
       #red; //array of id's 
@@ -481,7 +488,7 @@
         auth;            //string
         name;            //string
         authorization;   //int
-        afk;             //int
+        afk;             //boolean
         matches_played;  //int
         won_matches;     //int
         lost_matches;    //int
@@ -493,10 +500,15 @@
         /**
          * 
          * @param {string} auth 
+         * @param {int} id
+         * @param {string} name
          */
-        constructor(auth, id) {
+        constructor(auth, id, name) {
           this.id = id;
           this.auth = auth;
+          this.name = name;
+          this.authorization = Roles.JUGADOR;
+          this.afk = false;
           if (LocalStorage.existsData(auth)) {
             let valores = LocalStorage.getData(id);
             this.matches_played = valores.matches_played;
