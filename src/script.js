@@ -483,6 +483,33 @@
 
     }
 
+    class DiccionarioJugadores {
+      #jugadores
+
+      constructor() {
+        this.#jugadores = new Map();
+      }
+
+      /**
+       * Creates a new pair key-value in the dictionary with the given params
+       * The id must not be in the dictionary
+       * @param {int} id
+       * @param {PlayerStats} Player 
+       */
+      addJugador(id, player) {
+        this.#jugadores.set(id, player);
+      }
+
+      /**
+       * Returns the player object asociatedwith the value id. the dictionary must contain the as a key id.
+       * @param {int} id 
+       * @returns 
+       */
+      getJugador(id) {
+        return this.#jugadores.get(id);
+      }
+    }
+
     class PlayerStats {
         id;              //int
         auth;            //string
