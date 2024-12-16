@@ -694,10 +694,9 @@
       /**
        * Initializes the values with the same id's as in the gameRoom
        * @param {GameRoom} sala
-       * @param {boolean} isGameFull
        */
-      constructor(sala, isGameFull) {
-        this.#isGameFull = isGameFull;
+      constructor(sala) {
+        this.#isGameFull = sala.isGameMax();;
 
         this.#redTeam = new Set();
         this.#blueTeam = new Set();
@@ -1357,9 +1356,15 @@
 
     //Create variables for the game
     var max_player_in_teams = 2;
-    var lista_de_jugadores = new List_of_players();
     var sala = new GameRoom(max_player_in_teams);
     var ballTouched = new colaConLimit(2);
+    var estadisticasPartido = new estadisticasPorPartido();
+    var equiposPartido = new equiposPorPartido(sala);
+    var diccJugadores = new DiccionarioJugadores();
+
+    var lista_de_jugadores = new List_of_players();
+    
+    
     var playerStats = new statsTeams(sala, lista_de_jugadores); //stats
     var stats = new statsPlayers();
     var estadisticasDelPartido = new matchStats();
