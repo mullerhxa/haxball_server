@@ -5,12 +5,15 @@
     // Enums
 
     const Log = {
-      "CALL_FUNCTION" : 0,
-      "PARAM_VALUE"   : 1,
-      "IF_LOG"        : 2,
-      "EVENT"         : 3,
-      "CALL_METHOD"   : 4,
-      "CHAT_MESSAGE"  : 5
+      "CALL_FUNCTION"   : 0,
+      "PARAM_VALUE"     : 1,
+      "IF_LOG"          : 2,
+      "EVENT"           : 3,
+      "CALL_METHOD"     : 4,
+      "CHAT_MESSAGE"    : 5,
+      "EXIT_FUNCTION"   : 6,
+      "EXIT_EVENT"      : 7,
+      "VARIABLE_VALUE"  : 8
     }
 
     
@@ -1367,7 +1370,16 @@
 
     //Create variables for the game
 
-    var set_console_log = new Set([Log.CALL_FUNCTION, Log.PARAM_VALUE, Log.IF_LOG, Log.EVENT, Log.CALL_METHOD, Log.CHAT_MESSAGE]);
+    var set_console_log = new Set([Log.CALL_FUNCTION, 
+                                   Log.PARAM_VALUE, 
+                                   Log.IF_LOG, 
+                                   Log.EVENT, 
+                                   Log.CALL_METHOD, 
+                                   Log.CHAT_MESSAGE, 
+                                   Log.EXIT_FUNCTION,
+                                   Log.EXIT_EVENT,
+                                   Log.VARIABLE_VALUE
+    ]);
 
     var max_player_in_teams = 2;
     var sala = new GameRoom(max_player_in_teams);
@@ -1385,6 +1397,20 @@
 
     //Haxball events
     room.onPlayerJoin = function(player) {    
+      write("Entrando en room.onPlayerJoin", Log.EVENT);
+      write(player, Log.PARAM_VALUE);
+      write(sala, Log.VARIABLE_VALUE);
+      write(diccJugadores, Log.VARIABLE_VALUE);
+
+      diccJugadores.addJugador(player.id, new Player(player.id, 
+                                                     player.auth,
+                                                     player.name,
+                                                     0));
+      sala.addPlayer(player.id);
+
+      write(diccJugadores.getJugador(player.id), Log.VARIABLE_VALUE);
+      write("Saliendo de room.onPlayerJoin", Log.EXIT_EVENT);
+      /*
       console.log("El jugador " + player.name + " se unió")
       console.log(player);
       lista_de_jugadores.addPlayer(new Player(player.id, player.auth, player.name, 0));
@@ -1395,6 +1421,7 @@
       console.log("Al finalizar el player Join");
       
       sala.showGameRoom();
+      */
     }
 
     room.onPlayerLeave =  function(player) {
