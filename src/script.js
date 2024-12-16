@@ -522,6 +522,10 @@
       getJugador(id) {
         return this.#jugadores.get(id);
       }
+
+      deleteJugador(id) {
+        this.#jugadores.delete(id);
+      }
     }
 
     class PlayerStats {
@@ -1425,6 +1429,19 @@
     }
 
     room.onPlayerLeave =  function(player) {
+      write("Entrando en room.onPlayerLeave", Log.EVENT);
+      write(player, Log.PARAM_VALUE);
+
+      diccJugadores.deleteJugador(player);
+      sala.deletePlayer(player.id);
+      sala.balanceTeams();
+
+      if (sala.isGameMax()) {
+        equiposPartido.setGameFalse();
+      }
+      write(equiposPartido.isGameFull, Log.VARIABLE_VALUE);
+      write("Saliendo de room.onPlayerLeave", Log.EXIT_EVENT);
+      /*
       if (room.getPlayerList().length < max_player_in_teams * 2) {
         playerStats.setFalseIsGameMax();
       }
@@ -1434,6 +1451,7 @@
       sala.deletePlayer(player.id);
       sala.balanceTeams();
       sala.showGameRoom();
+      */
     }
 
     room.onTeamVictory = async function(scores) {
