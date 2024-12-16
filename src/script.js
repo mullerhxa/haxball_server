@@ -479,6 +479,9 @@
     class PlayerStats {
         id;              //int
         auth;            //string
+        name;            //string
+        authorization;   //int
+        afk;             //int
         matches_played;  //int
         won_matches;     //int
         lost_matches;    //int
