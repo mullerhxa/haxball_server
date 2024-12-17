@@ -260,6 +260,8 @@
       write("Entering game.balanceTeams", Log.CALL_METHOD);
       write(this, Log.PARAM_VALUE);
       write(diccJugadores, Log.PARAM_VALUE);
+      write(this.#calcularDiferenciaEntreEquipos(), Log.PARAM_VALUE);
+      write("Gente activa en spect: " + this.#calcularGenteActivaEnSpect(), Log.PARAM_VALUE);
       if (!this.#move_activated) {
         write("Leaving game.balanceTeams", Log.EXIT_METHOD);
         return;
@@ -279,26 +281,30 @@
       if (this.isGameMax()) {
         write("Both teams are full", Log.EXIT_METHOD);
       }
-      else if (cantActivos != 0 && diferenciaEntreEquipos <= 1) {
+      else if (cantActivos == 0 && diferenciaEntreEquipos <= 1) {
         write("There's no player waiting and the teams are balanced", Log.EXIT_METHOD);
       } else if (cantActivos != 0) {
         write("Caso hay jugadores activos esperando...", Log.IF_LOG);
           //Mover a los jugadores adentro
-          while (cantActivos != 0 && this.isGameMax()) {
+          while (cantActivos != 0 && !this.isGameMax()) {
             
             let index = 0;
             while (diccJugadores.getJugador(this.#spect[index]).afk) {
               index++;
             }
             
+            console.log("El index que vamos a agregar: " + index)
             let jugador = this.#spect[index];
             this.#deleteIndexOfSpect(index);
             this.addPlayer(jugador);
 
+            console.log(this)
             cantActivos = this.#calcularGenteActivaEnSpect();
           }
-          this.balanceTeams(); //Ya no hay jugadores esperando o esta completo el juego
-      } else if (diferenciaEntreEquipos > 1) {
+          //this.balanceTeams(); //Ya no hay jugadores esperando o esta completo el juego
+      } 
+      
+      if (diferenciaEntreEquipos > 1) {
         write("Caso los equipos estan desbalanceados...", Log.IF_LOG);
         //Mover a los jugadores entre los equipos. Ya asumo que no hay jugadores esperando y no esta lleno
         if (this.redLength > this.blueLength) {
@@ -310,7 +316,6 @@
             diferenciaEntreEquipos = this.#calcularDiferenciaEntreEquipos();
           }
         } else {
-          
           while (diferenciaEntreEquipos > 1) {
             //Mover a los jugadores del blue al red hasta que se balance
             let idJugador = this.#blue[this.blueLength - 1];
@@ -319,7 +324,7 @@
             diferenciaEntreEquipos = this.#calcularDiferenciaEntreEquipos();
           }
         }
-        this.balanceTeams();
+        //this.balanceTeams();
       }
       write("Leaving game.balanceTeams", Log.EXIT_METHOD);
     } 
@@ -1791,14 +1796,13 @@
       write("Entrando en room.onPlayerLeave", Log.EVENT);
       write(player, Log.PARAM_VALUE);
 
-      diccJugadores.deleteJugador(player);
+      diccJugadores.deleteJugador(player.id);
       sala.deletePlayer(player.id);
       sala.balanceTeams();
 
       if (sala.isGameMax()) {
         equiposPartido.setGameFalse();
       }
-      write(equiposPartido.isGameFull, Log.VARIABLE_VALUE);
       write("Saliendo de room.onPlayerLeave", Log.EXIT_EVENT);
       /*
       if (room.getPlayerList().length < max_player_in_teams * 2) {
