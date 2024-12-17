@@ -227,44 +227,36 @@
         }
       }
 
-      /**
-       * 
-       * @returns the team that needs a player (between red (1), blue (2) or if no team needs a player spect (0))
-       */
-      movePlayerIfNeeded() {
-        let res = 0;
-        if (!this.isGameMax()) {
-          if (this.#red.length == this.#blue.length) {
-            res = 1;
-          } else if (this.#red.length >= this.#blue.length) {
-            res = 2;
-          } else if (this.#red.length <= this.#blue.length) {
-            res = 1;
-          }
-        }
-        return res;
-      }
-
       balanceTeams() {
+        this.showGameRoom();
         console.log("LLamado al balanceTeams")
         if (this.isGameMax()) {
           console.log("No hace falta balancear")
           return;
         } 
         console.log("Sacando gente que esta demás en el red...")
+        console.log(this.#red.length + " " + this.#max_players)
         while (this.#red.length > this.#max_players) {
           this.movePlayer(this.#red[this.#red.length - 1], 0);
         }
+
+        this.showGameRoom();
         console.log("Sacando gente que esta demás en el blue...")
         //Move some red player to the spects that are excedding to spects
         while (this.#blue.length > this.#max_players) {
           this.movePlayer(this.#blue[this.#blue.length - 1], 0);
         }
-
+        this.showGameRoom();
         if (this.#spect.length > 0) {
-          while (!this.isGameMax() && this.#spect.length > 0) {
+          let i = 0;
+          while (!this.isGameMax() && this.#spect.length > 0 && i < this.#spect.length) {
+            //Tengo que ver que no sea afk, asi que voy a recorrer hasta llegar a un jugador no afk
+              while(i < this.#spect.length && diccJugadores.getJugador(this.#spect[i]).afk == true) {
+                i++;
+              }
               this.addPlayer(this.#spect[0]); //Agarro el primero y lo agrego, asi hasta completar todos los teams o quedarme sin jugadores
-          }
+              i--;
+            }
         } 
 
         console.log("Moviendo gente que haga que este mal el balanceo entre un club y el otro")
@@ -598,6 +590,10 @@
           }
           LocalStorage.storeData(this.auth, JSON.stringify(object))
           write("Leaving in PlayerStats.storePlayer", Log.CALL_METHOD);
+        }
+
+        invertAFK() {
+          this.afk = !this.afk;
         }
         
         incrementGoal() {
@@ -1712,7 +1708,12 @@
         //Generales
         switch(words[0]) {
           case "afk":
-
+            console.log(diccJugadores.getJugador(player.id))
+            diccJugadores.getJugador(player.id).invertAFK();
+            room.sendAnnouncement("Se cambio a " + diccJugadores.getJugador(player.id).afk)
+            break;
+          case "stateAFK":
+            room.sendAnnouncement("El estado afk es: " + diccJugadores.getJugador(player.id).afk)
             break;
           case "teams":
 
