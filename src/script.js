@@ -885,6 +885,7 @@
         goals;           //int
         assists;         //int
         against_goals;   //int
+        vallas;          //int
         mvp;             //int
 
         /**
@@ -908,6 +909,7 @@
             this.assists = valores.assists;
             this.against_goals = valores.against_goals;
             this.mvp = valores.mvp;
+            this.vallas = valores.vallas;
           } else {
             this.matches_played = 0;
             this.won_matches = 0;
@@ -928,7 +930,8 @@
             goals: this.goals,
             assists: this.assists,
             against_goals: this.against_goals,
-            mvp: this.mvp
+            mvp: this.mvp,
+            vallas: this.vallas
           }
           LocalStorage.storeData(this.auth, JSON.stringify(object))
           write("Leaving in PlayerStats.storePlayer", Log.CALL_METHOD);
@@ -964,6 +967,10 @@
 
         incrementMVP() {
           this.mvp++;
+        }
+
+        incrementVallas() {
+          this.vallas++;
         }
     }
 
@@ -1060,6 +1067,7 @@
       #redTeam;       // set of id
       #blueTeam;      // set of id
       #isGameFull;    // boolean
+
       /**
        * Initializes the values with the same id's as in the gameRoom
        * @param {GameRoom} sala
@@ -1078,6 +1086,8 @@
           this.#blueTeam.add(idBlue);
         })
       }
+
+      
 
       /**
        * 
@@ -1119,6 +1129,38 @@
       get isGameFull() {
         return this.#isGameFull;
       }
+    }
+
+    class GoalKeeper {
+      #redGk
+      #blueGk
+      #storeAvailable //boolean
+
+      constructor() {
+        this.#storeAvailable = true;
+      }
+
+      setValues(idGkRed, idGkBlue) {
+        if (this.#storeAvailable) {
+          this.#setRedGk(idGkRed);
+          this.#setBlueGk(idGkBlue);
+          this.#storeAvailable = false;
+          write("GK red: " + this.#redGk, Log.PARAM_VALUE)
+          write("GK blue: " + this.#blueGk, Log.PARAM_VALUE)
+        }
+      }
+
+      #setRedGk(id) {
+        this.#redGk = id;
+      }
+
+      #setBlueGk(id) {
+        this.#blueGk = id;
+      }
+
+      get redGk() { return this.#redGk; }
+      get blueGk() { return this.#blueGk; }
+      get storeAvailable() { return this.#storeAvailable; }
     }
 
     class statsTeams {
@@ -1754,6 +1796,8 @@
     var estadisticasPartido = new estadisticasPorPartido();
     var equiposPartido = new equiposPorPartido(sala);
     var diccJugadores = new DiccionarioJugadores();
+    var gks = new GoalKeeper();
+
 
     var lista_de_jugadores = new List_of_players();
     
@@ -1868,6 +1912,14 @@
             stats.incrementLoses();
           }
         })
+
+        //Sumando vallas:
+        if (scores.red == 0) {
+          diccJugadores.getJugador(gks.redGk).incrementVallas();
+        }
+        else if (scores.blue == 0) {
+          diccJugadores.getJugador(gks.blueGk).incrementVallas();
+        }
   
         equiposPartido.blueTeam.forEach((jugador) => {
           diccJugadores.getJugador(jugador).storePlayer();
@@ -1899,6 +1951,42 @@
     room.onPlayerBallKick = function(player) {
       write("Entrando en room.onPlayerBallKick", Log.EVENT);
       ballTouched.addElement(player.id);
+      console.log(player.position);
+      //Verificamos si se toco alguna vez
+      if (gks.storeAvailable) {
+        //Get which player is the most away
+      
+        //console.log(player.position);
+        let gkRed = null;
+        let gkBlue = null;
+        if (sala.redLength > 0) {
+          let redPlayer = sala.red;
+          let max = Math.abs(room.getPlayer(redPlayer[0]).position.x);
+          gkRed = redPlayer[0];
+          redPlayer.forEach((id) => {
+            if (Math.abs(room.getPlayer(id).position.x) > max) {
+               max = Math.abs(room.getPlayer(id).position.x);
+               gkRed = id;
+              }
+          })
+        }
+
+        if (sala.blueLength > 0) {
+          let bluePlayer = sala.blue;
+          let max = Math.abs(room.getPlayer(bluePlayer[0]).position.x);
+          gkBlue = bluePlayer[0];
+          bluePlayer.forEach((id) => {
+            if (Math.abs(room.getPlayer(id).position.x) > max) {
+               max = Math.abs(room.getPlayer(id).position.x);
+               gkBlue = id;
+              }
+          })
+        }
+
+        gks.setValues(gkRed, gkBlue);
+        
+      }
+
       write("Saliendo de room.onPlayerBallKick", Log.EXIT_EVENT);
       //ballTouched.showCola();
     }
@@ -1976,6 +2064,7 @@
       estadisticasPartido = new estadisticasPorPartido();
       equiposPartido = new equiposPorPartido(sala);
       ballTouched = new colaConLimit(2);
+      gks = new GoalKeeper();
       write("Saliendo de room.onTeamGoal", Log.EXIT_EVENT);
     }
 
@@ -2052,12 +2141,13 @@
         //Generales
         switch(words[0]) {
           case "afk":
-            console.log(diccJugadores.getJugador(player.id))
-            diccJugadores.getJugador(player.id).invertAFK();
-            //Acomodar los equipos si se puede
-            sala.balanceTeams();
-
-            room.sendAnnouncement("Se cambio a " + diccJugadores.getJugador(player.id).afk)
+            if (player.team == 0) {
+              diccJugadores.getJugador(player.id).invertAFK();
+              sala.balanceTeams();
+              room.sendAnnouncement("Ahora estas " + diccJugadores.getJugador(player.id).afk, player.id)
+            } else {
+              room.sendAnnouncement("No podes ponerte afk mientras jugas", player.id);
+            }
             break;
           case "stateAFK":
             room.sendAnnouncement("El estado afk es: " + diccJugadores.getJugador(player.id).afk)
@@ -2167,6 +2257,7 @@
           console.log(message);
         }
       } 
+
 
     /*<><><><><><><><><><><><><><><><><><> */
 
