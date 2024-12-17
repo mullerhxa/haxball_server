@@ -5,6 +5,14 @@
     // Enums
     //Es el limite superior de los rangos
 
+    const Styles = {
+      "NORAML"          : "normal" ,
+      "BOLD"            : "bold",
+      "ITALIC"          : "italic", 
+      "SMALL"           : "small", 
+      "SMALL_BOLD"      : "small-bold", 
+      "SMALL_ITALIC"    : "small-italic"
+    }
 
     const Rangos = [
       [-10  , "Peton 🤡"],
@@ -1798,7 +1806,7 @@
             room.sendAnnouncement("El estado afk es: " + diccJugadores.getJugador(player.id).afk)
             break;
           case "teams":
-
+            //Show teams
             break;
           case "stats":
 
@@ -1807,7 +1815,18 @@
 
             break;
           case "t":
+            let teams;
+            switch(player.team) {
+              case Teams.BLUE:
+                teams = sala.blue;
+                break;
+              case Teams.RED:
+                teams = sala.red;
+            }
 
+            teams.forEach((id) => {
+              showMessage(player, message, id, Styles.BOLD);
+            });
             break;
           case "":
 
