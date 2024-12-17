@@ -685,6 +685,10 @@
             puntos.set(Puntos.GOLES_EN_CONTRA);
           }
         })
+
+        return keyWithMaxValue = [...myMap.entries()].reduce((maxKey, [key, value]) =>
+          value > myMap.get(maxKey) ? key : maxKey
+        );
       }
     }
 
@@ -1516,10 +1520,21 @@
 
         //Sumando vallas:
         if (scores.red == 0) {
-          diccJugadores.getJugador(gks.redGk).incrementVallas();
+          if (diccJugadores.hasJugador(gks.redGk)) {
+            diccJugadores.getJugador(gks.redGk).incrementVallas();
+          }
         }
         else if (scores.blue == 0) {
-          diccJugadores.getJugador(gks.blueGk).incrementVallas();
+          if (diccJugadores.hasJugador(gks.blueGk)) {
+            diccJugadores.getJugador(gks.blueGk).incrementVallas();
+          }
+        }
+
+        //Calculate mvp
+        const mvp = estadisticasPartido.calculateMvp();
+        
+        if (diccJugadores.hasJugador(mvp)) {
+          diccJugadores.getJugador(jugador).incrementMVP();
         }
   
         equiposPartido.blueTeam.forEach((jugador) => {
