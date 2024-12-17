@@ -1474,17 +1474,6 @@
         equiposPartido.setGameFalse();
       }
       write("Saliendo de room.onPlayerLeave", Log.EXIT_EVENT);
-      /*
-      if (room.getPlayerList().length < max_player_in_teams * 2) {
-        playerStats.setFalseIsGameMax();
-      }
-      console.log("The player " + player.name + " left the room")
-      stats.deletePlayer(lista_de_jugadores.getPlayerAuthByID(player.id));
-      lista_de_jugadores.removePlayerByID(player.id);
-      sala.deletePlayer(player.id);
-      sala.balanceTeams();
-      sala.showGameRoom();
-      */
     }
 
     room.onTeamVictory = async function(scores) { 
