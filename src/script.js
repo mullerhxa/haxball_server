@@ -1390,12 +1390,6 @@
     var diccJugadores = new DiccionarioJugadores();
     var gks = new GoalKeeper();
 
-
-    var lista_de_jugadores = new List_of_players();
-    
-    
-    var playerStats = new statsTeams(sala, lista_de_jugadores); //stats
-    var stats = new statsPlayers();
     //var estadisticasDelPartido = new matchStats();
 
     //Haxball events
