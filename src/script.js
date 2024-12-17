@@ -3,6 +3,24 @@
     //import {HBInit} from "../test/HBinit.js";
 
     // Enums
+    //Es el limite superior de los rangos
+
+
+    const Rangos = [
+      [-10  , "Peton 🤡"],
+      [50   ,  "Bronce I 🟤"],
+      [100  ,  "Bronce II 🟤"],
+      [200  ,  "Bronce III 🟤"],
+      [350  ,  "Plata I ⚪"],
+      [450  ,  "Plata II ⚪"],
+      [600  ,  "Plata III ⚪"],
+      [750  ,  "Oro I 🟡"],
+      [900  ,  "Oro II 🟡"],
+      [1000 ,  "Oro III 🟡"],
+      [2600 ,  "Platino 🔵"],
+      [4000 ,  "Leyenda ⚡"],
+      [6000 ,  "Ídolo  🌟"],
+    ];
 
     const Teams = {
       "RED"         : 1,
@@ -10,10 +28,32 @@
       "SPECTATORS"  : 0
     }
 
+    const Sound = {
+      "NO_SOUND"      : 0,
+      "NORMAL"        : 1,
+      "NOTIFICATION"  : 2
+    }
+
+    const ColoresMsg = {
+      "ROJO"      : "0XCB3835",
+      "BLANCO"    : "0xDEDCE6",
+      "AZUL"      : "0x5545C0"
+    }
+
     const Puntos = {
       "GOLES"             : 3,
       "ASISTENCIAS"       : 2,
       "GOLES_EN_CONTRA"   : -2
+    }
+
+    const PuntosRangos = {
+      "GOL"               : 3,
+      "ASISTENCIA"        : 2,
+      "VALLA_INVICTA"     : 5,
+      "GOL_EN_CONTRA"     : -2,
+      "MVP"               : 4,
+      "PARTIDO_GANADO"    : 1,
+      "PARTIDO_PERDIDO"   : -1
     }
 
     const Log = {
@@ -562,6 +602,7 @@
             this.assists = 0;
             this.against_goals = 0;
             this.mvp = 0;
+            this.vallas = 0;
           }
         }
 
@@ -579,6 +620,26 @@
           }
           LocalStorage.storeData(this.auth, JSON.stringify(object))
           write("Leaving in PlayerStats.storePlayer", Log.CALL_METHOD);
+        }
+
+        calculateRango() {
+          let value;
+          value = this.won_matches      * PuntosRangos.PARTIDO_GANADO
+          console.log("1 El valor es: " + value);
+          value += this.lost_matches    * PuntosRangos.PARTIDO_PERDIDO
+          console.log("2 El valor es: " + value);
+          value += this.goals           * PuntosRangos.GOL
+          console.log("3 El valor es: " + value);
+          value += this.assists         * PuntosRangos.ASISTENCIA
+          console.log("4 El valor es: " + value);
+          value += this.against_goals   * PuntosRangos.GOL_EN_CONTRA
+          console.log("5 El valor es: " + value);
+          value += this.vallas          * PuntosRangos.VALLA_INVICTA
+          console.log("6 El valor es: " + value);
+          value += this.mvp             * PuntosRangos.MVP
+          console.log("7 El valor es: " + value);
+          
+          return value;
         }
 
         invertAFK() {
@@ -1812,7 +1873,31 @@
        * @param {string} message 
        */
       function showMessage(player, message) {
-        room.sendAnnouncement(player.name + ": " + message);
+
+        let color;
+        switch(player.team) {
+          case Teams.SPECTATORS:
+            color = ColoresMsg.BLANCO;
+            break;
+          case Teams.RED:
+            color = ColoresMsg.ROJO;
+            break;
+          case Teams.BLUE:
+            color = ColoresMsg.AZUL;
+            break;
+        }
+        let rango = diccJugadores.getJugador(player.id).calculateRango();
+        rango = getRangeValue(rango);
+        room.sendAnnouncement(rango + " " + player.name + ": " + message, null, color, Sound.NORMAL);
+      }
+
+      function getRangeValue(score) {
+        for(let i = 0; i < Rangos.length; i++) {
+          if (score < Rangos[i][0]) {
+            return Rangos[i][1];
+          }
+        }
+        return Rangos[Rangos.length - 1][1];
       }
 
       function updateAdmins() { 
