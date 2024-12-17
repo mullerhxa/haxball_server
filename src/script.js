@@ -3,11 +3,57 @@
     //import {HBInit} from "../test/HBinit.js";
 
     // Enums
+    //Es el limite superior de los rangos
+
+
+    const Rangos = [
+      [-10  , "Peton 🤡"],
+      [50   ,  "Bronce I 🟤"],
+      [100  ,  "Bronce II 🟤"],
+      [200  ,  "Bronce III 🟤"],
+      [350  ,  "Plata I ⚪"],
+      [450  ,  "Plata II ⚪"],
+      [600  ,  "Plata III ⚪"],
+      [750  ,  "Oro I 🟡"],
+      [900  ,  "Oro II 🟡"],
+      [1000 ,  "Oro III 🟡"],
+      [2600 ,  "Platino 🔵"],
+      [4000 ,  "Leyenda ⚡"],
+      [6000 ,  "Ídolo  🌟"],
+    ];
 
     const Teams = {
       "RED"         : 1,
       "BLUE"        : 2,
       "SPECTATORS"  : 0
+    }
+
+    const Sound = {
+      "NO_SOUND"      : 0,
+      "NORMAL"        : 1,
+      "NOTIFICATION"  : 2
+    }
+
+    const ColoresMsg = {
+      "ROJO"      : "0XCB3835",
+      "BLANCO"    : "0xDEDCE6",
+      "AZUL"      : "0x5545C0"
+    }
+
+    const Puntos = {
+      "GOLES"             : 3,
+      "ASISTENCIAS"       : 2,
+      "GOLES_EN_CONTRA"   : -2
+    }
+
+    const PuntosRangos = {
+      "GOL"               : 3,
+      "ASISTENCIA"        : 2,
+      "VALLA_INVICTA"     : 5,
+      "GOL_EN_CONTRA"     : -2,
+      "MVP"               : 4,
+      "PARTIDO_GANADO"    : 1,
+      "PARTIDO_PERDIDO"   : -1
     }
 
     const Log = {
@@ -556,6 +602,7 @@
             this.assists = 0;
             this.against_goals = 0;
             this.mvp = 0;
+            this.vallas = 0;
           }
         }
 
@@ -573,6 +620,26 @@
           }
           LocalStorage.storeData(this.auth, JSON.stringify(object))
           write("Leaving in PlayerStats.storePlayer", Log.CALL_METHOD);
+        }
+
+        calculateRango() {
+          let value;
+          value = this.won_matches      * PuntosRangos.PARTIDO_GANADO
+          console.log("1 El valor es: " + value);
+          value += this.lost_matches    * PuntosRangos.PARTIDO_PERDIDO
+          console.log("2 El valor es: " + value);
+          value += this.goals           * PuntosRangos.GOL
+          console.log("3 El valor es: " + value);
+          value += this.assists         * PuntosRangos.ASISTENCIA
+          console.log("4 El valor es: " + value);
+          value += this.against_goals   * PuntosRangos.GOL_EN_CONTRA
+          console.log("5 El valor es: " + value);
+          value += this.vallas          * PuntosRangos.VALLA_INVICTA
+          console.log("6 El valor es: " + value);
+          value += this.mvp             * PuntosRangos.MVP
+          console.log("7 El valor es: " + value);
+          
+          return value;
         }
 
         invertAFK() {
@@ -653,6 +720,37 @@
         console.log("Goles en contra: ")
         console.log(this.#golesEnContra);
       }
+
+      calculateMvp() {
+        let puntos = new Map();
+        this.#goles.forEach((id) => {
+          if (puntos.has(id)) {
+            puntos.set(Puntos.GOLES + puntos.get(id));
+          } else {
+            puntos.set(Puntos.GOLES);
+          }
+        })
+
+        this.#asistencias.forEach((id) => {
+          if (puntos.has(id)) {
+            puntos.set(Puntos.ASISTENCIAS + puntos.get(id));
+          } else {
+            puntos.set(Puntos.ASISTENCIAS);
+          }
+        })
+
+        this.#golesEnContra.forEach((id) => {
+          if (puntos.has(id)) {
+            puntos.set(Puntos.GOLES_EN_CONTRA + puntos.get(id));
+          } else {
+            puntos.set(Puntos.GOLES_EN_CONTRA);
+          }
+        })
+
+        return keyWithMaxValue = [...myMap.entries()].reduce((maxKey, [key, value]) =>
+          value > myMap.get(maxKey) ? key : maxKey
+        );
+      }
     }
 
     class equiposPorPartido {
@@ -679,7 +777,23 @@
         })
       }
 
-      
+      /** 
+       * Returns a set
+       */
+      get redTeam() {
+        return this.#redTeam;
+      }
+
+      /** 
+       * Returns a set
+       */
+      get blueTeam() {
+        return this.#blueTeam;
+      }
+
+      get isGameFull() {
+        return this.#isGameFull;
+      }
 
       /**
        * 
@@ -703,24 +817,7 @@
         this.#redTeam.delete(id);
         this.#blueTeam.delete(id);
       }
-
-      /** 
-       * Returns a set
-       */
-      get redTeam() {
-        return this.#redTeam;
-      }
-
-      /** 
-       * Returns a set
-       */
-      get blueTeam() {
-        return this.#blueTeam;
-      }
-
-      get isGameFull() {
-        return this.#isGameFull;
-      }
+      
     }
 
     class GoalKeeper {
@@ -1390,6 +1487,12 @@
     var diccJugadores = new DiccionarioJugadores();
     var gks = new GoalKeeper();
 
+
+    var lista_de_jugadores = new List_of_players();
+    
+    
+    var playerStats = new statsTeams(sala, lista_de_jugadores); //stats
+    var stats = new statsPlayers();
     //var estadisticasDelPartido = new matchStats();
 
     //Haxball events
@@ -1478,10 +1581,21 @@
 
         //Sumando vallas:
         if (scores.red == 0) {
-          diccJugadores.getJugador(gks.redGk).incrementVallas();
+          if (diccJugadores.hasJugador(gks.redGk)) {
+            diccJugadores.getJugador(gks.redGk).incrementVallas();
+          }
         }
         else if (scores.blue == 0) {
-          diccJugadores.getJugador(gks.blueGk).incrementVallas();
+          if (diccJugadores.hasJugador(gks.blueGk)) {
+            diccJugadores.getJugador(gks.blueGk).incrementVallas();
+          }
+        }
+
+        //Calculate mvp
+        const mvp = estadisticasPartido.calculateMvp();
+        
+        if (diccJugadores.hasJugador(mvp)) {
+          diccJugadores.getJugador(jugador).incrementMVP();
         }
   
         equiposPartido.blueTeam.forEach((jugador) => {
@@ -1692,7 +1806,7 @@
           case "help":
 
             break;
-          case "":
+          case "t":
 
             break;
           case "":
@@ -1758,8 +1872,33 @@
        * @param {Player} player 
        * @param {string} message 
        */
-      function showMessage(player, message) {
-        room.sendAnnouncement(player.name + ": " + message);
+      function showMessage(player, message, toMsg, style) {
+
+        let color;
+        switch(player.team) {
+          case Teams.SPECTATORS:
+            color = ColoresMsg.BLANCO;
+            break;
+          case Teams.RED:
+            color = ColoresMsg.ROJO;
+            break;
+          case Teams.BLUE:
+            color = ColoresMsg.AZUL;
+            break;
+        }
+        let rango = diccJugadores.getJugador(player.id).calculateRango();
+        rango = getRangeValue(rango);
+        room.sendAnnouncement(rango + " " + player.name + ": " + message, toMsg, color, style, Sound.NORMAL);
+      }
+
+
+      function getRangeValue(score) {
+        for(let i = 0; i < Rangos.length; i++) {
+          if (score < Rangos[i][0]) {
+            return Rangos[i][1];
+          }
+        }
+        return Rangos[Rangos.length - 1][1];
       }
 
       function updateAdmins() { 
