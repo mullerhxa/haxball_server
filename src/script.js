@@ -1640,38 +1640,6 @@
 
       estadisticasPartido.showEstadisticas();
       write("Saliendo de room.onTeamGoal", Log.EXIT_EVENT);
-      /*
-      console.log("Estando en room.onTeamGoal")
-      ballTouched.showCola();
-      let id = ballTouched.popFirstElement();
-      let teamPlayer = undefined;
-      console.log("El id es " + id)
-      if (lista_de_jugadores.getPlayerByID(id)) {
-        console.log("Entramos en el primer id")
-        let cache = room.getPlayer(id)
-        console.log(cache);
-        teamPlayer = room.getPlayer(id).team;
-        console.log("teamPlayer: " + teamPlayer)
-        if (team == teamPlayer) {
-          playerStats.addGoalTo(team, id)
-        } else {
-          playerStats.addAgainstGoal(team, id)
-        }
-      }
-      let teamPlayerGoal = teamPlayer;
-      let idPlayerGoal = id;
-      id = ballTouched.popFirstElement();
-      if (lista_de_jugadores.getPlayerByID(id)) {
-        teamPlayer = room.getPlayer(id).team;
-        if (team == teamPlayer && teamPlayer == teamPlayerGoal && id != idPlayerGoal) {
-          playerStats.addAssisTo(team, id)
-        }
-      }
-      
-      playerStats.showStatsTeams();
-      ballTouched = new colaConLimit(2);
-      console.log("Termino el onTeamGoal");
-      */
     }
 
     room.onGameStart = function(byPlayer) {
