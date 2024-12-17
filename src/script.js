@@ -10,6 +10,12 @@
       "SPECTATORS"  : 0
     }
 
+    const Puntos = {
+      "GOLES"             : 3,
+      "ASISTENCIAS"       : 2,
+      "GOLES_EN_CONTRA"   : -2
+    }
+
     const Log = {
       "CALL_FUNCTION"   : 0,
       "PARAM_VALUE"     : 1,
@@ -652,6 +658,33 @@
         console.log(this.#asistencias);
         console.log("Goles en contra: ")
         console.log(this.#golesEnContra);
+      }
+
+      calculateMvp() {
+        let puntos = new Map();
+        this.#goles.forEach((id) => {
+          if (puntos.has(id)) {
+            puntos.set(Puntos.GOLES + puntos.get(id));
+          } else {
+            puntos.set(Puntos.GOLES);
+          }
+        })
+
+        this.#asistencias.forEach((id) => {
+          if (puntos.has(id)) {
+            puntos.set(Puntos.ASISTENCIAS + puntos.get(id));
+          } else {
+            puntos.set(Puntos.ASISTENCIAS);
+          }
+        })
+
+        this.#golesEnContra.forEach((id) => {
+          if (puntos.has(id)) {
+            puntos.set(Puntos.GOLES_EN_CONTRA + puntos.get(id));
+          } else {
+            puntos.set(Puntos.GOLES_EN_CONTRA);
+          }
+        })
       }
     }
 
