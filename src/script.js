@@ -4,6 +4,12 @@
 
     // Enums
 
+    const Teams = {
+      "RED"         : 1,
+      "BLUE"        : 2,
+      "SPECTATORS"  : 0
+    }
+
     const Log = {
       "CALL_FUNCTION"   : 0,
       "PARAM_VALUE"     : 1,
@@ -514,6 +520,10 @@
         this.#jugadores.set(id, player);
       }
 
+      hasJugador(id) {
+        return this.#jugadores.has(id);
+      }
+
       /**
        * Returns the player object asociatedwith the value id. the dictionary must contain the as a key id.
        * @param {int} id 
@@ -726,6 +736,16 @@
         sala.blue.forEach((idBlue) => {
           this.#blueTeam.add(idBlue);
         })
+      }
+
+      /**
+       * 
+       * @param {int} id
+       */
+      hasID(id) {
+        if (this.#redTeam.has(id)) return Teams.RED;
+        if (this.#blueTeam.has(id)) return Teams.BLUE;
+        return -1;
       }
 
       setGameFalse() {
@@ -1454,66 +1474,67 @@
       */
     }
 
-    room.onTeamVictory = async function(scores) {
-      console.log("Estando en onTeamVictory");
-      let victoryTeam, defeatTeam;
-      if (scores.red > scores.blue) {
-        victoryTeam = 1
-        defeatTeam = 2
-      } else {
-        victoryTeam = 2
-        defeatTeam = 1
-      }
+    room.onTeamVictory = async function(scores) { 
+      write("Entrando en room.onTeamVictory", Log.EVENT);
+      let victoryTeam = getVictory(scores), defeatTeam = getLoser(scores);
 
-      
-      //Agrego goles
-      console.log("Sumando goles marcados en el partido...")
-      const goles = estadisticasDelPartido.getGoles();
-      
-      goles.forEach((idGol) => {
-        let team = estaIdEnSala(idGol) ? room.getPlayer(idGol).team : null;
-        console.log(idGol);
-        console.log(team);
-        if (team != null) {
-          playerStats.addAssisTo(team, idGol);
+      //Sumando estadisticacas de goles, asistencas y goles en contra
+      estadisticasPartido.getGoles.forEach((idGoles) => {
+        let esta = estabaIdJugando(idGoles);
+        if (esta != -1) {
+          diccJugadores.getJugador(idGoles).incrementGoal();
         }
-      });
+      })
 
-      //Agrego asistencias
-      console.log("Sumando asistencias hechas en el partido...")
-      const asis = estadisticasDelPartido.getAsistencias();
-      
-      asis.forEach((idAsis) => {
-        let team = estaIdEnSala(idAsis) ? room.getPlayer(idAsis).team : null;
-        console.log(idAsis);
-        console.log(team);
-        if (team != null) {
-          playerStats.addAssisTo(team, idAsis);
+      estadisticasPartido.getAsistencias.forEach((idAsis) => {
+        let esta = estabaIdJugando(idAsis);
+        if (esta != -1) {
+          diccJugadores.getJugador(idAsis).incrementAssists();
         }
-      });
+      })
 
-      //Agrego asistencias
-      console.log("Sumando goles en contra marcados en el partido...")
-      const golesEnContra = estadisticasDelPartido.getAsistencias();
-      
-      golesEnContra.forEach((idGolEnContra) => {
-        console.log(idGolEnContra);
-        console.log(team);
-        let team = estaIdEnSala(idGolEnContra) ? room.getPlayer(idGolEnContra).team : null;
-        if (team != null) {
-          playerStats.addAssisTo(team, idGolEnContra);
+      estadisticasPartido.getGolesEnContra.forEach((idGolesEnContra) => {
+        let esta = estabaIdJugando(idGolesEnContra);
+        if (esta != -1) {
+          diccJugadores.getJugador(idGolesEnContra).incrementAgainstGoals();
         }
-      });
+      })
 
-      playerStats.addMatch(victoryTeam - 1);
-      playerStats.showStatsTeams();
-      playerStats.storeData();
+      //Sumando a todos los que jugadores 1 partido y si ganaron o perdieron
+      equiposPartido.redTeam.forEach((jugador) => {
+        let stats = diccJugadores.getJugador(jugador)
+        stats.incrementGames();
+        if (victoryTeam == Teams.RED) {
+          stats.incrementWonMatches();
+        } else {
+          stats.incrementLoses();
+        }
+      })
 
+      equiposPartido.blueTeam.forEach((jugador) => {
+        let stats = diccJugadores.getJugador(jugador)
+        stats.incrementGames();
+        if (victoryTeam == Teams.BLUE) {
+          stats.incrementWonMatches();
+        } else {
+          stats.incrementLoses();
+        }
+      })
 
+      equiposPartido.blueTeam.forEach((jugador) => {
+        diccJugadores.getJugador(jugador).storeData();
+      })
+
+      equiposPartido.redTeam.forEach((jugador) => {
+        diccJugadores.getJugador(jugador).storeData();
+      })
+
+      //Moviendo a los perdedores
       sala.moveTeamToSpect(defeatTeam);
       await sleep(2000); //Esperamos 2 segundos para seguir
       sala.moveSpectsToTeam(defeatTeam);
-      console.log("Saliendo de onTeamVictory");
+
+      write("Saliendo de room.onTeamVictory", Log.EXIT_EVENT);
     }
 
     room.onPlayerChat = function(player, message) {
@@ -1738,12 +1759,14 @@
         return lista_de_jugadores.getPlayerByID(id).authorization > 0;
       }
 
+
+      
       function estaIdEnSala(id) {
-        const jugadores = room.getPlayerList();
-        jugadores.forEach((jugador) => {
-          if (jugador.id == id) return true;
-        });
-        return false;
+        return diccJugadores.hasJugador(id);
+      }
+
+      function estabaIdJugando(id) {
+        return equiposPartido.hasID(id);
       }
 
       /**
@@ -1765,7 +1788,16 @@
 
       function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
-    }
+      }
+
+      function getVictory(scores) {
+        return scores.red > scores.blue ? Teams.RED : Teams.BLUE;
+      }
+
+      function getLoser(scores) {
+        return scores.red < scores.blue ? Teams.RED : Teams.BLUE;
+      }
+
 
       function write(message, value) {
         if (set_console_log.has(value)) {
