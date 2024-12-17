@@ -679,7 +679,23 @@
         })
       }
 
-      
+      /** 
+       * Returns a set
+       */
+      get redTeam() {
+        return this.#redTeam;
+      }
+
+      /** 
+       * Returns a set
+       */
+      get blueTeam() {
+        return this.#blueTeam;
+      }
+
+      get isGameFull() {
+        return this.#isGameFull;
+      }
 
       /**
        * 
@@ -703,24 +719,7 @@
         this.#redTeam.delete(id);
         this.#blueTeam.delete(id);
       }
-
-      /** 
-       * Returns a set
-       */
-      get redTeam() {
-        return this.#redTeam;
-      }
-
-      /** 
-       * Returns a set
-       */
-      get blueTeam() {
-        return this.#blueTeam;
-      }
-
-      get isGameFull() {
-        return this.#isGameFull;
-      }
+      
     }
 
     class GoalKeeper {
