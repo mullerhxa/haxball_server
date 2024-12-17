@@ -20,7 +20,8 @@
       "EXIT_FUNCTION"   : 6,
       "EXIT_EVENT"      : 7,
       "VARIABLE_VALUE"  : 8,
-      "TEMP"            : 9
+      "TEMP"            : 9,
+      "EXIT_METHOD"     : 10
     }
 
     
@@ -29,6 +30,341 @@
       JUGADOR: 0,
       ADMIN: 1
   };
+
+    class Game {
+      #red; //array of id's 
+      #blue; //array of id's 
+      #spect; //array of id's 
+      #max_players; //int
+      #move_activated; //boolean
+
+      /**
+      * Create a gameRoom with the given parameters
+      * @param {max_players} int - The max_players in a game for team
+      */
+      constructor(max_players) {
+        this.#red = new Array();
+        this.#blue = new Array();
+        this.#spect = new Array();
+        this.#max_players = max_players;
+        this.#move_activated = true;
+    }
+
+    get red() { return this.#red; }
+
+    get blue() { return this.#blue; }
+
+    get spect() { return this.#spect; }
+
+    get redLength() { return this.#red.length; }
+
+    get blueLength() { return this.#blue.length; }
+
+    get spectLength() { return this.#spect.length; }
+
+    get max_players() { return this.#max_players; }
+
+    isGameMax() { return this.#red.length == this.#max_players && this.#blue.length == this.#max_players; }
+
+    /**
+      * Add a player when has joined
+      * @param {id} int - The player's ID.
+      */
+    addPlayer(id) {
+      //Move the player to the need place
+      if (!this.#move_activated) return;
+
+      console.log("LLamado al addPlayer");
+      if (this.isGameMax()) {
+        console.log("EL primer caso")
+        this.#addPlayerSpect(id);
+      } else if (this.#red.length == this.#blue.length) {
+        console.log("EL segundo caso")
+        this.#addPlayerRed(id);
+      } else if (this.#red.length >= this.#blue.length) {
+        console.log("EL tercero caso")
+        this.#addPlayerBlue(id);
+      } else if (this.#red.length <= this.#blue.length) {
+        console.log("EL cuarto caso")
+        this.#addPlayerRed(id);
+      } else {
+        console.log("EL ultimo caso")
+        this.#addPlayerSpect(id);
+      }
+    }
+
+    /**
+       * Add the player to the red if the length is less than the max players
+       * @param {id} int - The id to add to red. If the length it's already max, it will not add it
+       * @returns {void} 
+       */
+    #addPlayerRed(id) {
+      console.log("Se llamo para agregar al red");
+      if (this.#red.length < this.#max_players) {
+        this.deletePlayer(id);
+        this.#red.push(id);
+        setTeam(id, 1)
+      }
+    }
+
+    /**
+     * Add the player to the blue if the length is less than the max players
+     * @param {id} int - The id to add to blue. If the length it's already max, it will not add it
+     * @returns {void} 
+     */
+    #addPlayerBlue(id) {
+      console.log("Se llamo para agregar al blue");
+      if (this.#blue.length < this.#max_players) {
+        this.deletePlayer(id);
+        this.#blue.push(id);
+        setTeam(id, 2)
+      }
+    }
+
+  /**
+     * Add the player to the spect
+     * @param {id} int - The id to add to spect
+     * @returns {void} 
+     */
+    #addPlayerSpect(id) {
+      console.log("Se llamo para agregar al spect");
+      this.deletePlayer(id);
+      this.#spect.push(id);
+      setTeam(id, 0)
+    }
+
+    /**
+      * Deletes the id from all the arrays
+      * @param {id} int - The player's ID.
+      * @returns {this.#auth}
+      */
+    deletePlayer(id) {
+      //RED
+      console.log("Borrando el id: " + id)
+      let index = this.#searchID_red(id)
+      console.log("Index red is " + index )
+      if (index >= 0 && index < this.#red.length) {
+        console.log("Se borro en el red");
+        this.#red.splice(index, 1);
+      }
+
+      //BLUE
+      index = this.#searchID_blue(id)
+      console.log("Index blue is " + index )
+      if (index >= 0 && index < this.#blue.length) {
+        console.log("Se borro en el blue");
+        this.#blue.splice(index, 1);
+      }
+
+      //SPECT
+      index = this.#searchID_spect(id)
+      console.log("Index spect is " + index )
+      if (index >= 0 && index < this.#spect.length) {
+        console.log("Se borro en el spect");
+        this.#spect.splice(index, 1);
+      }
+    }
+
+    /**
+    * If a player has that id, it will return the player object with such id
+    * @returns {(EXISTS i: Z)(0 <= i < |this.#list| && this.#list.id = id && res = i) || 
+    *           ((- (EXISTS i: Z)(0 <= i < |this.#list| && this.#list.id = id && res = i)) && res = -1)}
+    */
+    #searchID_red(id) {
+      let index = -1;
+      for(let i = 0; i < this.#red.length; i++) {
+        if (this.#red[i] == id) {
+          index = i;
+          break;
+        }
+      }
+      return index;
+    }
+
+    #searchID_blue(id) {
+      let index = -1;
+      for(let i = 0; i < this.#blue.length; i++) {
+        if (this.#blue[i] == id) {
+          index = i;
+          break;
+        }
+      }
+      return index;
+    }
+
+    #searchID_spect(id) {
+      let index = -1;
+      for(let i = 0; i < this.#spect.length; i++) {
+        if (this.#spect[i] == id) {
+          index = i;
+          break;
+        }
+      }
+      return index;
+    }
+
+    /**
+      * Moves the player to a given team
+      * @param {id} int - The player's ID.
+      * @param {team} int - The player's team.
+      */
+    movePlayer(id, team) {
+      if (team >= 0 && team < 3 && this.#existID(id)) {
+        switch(team) {
+          case 0: //Spectators
+            this.#addPlayerSpect(id);
+            break;
+          case 1: //Red
+            this.#addPlayerRed(id);
+            break;
+          case 2: //Blue
+            this.#addPlayerBlue(id);
+            break;
+        }
+      }
+    }
+
+    /**
+     * 
+     * @param {int} team - The team id. Must be between 1 and 2 
+     * @returns {nothing} - Moves all the team selected to the spects
+     */
+    moveTeamToSpect(team) {
+      if (team == 1) {
+        while (this.#red.length != 0) {
+          this.movePlayer(this.#red[0], 0);
+        }
+      } else if (team == 2) {
+        while (this.#blue.length != 0) {
+          this.movePlayer(this.#blue[0], 0);
+        }
+      }
+    }
+
+    /**
+     * 
+     * @param {int} team - The team's id
+     */
+    moveSpectsToTeam(team) {
+      for(let i = 0; i < 4 && this.#spect.length > 0; i++) {
+        if (team == 1) {
+          this.movePlayer(this.#spect[0], 1);
+        } else if (team == 2) {
+          this.movePlayer(this.#spect[0], 2);
+        }
+      }
+    }
+
+    balanceTeams() {
+      //Tengo que hacer que funcione considerando a los afks
+      write("Entering game.balanceTeams", Log.CALL_METHOD);
+      write(this, Log.PARAM_VALUE);
+      write(diccJugadores, Log.PARAM_VALUE);
+      if (!this.#move_activated) {
+        write("Leaving game.balanceTeams", Log.EXIT_METHOD);
+        return;
+      }
+      //QUe casos hay:
+      /*
+        Si esta completo, no hay problema ya esta
+        SI no esta completo, pero tienen una diferencia de una persona y no hay jugadores esperando, ya esta
+        Si no esta completo y hay gente esperando, moverla adentro y balancear de nuevo para evitar problemas
+        Si no esta completo, y tienen una diferencia de más de una persona:
+          Si tienen jugadores esperando, agregalos y despues volvé a balancear
+          Si no tienen jugadores esperando, move los jugadores necesarios hasta balancearlo
+      */
+      let cantActivos = this.#calcularGenteActivaEnSpect();
+      let diferenciaEntreEquipos = this.#calcularDiferenciaEntreEquipos();
+
+      if (this.isGameMax()) {
+        write("Both teams are full", Log.EXIT_METHOD);
+      }
+      else if (cantActivos != 0 && diferenciaEntreEquipos <= 1) {
+        write("There's no player waiting and the teams are balanced", Log.EXIT_METHOD);
+      } else if (cantActivos != 0) {
+        write("Caso hay jugadores activos esperando...", Log.IF_LOG);
+          //Mover a los jugadores adentro
+          while (cantActivos != 0 && this.isGameMax()) {
+            
+            let index = 0;
+            while (diccJugadores.getJugador(this.#spect[index]).afk) {
+              index++;
+            }
+            
+            let jugador = this.#spect[index];
+            this.#deleteIndexOfSpect(index);
+            this.addPlayer(jugador);
+
+            cantActivos = this.#calcularGenteActivaEnSpect();
+          }
+          this.balanceTeams(); //Ya no hay jugadores esperando o esta completo el juego
+      } else if (diferenciaEntreEquipos > 1) {
+        write("Caso los equipos estan desbalanceados...", Log.IF_LOG);
+        //Mover a los jugadores entre los equipos. Ya asumo que no hay jugadores esperando y no esta lleno
+        if (this.redLength > this.blueLength) {
+          while (diferenciaEntreEquipos > 1) {
+            //Mover a los jugadores del red al blue hasta que se balance
+            let idJugador = this.#red[this.redLength - 1];
+            this.#deleteIndexOfRed(this.redLength - 1);
+            this.#addPlayerBlue(idJugador)
+            diferenciaEntreEquipos = this.#calcularDiferenciaEntreEquipos();
+          }
+        } else {
+          
+          while (diferenciaEntreEquipos > 1) {
+            //Mover a los jugadores del blue al red hasta que se balance
+            let idJugador = this.#blue[this.blueLength - 1];
+            this.#deleteIndexOfRed(this.blueLength - 1);
+            this.#addPlayerRed(idJugador);
+            diferenciaEntreEquipos = this.#calcularDiferenciaEntreEquipos();
+          }
+        }
+        this.balanceTeams();
+      }
+      write("Leaving game.balanceTeams", Log.EXIT_METHOD);
+    } 
+    
+
+      /**
+       * Return the number of player afks in the spect
+       */
+    #calcularCantiadAfk() {
+      let index = 0;
+      this.#spect.forEach((id) => {
+        if (diccJugadores.getJugador(id).afk) index++;
+      })
+      return index;
+    }
+
+    #calcularGenteActivaEnSpect() {
+      return this.spectLength - this.#calcularCantiadAfk();
+    }
+
+    #calcularDiferenciaEntreEquipos() {
+        return Math.abs(this.redLength - this.blueLength);
+    }
+
+    #deleteIndexOfSpect(index) {
+      this.#spect.splice(index, 1); // 1 es la cantidad de elemento a eliminar
+    }
+
+    #deleteIndexOfRed(index) {
+      this.#red.splice(index, 1); // 1 es la cantidad de elemento a eliminar
+    }
+
+    #deleteIndexOfBlue(index) {
+      this.#blue.splice(index, 1); // 1 es la cantidad de elemento a eliminar
+    }
+
+    /**
+     * Return true iff exists the id already inside some array
+     * @param {id} int - A given id to search
+     * @returns {true <--> exists the id inside some array of the class}
+     */
+    #existID(id) {
+      return this.#searchID_blue(id) != -1 || this.#searchID_red(id) != -1 || this.#searchID_spect(id) != -1;
+    }
+  }
 
     //Create the class that models the red, blue and spect for the game
     class GameRoom {
@@ -67,7 +403,7 @@
       }
 
       /**
-      * If 
+      * Add a player when has joined
       * @param {id} int - The player's ID.
       * @returns {this.#auth}
       */
@@ -271,6 +607,7 @@
           } 
         }
       }
+
     /**
      * 
      * @param {int} team - The team id. Must be between 1 and 2 
@@ -1402,11 +1739,12 @@
                                    Log.EXIT_FUNCTION,
                                    Log.EXIT_EVENT,
                                    Log.VARIABLE_VALUE,
-                                   Log.TEMP
+                                   Log.TEMP,
+                                   Log.EXIT_METHOD
     ]);
 
     var max_player_in_teams = 2;
-    var sala = new GameRoom(max_player_in_teams);
+    var sala = new Game(max_player_in_teams);
     var ballTouched = new colaConLimit(2);
     var estadisticasPartido = new estadisticasPorPartido();
     var equiposPartido = new equiposPorPartido(sala);
@@ -1429,6 +1767,8 @@
       diccJugadores.addJugador(player.id, new PlayerStats(player.auth, 
                                                      player.id,
                                                      player.name));
+      console.log("El diccJugadores es: ")
+      console.log(diccJugadores);
       sala.addPlayer(player.id);
 
       write(diccJugadores.getJugador(player.id), Log.VARIABLE_VALUE);
@@ -1710,6 +2050,9 @@
           case "afk":
             console.log(diccJugadores.getJugador(player.id))
             diccJugadores.getJugador(player.id).invertAFK();
+            //Acomodar los equipos si se puede
+            sala.balanceTeams();
+
             room.sendAnnouncement("Se cambio a " + diccJugadores.getJugador(player.id).afk)
             break;
           case "stateAFK":
