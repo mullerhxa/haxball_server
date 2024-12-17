@@ -585,6 +585,7 @@
         }
 
         storePlayer() {
+          write("Entering in PlayerStats.storePlayer", Log.CALL_METHOD);
           let object = {
             matches_played: this.matches_played,
             won_matches: this.won_matches,
@@ -595,6 +596,7 @@
             mvp: this.mvp
           }
           LocalStorage.storeData(this.auth, JSON.stringify(object))
+          write("Leaving in PlayerStats.storePlayer", Log.CALL_METHOD);
         }
         
         incrementGoal() {
@@ -1417,7 +1419,7 @@
     
     var playerStats = new statsTeams(sala, lista_de_jugadores); //stats
     var stats = new statsPlayers();
-    var estadisticasDelPartido = new matchStats();
+    //var estadisticasDelPartido = new matchStats();
 
     //Haxball events
     room.onPlayerJoin = function(player) {    
@@ -1479,21 +1481,21 @@
       let victoryTeam = getVictory(scores), defeatTeam = getLoser(scores);
 
       //Sumando estadisticacas de goles, asistencas y goles en contra
-      estadisticasPartido.getGoles.forEach((idGoles) => {
+      estadisticasPartido.getGoles().forEach((idGoles) => {
         let esta = estabaIdJugando(idGoles);
         if (esta != -1) {
           diccJugadores.getJugador(idGoles).incrementGoal();
         }
       })
 
-      estadisticasPartido.getAsistencias.forEach((idAsis) => {
+      estadisticasPartido.getAsistencias().forEach((idAsis) => {
         let esta = estabaIdJugando(idAsis);
         if (esta != -1) {
           diccJugadores.getJugador(idAsis).incrementAssists();
         }
       })
 
-      estadisticasPartido.getGolesEnContra.forEach((idGolesEnContra) => {
+      estadisticasPartido.getGolesEnContra().forEach((idGolesEnContra) => {
         let esta = estabaIdJugando(idGolesEnContra);
         if (esta != -1) {
           diccJugadores.getJugador(idGolesEnContra).incrementAgainstGoals();
@@ -1547,11 +1549,14 @@
     }
 
     room.onPlayerBallKick = function(player) {
+      write("Entrando en room.onPlayerBallKick", Log.EVENT);
       ballTouched.addElement(player.id);
+      write("Saliendo de room.onPlayerBallKick", Log.EXIT_EVENT);
       //ballTouched.showCola();
     }
 
     room.onTeamGoal = function(team) {
+      write("Entrando en room.onTeamGoal", Log.EVENT);
       //ADD to sum the goals
       //Add a veriication to avoid any kind of execption 
       console.log("Estando en room.onTeamGoal")
@@ -1572,18 +1577,18 @@
       
       if (teamPlayerGoal == team && teamPlayerGoal == teamPlayerAsistencia) {
         if (authGol == authAsistencia) {
-          estadisticasDelPartido.addGoal(idGol);
+          estadisticasPartido.addGoal(idGol);
         } else {
-          estadisticasDelPartido.addGoal(idGol, idAsistencia);
+          estadisticasPartido.addGoal(idGol, idAsistencia);
         }
       } else if (teamPlayerGoal == team) {
-        estadisticasDelPartido.addGoal(idGol);
+        estadisticasPartido.addGoal(idGol);
       } else if (teamPlayerGoal != team) {
-        estadisticasDelPartido.addAgainstGoal(idGol);
+        estadisticasPartido.addAgainstGoal(idGol);
       }
 
-      estadisticasDelPartido.showEstadisticas();
-      console.log("Saliendo del room.onTeamGoal");
+      estadisticasPartido.showEstadisticas();
+      write("Saliendo de room.onTeamGoal", Log.EXIT_EVENT);
       /*
       console.log("Estando en room.onTeamGoal")
       ballTouched.showCola();
@@ -1619,9 +1624,11 @@
     }
 
     room.onGameStart = function(byPlayer) {
-      estadisticasDelPartido = new matchStats();
-      playerStats = new statsTeams(sala, lista_de_jugadores, stats);
+      write("Entrando en room.onTeamGoal", Log.EVENT);
+      estadisticasPartido = new estadisticasPorPartido();
+      equiposPartido = new equiposPorPartido(sala);
       ballTouched = new colaConLimit(2);
+      write("Saliendo de room.onTeamGoal", Log.EXIT_EVENT);
     }
 
     room.onGameStop = function(byPlayer) {
