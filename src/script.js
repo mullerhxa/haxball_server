@@ -655,52 +655,6 @@
       }
     }
 
-    /*
-    class matchStats {
-      #goles // array de auth
-      #asistencias //array de auth
-      #golesEnContra //array de auth
-
-      constructor() {
-        this.#goles = new Array();
-        this.#asistencias = new Array();
-        this.#golesEnContra = new Array();
-      }
-
-      addGoal(authGol, authAsistencia=null) {
-        if (authAsistencia != null) this.#asistencias.push(authAsistencia);
-        this.#goles.push(authGol);
-      }
-
-      addAgainstGoal(authGolEnContra) {
-        this.#golesEnContra.push(authGolEnContra);
-      }
-
-      getGoles() {
-        return this.#goles;
-      }
-
-      getAsistencias() {
-        return this.#asistencias;
-      }
-
-      getGolesEnContra() {
-        return this.#golesEnContra;
-      }
-
-      showEstadisticas() {
-        console.log("Showing estadisticas del partido")
-        console.log("Goles: ")
-        console.log(this.#goles);
-        console.log("Asistencias: ")
-        console.log(this.#asistencias);
-        console.log("Goles en contra: ")
-        console.log(this.#golesEnContra);
-      }
-    }
-
-    */
-
     class equiposPorPartido {
       #redTeam;       // set of id
       #blueTeam;      // set of id
