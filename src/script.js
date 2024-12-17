@@ -1460,18 +1460,6 @@
 
       write(diccJugadores.getJugador(player.id), Log.VARIABLE_VALUE);
       write("Saliendo de room.onPlayerJoin", Log.EXIT_EVENT);
-      /*
-      console.log("El jugador " + player.name + " se unió")
-      console.log(player);
-      lista_de_jugadores.addPlayer(new Player(player.id, player.auth, player.name, 0));
-      sala.addPlayer(player.id);
-      stats.addPlayer(player.auth, player.id);
-      console.log("Las stats del nuevo player es: ")
-      console.log(stats.getPlayer(player.auth));
-      console.log("Al finalizar el player Join");
-      
-      sala.showGameRoom();
-      */
     }
 
     room.onPlayerLeave =  function(player) {
