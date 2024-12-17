@@ -19,7 +19,8 @@
       "CHAT_MESSAGE"    : 5,
       "EXIT_FUNCTION"   : 6,
       "EXIT_EVENT"      : 7,
-      "VARIABLE_VALUE"  : 8
+      "VARIABLE_VALUE"  : 8,
+      "TEMP"            : 9
     }
 
     
@@ -1404,7 +1405,8 @@
                                    Log.CHAT_MESSAGE, 
                                    Log.EXIT_FUNCTION,
                                    Log.EXIT_EVENT,
-                                   Log.VARIABLE_VALUE
+                                   Log.VARIABLE_VALUE,
+                                   Log.TEMP
     ]);
 
     var max_player_in_teams = 2;
@@ -1428,10 +1430,9 @@
       write(sala, Log.VARIABLE_VALUE);
       write(diccJugadores, Log.VARIABLE_VALUE);
 
-      diccJugadores.addJugador(player.id, new Player(player.id, 
-                                                     player.auth,
-                                                     player.name,
-                                                     0));
+      diccJugadores.addJugador(player.id, new PlayerStats(player.auth, 
+                                                     player.id,
+                                                     player.name));
       sala.addPlayer(player.id);
 
       write(diccJugadores.getJugador(player.id), Log.VARIABLE_VALUE);
@@ -1481,55 +1482,62 @@
       let victoryTeam = getVictory(scores), defeatTeam = getLoser(scores);
 
       //Sumando estadisticacas de goles, asistencas y goles en contra
-      estadisticasPartido.getGoles().forEach((idGoles) => {
-        let esta = estabaIdJugando(idGoles);
-        if (esta != -1) {
-          diccJugadores.getJugador(idGoles).incrementGoal();
-        }
-      })
 
-      estadisticasPartido.getAsistencias().forEach((idAsis) => {
-        let esta = estabaIdJugando(idAsis);
-        if (esta != -1) {
-          diccJugadores.getJugador(idAsis).incrementAssists();
-        }
-      })
-
-      estadisticasPartido.getGolesEnContra().forEach((idGolesEnContra) => {
-        let esta = estabaIdJugando(idGolesEnContra);
-        if (esta != -1) {
-          diccJugadores.getJugador(idGolesEnContra).incrementAgainstGoals();
-        }
-      })
-
-      //Sumando a todos los que jugadores 1 partido y si ganaron o perdieron
-      equiposPartido.redTeam.forEach((jugador) => {
-        let stats = diccJugadores.getJugador(jugador)
-        stats.incrementGames();
-        if (victoryTeam == Teams.RED) {
-          stats.incrementWonMatches();
-        } else {
-          stats.incrementLoses();
-        }
-      })
-
-      equiposPartido.blueTeam.forEach((jugador) => {
-        let stats = diccJugadores.getJugador(jugador)
-        stats.incrementGames();
-        if (victoryTeam == Teams.BLUE) {
-          stats.incrementWonMatches();
-        } else {
-          stats.incrementLoses();
-        }
-      })
-
-      equiposPartido.blueTeam.forEach((jugador) => {
-        diccJugadores.getJugador(jugador).storeData();
-      })
-
-      equiposPartido.redTeam.forEach((jugador) => {
-        diccJugadores.getJugador(jugador).storeData();
-      })
+      if (equiposPartido.isGameFull) {
+        estadisticasPartido.getGoles().forEach((idGoles) => {
+          let esta = estabaIdJugando(idGoles);
+          if (esta != -1) {
+            
+            let stats = diccJugadores.getJugador(idGoles)
+            console.log(stats);
+            stats.incrementGoal();
+          }
+        })
+  
+        estadisticasPartido.getAsistencias().forEach((idAsis) => {
+          let esta = estabaIdJugando(idAsis);
+          if (esta != -1) {
+            diccJugadores.getJugador(idAsis).incrementAssists();
+          }
+        })
+  
+        estadisticasPartido.getGolesEnContra().forEach((idGolesEnContra) => {
+          let esta = estabaIdJugando(idGolesEnContra);
+          if (esta != -1) {
+            diccJugadores.getJugador(idGolesEnContra).incrementAgainstGoals();
+          }
+        })
+  
+        //Sumando a todos los que jugadores 1 partido y si ganaron o perdieron
+        equiposPartido.redTeam.forEach((jugador) => {
+          let stats = diccJugadores.getJugador(jugador)
+          stats.incrementGames();
+          if (victoryTeam == Teams.RED) {
+            stats.incrementWonMatches();
+          } else {
+            stats.incrementLoses();
+          }
+        })
+  
+        equiposPartido.blueTeam.forEach((jugador) => {
+          let stats = diccJugadores.getJugador(jugador)
+          stats.incrementGames();
+          if (victoryTeam == Teams.BLUE) {
+            stats.incrementWonMatches();
+          } else {
+            stats.incrementLoses();
+          }
+        })
+  
+        equiposPartido.blueTeam.forEach((jugador) => {
+          diccJugadores.getJugador(jugador).storePlayer();
+        })
+  
+        equiposPartido.redTeam.forEach((jugador) => {
+          diccJugadores.getJugador(jugador).storePlayer();
+        })
+      }
+      
 
       //Moviendo a los perdedores
       sala.moveTeamToSpect(defeatTeam);
