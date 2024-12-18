@@ -1412,6 +1412,47 @@
       }
     }
 
+    class Camisetas {
+
+      redIdCamis
+      blueIdCamis
+
+      /**
+       * Sets random camis to both of the teams without been the same
+       */
+      setCamis() {
+        this.redIdCamis = getRandomInt(0, camis.length);
+        this.blueIdCamis = getRandomInt(0, camis.length);
+
+        while (redIdCamis == blueIdCamis) {
+          this.redIdCamis = getRandomInt(0, camis.length);
+        }
+
+        this.setRedColor(this.redIdCamis);
+        this.setRedColor(this.blueIdCamis);
+      }
+
+      /**
+       * Should be within range 0 to camis.lenght - 1
+       * @param {int} indexCamis 
+       */
+      setRedColor(indexCamis) {
+        this.redIdCamis = indexCamis;
+        camiseta = camis[indexCamis];
+        room.setTeamColors(Teams.RED, camiseta[0], camiseta[1], camiseta.slice(2));
+      }
+
+       /**
+       * Should be within range 0 to camis.lenght - 1
+       * @param {int} indexCamis 
+       */
+       setBlueColor(indexCamis) {
+        this.blueIdCamis = indexCamis;
+        camiseta = camis[indexCamis];
+        room.setTeamColors(Teams.BLUE, camiseta[0], camiseta[1], camiseta.slice(2));
+      }
+    }
+
     //TODO: test the class
     class LocalStorage {
 
@@ -1485,6 +1526,8 @@
         return this.#cola.shift();
       }
     }
+
+    
 
     
     const map = `{"name" : "PastiBall Map",
@@ -1815,6 +1858,7 @@
     var equiposPartido = new equiposPorPartido(sala);
     var diccJugadores = new DiccionarioJugadores();
     var gks = new GoalKeeper();
+    var camisetasEquipos = new Camisetas();
 
 
     var lista_de_jugadores = new List_of_players();
@@ -2038,11 +2082,13 @@
     }
 
     room.onGameStart = function(byPlayer) {
+
       write("Entrando en room.onTeamGoal", Log.EVENT);
       estadisticasPartido = new estadisticasPorPartido();
       equiposPartido = new equiposPorPartido(sala);
       ballTouched = new colaConLimit(2);
       gks = new GoalKeeper();
+      camisetasEquipos.setCamis();
       write("Saliendo de room.onTeamGoal", Log.EXIT_EVENT);
     }
 
@@ -2156,6 +2202,32 @@
           case "gks":
             showGks();
             break;
+          case "rc":
+            if (words.length == 2) {
+              room.sendAnnouncement("Se cambiaron las camisetas", player.id);
+              camisetasEquipos.setCamis();
+            } else if (words.length == 3) {
+              if (isNumeric(words[2])) {
+                if (isNumeric(words[1])) {
+                  if (words[1] == "1") {
+                    camisetasEquipos.setRedColor(Number(words[2]))
+                  } else if (words[1] == "2") {
+                    camisetasEquipos.setBlueColor(Number(words[2]))
+                  } else {
+                    room.sendAnnouncement("El equipo seleccionado debe ser un numero entre 1 (red) y 2 (blue)", player.id);
+                  }
+                } else {
+                  room.sendAnnouncement("El equipo seleccionado debe ser un numero entre 1 (red) y 2 (blue)", player.id);
+                }
+              } else {
+                if (indexCamis.has(words[2])) {
+                  if ()
+                } else {
+                  room.sendAnnouncement("No es un equipo en la lista", player.id);
+                }
+              }
+            }
+            break;
         }
 
         if (tienePermisos) { //tiene permisos necesarios
@@ -2197,8 +2269,21 @@
         return lista_de_jugadores.getPlayerByID(id).authorization > 0;
       }
 
-
       
+
+      /**
+       * Returns a random integer between min (inclusive) and max (inclusive).
+       * The value is no lower than min (or the next integer greater than min
+       * if min isn't an integer) and no greater than max (or the next integer
+       * lower than max if max isn't an integer).
+       * Using Math.round() will give you a non-uniform distribution!
+       */
+       function getRandomInt(min, max) {
+          min = Math.ceil(min);
+          max = Math.floor(max);
+          return Math.floor(Math.random() * (max - min + 1)) + min;
+       }
+            
       function estaIdEnSala(id) {
         return diccJugadores.hasJugador(id);
       }
@@ -2288,6 +2373,10 @@
           console.log(message);
         }
       } 
+
+      function isNumeric(value) {
+        return /^-?\d+$/.test(value);
+      }
 
 
     /*<><><><><><><><><><><><><><><><><><> */
