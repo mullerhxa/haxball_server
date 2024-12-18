@@ -1438,7 +1438,7 @@
        */
       setRedColor(indexCamis) {
         this.redIdCamis = indexCamis;
-        camiseta = camis[indexCamis];
+        let camiseta = camis[indexCamis];
         room.setTeamColors(Teams.RED, camiseta[0], camiseta[1], camiseta.slice(2));
       }
 
@@ -1448,7 +1448,7 @@
        */
        setBlueColor(indexCamis) {
         this.blueIdCamis = indexCamis;
-        camiseta = camis[indexCamis];
+        let camiseta = camis[indexCamis];
         room.setTeamColors(Teams.BLUE, camiseta[0], camiseta[1], camiseta.slice(2));
       }
     }
