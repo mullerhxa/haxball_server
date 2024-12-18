@@ -1930,8 +1930,11 @@
         
       }
 
-      function showStats() {
-        
+      function showStats(player) {
+        stats = diccJugadores.getJugador(player.id);
+        room.sendAnnouncement("Las stats de " + player.name + " son: ", player.id);
+        room.sendAnnouncement("⚽: " + stats.goals + " | 🦶: " + stats.assists + " | 🤡:" + stats.against_goals, player.id);
+        room.sendAnnouncement("🏆: " + stats.won_matches + " | Perdidos: " + stats.lost_matches, player.id);
       }
 
       /**
