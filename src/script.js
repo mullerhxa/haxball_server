@@ -2183,7 +2183,7 @@
             //Show teams
             break;
           case "stats":
-            room.sendAnnouncement("Show stats");
+            showStats(player);
             break;
           case "t":
             let teams;
