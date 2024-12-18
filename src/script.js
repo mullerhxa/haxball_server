@@ -1424,7 +1424,7 @@
         this.redIdCamis = getRandomInt(0, camis.length);
         this.blueIdCamis = getRandomInt(0, camis.length);
 
-        while (redIdCamis == blueIdCamis) {
+        while (this.redIdCamis == this.blueIdCamis) {
           this.redIdCamis = getRandomInt(0, camis.length);
         }
 
