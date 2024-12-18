@@ -2221,7 +2221,13 @@
                 }
               } else {
                 if (indexCamis.has(words[2])) {
-                  if ()
+                  if (words[1] == "1") {
+                    camisetasEquipos.setRedColor(Number(indexCamis.get(words[2])))
+                  } else if (words[1] == "2") {
+                    camisetasEquipos.setBlueColor(Number(indexCamis.get(words[2])))
+                  } else {
+                    room.sendAnnouncement("El equipo seleccionado debe ser un numero entre 1 (red) y 2 (blue)", player.id);
+                  }
                 } else {
                   room.sendAnnouncement("No es un equipo en la lista", player.id);
                 }
