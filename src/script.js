@@ -691,6 +691,7 @@
       #goles // array de id
       #asistencias //array de id
       #golesEnContra //array de id
+      #eventos        //array de strings con los goles y sus horarios
 
       constructor() {
         this.#goles = new Array();
@@ -698,9 +699,10 @@
         this.#golesEnContra = new Array();
       }
 
-      addGoal(idGol, idAsis=null) {
+      addGoal(idGol, idAsis=null, scores) {
         if (idAsis != null) this.#asistencias.push(idAsis);
         this.#goles.push(idGol);
+        this.#addEvento;
       }
 
       addAgainstGoal(idGolEnContra) {
@@ -755,9 +757,37 @@
           }
         })
 
-        return keyWithMaxValue = [...myMap.entries()].reduce((maxKey, [key, value]) =>
-          value > myMap.get(maxKey) ? key : maxKey
-        );
+        let isDefined = false;
+        let maxValue;
+        let keyValue;
+        puntos.forEach (function(value, key) {
+          if (!isDefined) {
+            maxValue = value;
+            keyValue = key;
+            isDefined = true;
+          } else {
+            if (maxValue < value) {
+              maxValue = value;
+              keyValue = key;
+            }
+          }
+        })
+        return keyValue
+      }
+
+      #addEvento(scores, idGol, idAsis=null) {
+        time = scores.time
+        min = Math.floor(time / 60);
+        sec = time % 60;
+        if (min < 10) { min = "0" + min; }
+        if (sec < 10) { 
+          sec = "0" + sec
+        } else {
+          sec = sec.toString();
+        }
+        time = min + ":" + sec;
+        
+        
       }
     }
 
@@ -1537,6 +1567,10 @@
 
     room.onTeamVictory = async function(scores) { 
       write("Entrando en room.onTeamVictory", Log.EVENT);
+
+      //ShowWhoMadeGoals
+
+
       let victoryTeam = getVictory(scores), defeatTeam = getLoser(scores);
 
       //Sumando estadisticacas de goles, asistencas y goles en contra
@@ -1793,6 +1827,9 @@
         const words = message.slice(1).split(' ');
         //Generales
         switch(words[0]) {
+          case "help":
+
+            break;
           case "afk":
             if (player.team == 0) {
               diccJugadores.getJugador(player.id).invertAFK();
@@ -1809,7 +1846,7 @@
             //Show teams
             break;
           case "stats":
-
+            room.sendAnnouncement("Show stats");
             break;
           case "help":
 
@@ -1828,14 +1865,6 @@
               showMessage(player, message, id, Styles.BOLD);
             });
             break;
-          case "":
-
-            break;
-          case "":
-
-            break;
-          case "":
-            break;
         }
 
         if (tienePermisos) { //tiene permisos necesarios
@@ -1848,17 +1877,18 @@
                 room.sendAnnouncement("Contraseña incorrecta. Intente nuevamente")
               }
               break;
-            case "":
-    
+            case "rr":
+              room.stopGame();
+              room.startGame();
               break;
-            case "":
-    
+            case "p":
+              room.pauseGame(false);
               break;
-            case "":
-    
+            case "mute":
+              room.sendAnnouncement("MUTE todo", player.id)
               break;
-            case "":
-    
+            case "move":
+              
               break;
             case "":
     
