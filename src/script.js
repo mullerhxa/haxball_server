@@ -1848,9 +1848,6 @@
           case "stats":
             room.sendAnnouncement("Show stats");
             break;
-          case "help":
-
-            break;
           case "t":
             let teams;
             switch(player.team) {
@@ -1864,6 +1861,9 @@
             teams.forEach((id) => {
               showMessage(player, message, id, Styles.BOLD);
             });
+            break;
+          case "gks":
+            showGks();
             break;
         }
 
@@ -1914,6 +1914,24 @@
 
       function estabaIdJugando(id) {
         return equiposPartido.hasID(id);
+      }
+
+      function showGks(playerId) {
+        if (gks.blueGk != undefined) {
+          nombreGkRed = room.getPlayer(gks.redGk).name;
+          nombreGkBlue = room.getPlayer(gks.blueGk).name;
+
+          room.sendAnnouncement("Los gks son: ", playerId);
+          room.sendAnnouncement("(🔴) RED: " + nombreGkRed, playerId);
+          room.sendAnnouncement("(🔵) Blue: " + nombreGkBlue, playerId);
+        } else {
+          room.sendAnnouncement("Todavia no hay gks!", playerId);
+        }
+        
+      }
+
+      function showStats() {
+        
       }
 
       /**
