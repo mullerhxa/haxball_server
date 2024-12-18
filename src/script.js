@@ -1637,7 +1637,7 @@
         const mvp = estadisticasPartido.calculateMvp();
         
         if (diccJugadores.hasJugador(mvp)) {
-          diccJugadores.getJugador(jugador).incrementMVP();
+          diccJugadores.getJugador(mvp).incrementMVP();
         }
   
         equiposPartido.blueTeam.forEach((jugador) => {
