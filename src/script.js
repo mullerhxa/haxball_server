@@ -372,8 +372,8 @@
     
 
     const Roles = {
-      JUGADOR: 0,
-      ADMIN: 1
+      "JUGADOR" : 0,
+      "ADMIN"   : 1
   };
 
 //Create the class that models the red, blue and spect for the game
@@ -2098,6 +2098,11 @@
     }
 
     room.onPlayerAdminChange = function(changedPlayer, byPlayer) {
+      if  (changedPlayer.admin) {
+        diccJugadores.getJugador(changedPlayer.id).authorization = Roles.ADMIN;
+      } else {
+        diccJugadores.getJugador(changedPlayer.id).authorization = Roles.JUGADOR;
+      }
 
     }
 
