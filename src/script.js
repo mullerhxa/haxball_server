@@ -1477,9 +1477,9 @@
         room.setTeamColors(Teams.BLUE, camiseta[0], camiseta[1], camiseta.slice(2));
       }
 
-        showTeams() {
-          room.sendAnnouncement("EQUIPOS DEL PARTIDO: ")
-          room.sendAnnouncement(camisIndex(this.redIdCamis) + " VS " + camisIndex(this.blueIdCamis));
+        showTeams(playerID) {
+          room.sendAnnouncement("EQUIPOS DEL PARTIDO: ", playerID)
+          room.sendAnnouncement(camisIndex(this.redIdCamis) + " VS " + camisIndex(this.blueIdCamis), playerID);
         }
     }
 
@@ -2238,7 +2238,8 @@
           case "gks":
             showGks();
             break;
-          
+          case "teams":
+            camisetasEquipos.showTeams(player.id);
         }
 
         if (tienePermisos) { //tiene permisos necesarios
@@ -2317,8 +2318,8 @@
                   break;
               }
               break;
-            case "":
-    
+            case "showTeams":
+              camisetasEquipos.showTeams();
               break;
             case "":
               break;
