@@ -905,6 +905,14 @@
           }
         }
 
+        setAdmin() {
+          this.authorization = Roles.ADMIN;
+        }
+
+        setJugador() {
+          this.authorization = Roles.JUGADOR;
+        }
+
         storePlayer() {
           write("Entering in PlayerStats.storePlayer", Log.CALL_METHOD);
           let object = {
@@ -1429,7 +1437,7 @@
         }
 
         this.setRedColor(this.redIdCamis);
-        this.setRedColor(this.blueIdCamis);
+        this.setBlueColor(this.blueIdCamis);
       }
 
       /**
@@ -2245,11 +2253,15 @@
           switch(words[0]) {
             case "login":
               if (words[1] === claveAdmin) {
-                room.setPlayerAdmin(player.id, true);
+                diccJugadores.getJugador(player.id).setAdmin();
+                //room.setPlayerAdmin(player.id, true);
                 room.sendAnnouncement("Se le otorgó permisos de admin a: " + player.name);
               } else {
                 room.sendAnnouncement("Contraseña incorrecta. Intente nuevamente")
               }
+              break;
+            case "start":
+              room.startGame();
               break;
             case "rr":
               room.stopGame();
