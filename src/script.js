@@ -2256,7 +2256,7 @@
             case "login":
               if (words[1] === claveAdmin) {
                 diccJugadores.getJugador(player.id).setAdmin();
-                //room.setPlayerAdmin(player.id, true);
+                room.setPlayerAdmin(player.id, true);
                 room.sendAnnouncement("Se le otorgó permisos de admin a: " + player.name);
               } else {
                 room.sendAnnouncement("Contraseña incorrecta. Intente nuevamente")
