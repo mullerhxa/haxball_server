@@ -2380,6 +2380,7 @@
       function showStats(player) {
         stats = diccJugadores.getJugador(player.id);
         room.sendAnnouncement("Las stats de " + player.name + " son: ", player.id);
+        room.sendAnnouncement(getRangeValue(stats.calculateRango()) + " " +  stats.calculateRango() + "/"+ getRangeKey(stats.calculateRango()), player.id);
         room.sendAnnouncement("⚽: " + stats.goals + " | 🦶: " + stats.assists + " | 🏆: " + stats.mvp + " | 🤡:" + stats.against_goals, player.id);
         room.sendAnnouncement("PJ: " + stats.matches_played + " | PG: " + stats.won_matches + " | PP: " + stats.lost_matches, player.id);
       }
@@ -2416,6 +2417,15 @@
           }
         }
         return Rangos[Rangos.length - 1][1];
+      }
+
+      function getRangeKey(score) {
+        for(let i = 0; i < Rangos.length; i++) {
+          if (score < Rangos[i][0]) {
+            return Rangos[i][0];
+          }
+        }
+        return Rangos[Rangos.length - 1][0];
       }
 
       function updateAdmins() { 
