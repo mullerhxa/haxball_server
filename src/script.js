@@ -2371,8 +2371,8 @@
       function showStats(player) {
         stats = diccJugadores.getJugador(player.id);
         room.sendAnnouncement("Las stats de " + player.name + " son: ", player.id);
-        room.sendAnnouncement("⚽: " + stats.goals + " | 🦶: " + stats.assists + " | 🤡:" + stats.against_goals, player.id);
-        room.sendAnnouncement("🏆: " + stats.won_matches + " | Perdidos: " + stats.lost_matches, player.id);
+        room.sendAnnouncement("⚽: " + stats.goals + " | 🦶: " + stats.assists + " | 🏆: " + stats.mvp + " | 🤡:" + stats.against_goals, player.id);
+        room.sendAnnouncement("PJ: " + stats.matches_played + " | PG: " + stats.won_matches + " | PP: " + stats.lost_matches, player.id);
       }
 
       /**
