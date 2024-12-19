@@ -1479,7 +1479,7 @@
 
         showTeams(playerID) {
           room.sendAnnouncement("EQUIPOS DEL PARTIDO: ", playerID)
-          room.sendAnnouncement(camisIndex(this.redIdCamis) + " VS " + camisIndex(this.blueIdCamis), playerID);
+          room.sendAnnouncement(camisIndex.get(this.redIdCamis)+ " VS " + camisIndex.get(this.blueIdCamis), playerID);
         }
     }
 
@@ -2202,6 +2202,15 @@
         switch(words[0]) {
           case "help":
 
+            break;
+          case "rol":
+            const rol = diccJugadores.getJugador(id).authorization
+            if (rol == Roles.ADMIN) {
+              rol = "ADMIN";
+            } else if (rol == Roles.JUGADOR) {
+              rol = "JUGADOR";
+            }
+            room.sendAnnouncement("Tu rol es: " + rol, player.id)
             break;
           case "afk":
             if (player.team == 0) {
