@@ -1450,6 +1450,20 @@
         room.setTeamColors(Teams.RED, camiseta[0], camiseta[1], camiseta.slice(2));
       }
 
+      setRandomRedColor() {
+        while (this.redIdCamis == this.blueIdCamis) {
+          this.redIdCamis = getRandomInt(0, camis.length);
+        }
+        this.setRedColor(this.redIdCamis);
+      }
+
+      setRandomBlueColor() {
+        while (this.redIdCamis == this.blueIdCamis) {
+          this.blueIdCamis = getRandomInt(0, camis.length);
+        }
+        this.setBlueColor(this.blueIdCamis);
+      }
+
        /**
        * Should be within range 0 to camis.lenght - 1
        * @param {int} indexCamis 
@@ -2215,38 +2229,7 @@
           case "gks":
             showGks();
             break;
-          case "rc":
-            if (words.length == 2) {
-              room.sendAnnouncement("Se cambiaron las camisetas", player.id);
-              camisetasEquipos.setCamis();
-            } else if (words.length == 3) {
-              if (isNumeric(words[2])) {
-                if (isNumeric(words[1])) {
-                  if (words[1] == "1") {
-                    camisetasEquipos.setRedColor(Number(words[2]))
-                  } else if (words[1] == "2") {
-                    camisetasEquipos.setBlueColor(Number(words[2]))
-                  } else {
-                    room.sendAnnouncement("El equipo seleccionado debe ser un numero entre 1 (red) y 2 (blue)", player.id);
-                  }
-                } else {
-                  room.sendAnnouncement("El equipo seleccionado debe ser un numero entre 1 (red) y 2 (blue)", player.id);
-                }
-              } else {
-                if (indexCamis.has(words[2])) {
-                  if (words[1] == "1") {
-                    camisetasEquipos.setRedColor(Number(indexCamis.get(words[2])))
-                  } else if (words[1] == "2") {
-                    camisetasEquipos.setBlueColor(Number(indexCamis.get(words[2])))
-                  } else {
-                    room.sendAnnouncement("El equipo seleccionado debe ser un numero entre 1 (red) y 2 (blue)", player.id);
-                  }
-                } else {
-                  room.sendAnnouncement("No es un equipo en la lista", player.id);
-                }
-              }
-            }
-            break;
+          
         }
 
         if (tienePermisos) { //tiene permisos necesarios
@@ -2276,8 +2259,48 @@
             case "move":
               
               break;
-            case "":
-    
+            case "rc":
+              switch(words.length) {
+                case 1:
+                  room.sendAnnouncement("Se cambiaron las camisetas", player.id);
+                  camisetasEquipos.setCamis();
+                  break;
+                case 2:
+                  if (words[1] == Teams.RED || words[1].toLowerCase() == "red") {
+                    camis.setRandomRedColor();
+                    room.sendAnnouncement("Se cambiaron las camisetas del red", player.id);
+                  } else if (words[1] == Teams.BLUE || words[1].toLowerCase() == "blue") {
+                    camis.setRandomBlueColor();
+                    room.sendAnnouncement("Se cambiaron las camisetas del blue", player.id);
+                  } else {
+                    room.sendAnnouncement("El equipo seleccionado debe ser un numero entre 1 (red) y 2 (blue)", player.id);
+                  }
+                  break;
+                case 3:
+                  if (words[1] == Teams.RED || words[1].toLowerCase() == "red") {
+                    if (isNumeric(words[2]) && Number(words[2]) > 0 && Number(words[2]) < camis.length) {
+                      camis.setRedColor(Number(words[2]));
+                      room.sendAnnouncement("El color del rojo ha sido cambiado correctamente", player.id);
+                    } else if (indexCamis.has(words[1])) {
+                      camis.setRedColor(indexCamis.get(words[2]));
+                      room.sendAnnouncement("El color del rojo ha sido cambiado correctamente", player.id);
+                    }
+                     else {
+                      room.sendAnnouncement("El equipo no es un número valido o no existe en la BBDD", player.id)
+                    }
+                  } else if (words[1] == Teams.BLUE || words[1].toLowerCase() == "blue") {
+                    if (isNumeric(words[2]) && Number(words[2]) > 0 && Number(words[2]) < camis.length) {
+                      camis.setBlueColor(Number(words[2]));
+                      room.sendAnnouncement("El color del azul ha sido cambiado correctamente", player.id);
+                    } else if (indexCamis.has(words[1])) {
+                      camis.setBlueColor(indexCamis.get(words[2]));
+                      room.sendAnnouncement("El color del azul ha sido cambiado correctamente", player.id);
+                    }
+                  } else {
+                    room.sendAnnouncement("El equipo seleccionado debe ser un numero entre 1 (red) y 2 (blue)", player.id);
+                  }
+                  break;
+              }
               break;
             case "":
     
