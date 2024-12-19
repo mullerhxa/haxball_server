@@ -1848,10 +1848,10 @@
 
 
     //Create variables for the room variable
-    const roomName = "💊  gana sigue x4 - PastiBall 💊";
-    const claveAdmin = "ancelotti";
-    const maxPlayers = 15;
-    const isPublic = false;
+    const roomName = "💊 Gana Sigue x4 - PastiBall 💊";
+    const claveAdmin = "campeondelmundo";
+    const maxPlayers = 18;
+    const isPublic = true;
     const noPlayer = true;
 
     var room = HBInit({
