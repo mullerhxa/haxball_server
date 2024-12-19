@@ -1438,6 +1438,7 @@
 
         this.setRedColor(this.redIdCamis);
         this.setBlueColor(this.blueIdCamis);
+        this.showTeams();
       }
 
       /**
@@ -1455,6 +1456,7 @@
           this.redIdCamis = getRandomInt(0, camis.length);
         }
         this.setRedColor(this.redIdCamis);
+        this.showTeams();
       }
 
       setRandomBlueColor() {
@@ -1462,6 +1464,7 @@
           this.blueIdCamis = getRandomInt(0, camis.length);
         }
         this.setBlueColor(this.blueIdCamis);
+        this.showTeams();
       }
 
        /**
@@ -1473,6 +1476,11 @@
         let camiseta = camis[indexCamis];
         room.setTeamColors(Teams.BLUE, camiseta[0], camiseta[1], camiseta.slice(2));
       }
+
+        showTeams() {
+          room.sendAnnouncement("EQUIPOS DEL PARTIDO: ")
+          room.sendAnnouncement(camisIndex(this.redIdCamis) + " VS " + camisIndex(this.blueIdCamis));
+        }
     }
 
     //TODO: test the class
@@ -2111,6 +2119,7 @@
       ballTouched = new colaConLimit(2);
       gks = new GoalKeeper();
       camisetasEquipos.setCamis();
+      
       write("Saliendo de room.onTeamGoal", Log.EXIT_EVENT);
     }
 
@@ -2268,9 +2277,11 @@
                 case 2:
                   if (words[1] == Teams.RED || words[1].toLowerCase() == "red") {
                     camis.setRandomRedColor();
+                    camisetasEquipos.showTeams();
                     room.sendAnnouncement("Se cambiaron las camisetas del red", player.id);
                   } else if (words[1] == Teams.BLUE || words[1].toLowerCase() == "blue") {
                     camis.setRandomBlueColor();
+                    camisetasEquipos.showTeams();
                     room.sendAnnouncement("Se cambiaron las camisetas del blue", player.id);
                   } else {
                     room.sendAnnouncement("El equipo seleccionado debe ser un numero entre 1 (red) y 2 (blue)", player.id);
@@ -2280,9 +2291,11 @@
                   if (words[1] == Teams.RED || words[1].toLowerCase() == "red") {
                     if (isNumeric(words[2]) && Number(words[2]) > 0 && Number(words[2]) < camis.length) {
                       camis.setRedColor(Number(words[2]));
+                      camisetasEquipos.showTeams();
                       room.sendAnnouncement("El color del rojo ha sido cambiado correctamente", player.id);
                     } else if (indexCamis.has(words[1])) {
                       camis.setRedColor(indexCamis.get(words[2]));
+                      camisetasEquipos.showTeams();
                       room.sendAnnouncement("El color del rojo ha sido cambiado correctamente", player.id);
                     }
                      else {
@@ -2291,9 +2304,11 @@
                   } else if (words[1] == Teams.BLUE || words[1].toLowerCase() == "blue") {
                     if (isNumeric(words[2]) && Number(words[2]) > 0 && Number(words[2]) < camis.length) {
                       camis.setBlueColor(Number(words[2]));
+                      camisetasEquipos.showTeams();
                       room.sendAnnouncement("El color del azul ha sido cambiado correctamente", player.id);
                     } else if (indexCamis.has(words[1])) {
                       camis.setBlueColor(indexCamis.get(words[2]));
+                      camisetasEquipos.showTeams();
                       room.sendAnnouncement("El color del azul ha sido cambiado correctamente", player.id);
                     }
                   } else {
